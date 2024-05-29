@@ -5,21 +5,12 @@ from multiprocessing import Pool
 import dask.dataframe as dd
 from NTW_Reader import NTW_Reader
 from scipy.spatial.distance import cdist
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
 
 
 class ReadScenarios:
 
     def __init__(self, path, cenario, PO, pathcsv=None, genscript=False):
-        """
-        Initialize the ReadScenarios class.
-
-        :param path: Path to the directory containing scenario files.
-        :param cenario: Scenario identifier.
-        :param PO: Flag indicating PO mode.
-        :param pathcsv: Path to CSV file, if any.
-        :param genscript: Flag indicating if a script should be generated.
-        """
         self.path = path
         self.PO = PO
         self.csv = pathcsv
@@ -32,17 +23,16 @@ class ReadScenarios:
                 self.folders = sorted([nomes_archivos for nomes_archivos in archivos if 'DS202' in nomes_archivos])
                 if pathcsv:
                     self.get_dataframes_csv()
-                    self.get_convergence_data()
                 else:
                     self.get_data_extract()
-                    self.get_convergence_data()
             else:
                 self.folders = 'PO'
                 self.get_data_extract()
         else:
             self.generate_script()
-    
-    def get_unique_bus(self, df):
+
+    @staticmethod
+    def get_unique_bus(df):
         df_modified_BUS = df[0].groupby('BUS_ID').first().reset_index()
         df_modified_GEN = df[1].groupby('BUS_ID').sum().reset_index()
         df_modified_GEN.rename(columns={'ST': 'Ger_Active_Units'}, inplace=True)
@@ -55,10 +45,10 @@ class ReadScenarios:
 
         return df_modified_BUS, df_modified_GEN, df_modified_LOAD
 
-    def read_file_in_parallel(self, file_path, folders):
+    def read_file(self, file_path):
         try:
             Caso_name = os.path.basename(file_path).replace('.ntw', '').replace('.txt', '')
-            Dia_name = folders if self.PO else os.path.basename(os.path.dirname(os.path.dirname(file_path)))[-2:]
+            Dia_name = self.folders if self.PO else os.path.basename(os.path.dirname(os.path.dirname(file_path)))[-2:]
 
             NetData = NTW_Reader(file_path)
 
@@ -68,7 +58,6 @@ class ReadScenarios:
             Shunt = NetData.DF_shunt
 
             df = [Bus, Gen, Load]
-
             BUS_grouped, GEN_grouped, LOAD_grouped = self.get_unique_bus(df)
 
             df_merge_0 = pd.merge(BUS_grouped, GEN_grouped, on='BUS_ID', how='outer').sort_values('BUS_ID')
@@ -95,30 +84,34 @@ class ReadScenarios:
         else:
             files_path = [self.path]
 
-        with ThreadPoolExecutor() as executor:
-            results = list(executor.map(self.read_file_in_parallel, files_path, [self.folders]*len(files_path)))
-            
-        print('Check if results is not empty before concatenating')
-        results = [result for result in results if result is not None]
+        print('Extracting the Data of ntw files...')
+
+        results = []
+        with ProcessPoolExecutor() as executor:
+            futures = {executor.submit(self.read_file, file_path): file_path for file_path in files_path}
+            for future in as_completed(futures):
+                result = future.result()
+                if result is not None:
+                    results.append(result)
+
         print('Concatenating ...')
         if results:  # Check if results is not empty before concatenating
             df_Cvg = pd.concat(results, axis=0, sort=False)
             self.Df_Cases = df_Cvg.sort_values(by=['Dia', 'Hora'])
             self.OpPointsC = len(results)
-            print('O número total de casos analisados é:', self.OpPointsC)
+            print('The total number of analyzed cases is:', self.OpPointsC)
         else:
             self.Df_Cases = pd.DataFrame()
             self.OpPointsC = 0
             print('No data was processed.')
 
     def get_dataframes_csv(self):
-        """Extract data from CSV files previously saved."""
         self.Df_Cases = pd.read_csv(self.csv, sep=';')
         self.Df_Cases['Dia'] = self.Df_Cases['Dia'].astype(str).str.zfill(2)
         results = self.Df_Cases.groupby(['Dia', 'Hora'])['BUS_ID'].first()
         self.OpPointsC = results.shape[0]
-        print('O numero total de casos analisados é: ', self.OpPointsC)
-
+        print('The total number of analyzed cases is: ', self.OpPointsC)
+        
 # ======================================================================================================================
 #                                                AC & DC LINES & RESERVE INFO EXTRACTION 
 # ======================================================================================================================
@@ -136,6 +129,7 @@ class ReadScenarios:
             ' Mvar:From-To', ' Mvar:Losses', ' MW:To-From', ' Power Factor:From-To', ' Power Factor:To-From'
         ]
         col_list_hvdc = ['Bus #', ' Bus Name', ' Type', ' Pole #', ' P(MW)', ' Q(Mvar)', ' Status']
+        # col_list_hvdc = ['Bus #', ' Bus Name', ' Type', ' Pole #', ' P(MW)', ' Q(Mvar)', ' Satus']  # Esta linha tem uma alteração devido a que tem um erro nos arquivos rodados para 2022 no nome da columna Status
         col_list_reserve = ['Bus', ' Group', ' Bus Name', ' Area', ' Zone', ' V (pu)', ' Pg(MW)', ' Qg(Mvar)', ' Reserve', ' Units']
 
         def add_dia_hora(df, path, dia, hour=None):
@@ -158,12 +152,14 @@ class ReadScenarios:
             filtered_files = [file for file in files_path if pattern in os.path.basename(file)]
             if not filtered_files:
                 return []
-            dfs = [dd.read_csv(file, sep=';', skiprows=[0], usecols=col_list, dtype=dtype_dict)
-                   .pipe(add_dia_hora, file, os.path.basename(os.path.dirname(os.path.dirname(file)))[-2:], hour)
-                   for file in filtered_files]
+            try:
+                dfs = [dd.read_csv(file, sep=';', skiprows=[0], usecols=col_list, dtype=dtype_dict).pipe(add_dia_hora, file, os.path.basename(os.path.dirname(os.path.dirname(file)))[-2:], hour) for file in filtered_files]
+            except ValueError:
+                dfs = [dd.read_csv(file, sep=';', skiprows=[0], dtype=dtype_dict).pipe(add_dia_hora, file, os.path.basename(os.path.dirname(os.path.dirname(file)))[-2:], hour) for file in filtered_files]
+                
             return dfs
 
-        PWFs_sep = read_files('PWF16_', col_list_lines, dtype_dict_linhas) if linhas else []
+        PWFs_sep = read_files('PWF16_', col_list_lines) if linhas else []
         DCLinks_sep = read_files('PWF25_', col_list_hvdc) if Intercambios else []
         SGN01_sep = read_files('SGN01_', col_list_reserve) if Reserva else []
 
@@ -282,42 +278,52 @@ class ReadScenarios:
         else:
             PWF16_concatenados = df
 
-        PWF16_concatenados = PWF16_concatenados.set_index(['From#', 'To#'])
+        # PWF16_concatenados = PWF16_concatenados.set_index(['From#', 'To#'])
+        # PWF16_concatenados = PWF16_concatenados[(PWF16_concatenados['Type'] == ' TL')]  #Importante ver si afecta!!
 
-        def read_bus_file(path):
-            return pd.read_csv(path, sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_expNE = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_EXPNE.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_expNE_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_EXPNE_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FNS = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FNS.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FNESE = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FNESE.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FNESE_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FNESE_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FNEN = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FNEN.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FNEN_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FNEN_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FSULSECO = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FSULSECO.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FSULSECO_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FSULSECO_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_RSUL = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_RSUL.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_RSUL_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_RSUL_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        
+        mask = PWF16_concatenados[['From#', 'To#']].apply(tuple, axis=1)
 
-        paths = {
-            'EXPNE': ('buses_EXPNE.csv', 'buses_EXPNE_flip.csv'),
-            'FNS': ('buses_FNS.csv', None),
-            'FNESE': ('buses_FNESE.csv', 'buses_FNESE_flip.csv'),
-            'FNEN': ('buses_FNEN.csv', 'buses_FNEN_flip.csv'),
-            'FSULSECO': ('buses_FSULSECO.csv', 'buses_FSULSECO_flip.csv'),
-            'RSUL': ('buses_RSUL.csv', 'buses_RSUL_flip.csv')
-        }
+        print(f'******')
+        EXPNE_grouped = PWF16_concatenados[mask.isin(set(linhas_expNE.index))]
+        EXPNE_grouped.loc[EXPNE_grouped[['From#', 'To#']].apply(tuple, axis=1).isin(set(linhas_expNE_flip.index)),'MW:From-To'] *= -1
+        EXPNE_grouped = EXPNE_grouped.groupby(['Dia', 'Hora']).agg({'MW:From-To':'sum', 'Mvar:From-To':'sum'})
 
-        intercambios = []
-        for key, (path, flip_path) in paths.items():
-            lines = read_bus_file(f'Static-Analysis/RECURSOS/LINHAS/{path}')
-            if flip_path:
-                lines_flip = read_bus_file(f'Static-Analysis/RECURSOS/LINHAS/{flip_path}')
-                grouped = PWF16_concatenados[PWF16_concatenados.index.isin(lines.index)]
-                inverted = grouped[grouped.index.isin(lines_flip.index)]
-                grouped.loc[inverted.index, 'MW:From-To'] *= -1
-                grouped = grouped.groupby(['Dia', 'Hora']).agg({'MW:From-To': 'sum', 'Mvar:From-To': 'sum'})
-            else:
-                grouped = PWF16_concatenados[PWF16_concatenados.index.isin(lines.index)]
-                grouped = grouped.groupby(['Dia', 'Hora']).agg({'MW:From-To': 'sum', 'Mvar:From-To': 'sum'})
-            if key == 'RSUL':
-                grouped.loc[:, 'MW:From-To'] *= -1
-            intercambios.append(grouped)
+        Fluxo_NS = PWF16_concatenados[mask.isin(set(linhas_FNS.index))]
+        Fluxo_NS_grouped = Fluxo_NS.groupby(['Dia', 'Hora']).agg({'MW:From-To':'sum', 'Mvar:From-To':'sum'})
 
-        self.DF_Intercambios = pd.concat(intercambios, axis=0, keys=paths.keys())
-        self.DF_Intercambios.rename(index={'EXPNE':'EXP_NE', 'FNS':'Fluxo_N-S', 'FNESE':'Fluxo_NE-SE', 'FSULSECO':'Fluxo_SUL-SECO', 'FNEN':'Fluxo_NE-N', 'RSUL':'Fluxo_RSUL'}, inplace=True)
-        if not self.PO:
-            print(f'*** ETAPA: Salvando dados dos Intercambios ***')
-            self.DF_Intercambios.to_csv(os.path.join(self.cenario, 'DF_Intercambios.csv'))
-            print(f'*** ETAPA: FINAL DA OBTENÇÃO DE INTERCAMBIOS ***')
+        Fluxo_NESE = PWF16_concatenados[mask.isin(set(linhas_FNESE.index))]
+        Fluxo_NESE.loc[Fluxo_NESE[['From#', 'To#']].apply(tuple, axis=1).isin(set(linhas_FNESE_flip.index)), 'MW:From-To'] *= -1
+        Fluxo_NESE_grouped = Fluxo_NESE.groupby(['Dia', 'Hora']).agg({'MW:From-To':'sum', 'Mvar:From-To':'sum'})
+
+        Fluxo_NEN = PWF16_concatenados[mask.isin(set(linhas_FNEN.index))]
+        Fluxo_NEN.loc[Fluxo_NEN[['From#', 'To#']].apply(tuple, axis=1).isin(set(linhas_FNEN_flip.index)), 'MW:From-To'] *= -1
+        Fluxo_NEN_grouped = Fluxo_NEN.groupby(['Dia', 'Hora']).agg({'MW:From-To':'sum', 'Mvar:From-To':'sum'})
+
+        Fluxo_SULSECO = PWF16_concatenados[mask.isin(set(linhas_FSULSECO.index))]
+        Fluxo_SULSECO.loc[Fluxo_SULSECO[['From#', 'To#']].apply(tuple, axis=1).isin(set(linhas_FSULSECO_flip.index)), 'MW:From-To'] *= -1
+        Fluxo_SULSECO_grouped = Fluxo_SULSECO.groupby(['Dia', 'Hora']).agg({'MW:From-To':'sum', 'Mvar:From-To':'sum'})
+        print(f'******')
+        Fluxo_RSUL = PWF16_concatenados[mask.isin(set(linhas_RSUL.index))]
+        Fluxo_RSUL.loc[Fluxo_RSUL[['From#', 'To#']].apply(tuple, axis=1).isin(set(linhas_RSUL_flip.index)), 'MW:From-To'] *= -1
+        Fluxo_RSUL_grouped = Fluxo_RSUL.groupby(['Dia', 'Hora']).agg({'MW:From-To':'sum', 'Mvar:From-To':'sum'})
+        Fluxo_RSUL_grouped['MW:From-To'] *= -1
+        
+        print(f'*** Concatenating ... ***')
+        self.DF_Intercambios = pd.concat([EXPNE_grouped,Fluxo_NESE_grouped, Fluxo_NS_grouped, Fluxo_SULSECO_grouped, Fluxo_NEN_grouped, Fluxo_RSUL_grouped], axis=0, keys=['EXP_NE', 'Fluxo_NE-SE', 'Fluxo_N-S' ,'Fluxo_SUL-SECO', 'Fluxo_NE-N', 'Fluxo_RSUL'])
+
+        print(f'*** ETAPA: FINAL OBTENÇÃO DOS INTERCAMBIOS ***')
 
 # ======================================================================================================================
 #                                                   CONVERGENCE INFO EXTRACTION
@@ -371,8 +377,8 @@ class ReadScenarios:
         print('Numero de casos não Convergidos no PWF: ' + str(len(self.PWF_NC)) + '=> ' +  str(round(len(self.PWF_NC)/1344*100,2)))
         print('==============================================')
 
-        self.OPF_NC[['Dia','Hora']].to_csv(self.cenario+'/OPF_NC.csv', index=None)
-        self.PWF_NC[['Dia','Hora']].to_csv(self.cenario+'/PWF_NC.csv', index=None)
+        self.OPF_NC[['Dia','Hora']].to_csv(self.cenario+'/Data/Geral/OPF_NC.csv', index=None)
+        self.PWF_NC[['Dia','Hora']].to_csv(self.cenario+'/Data/Geral/PWF_NC.csv', index=None)
 
 class ProcessData():
 
@@ -676,12 +682,10 @@ class ProcessData():
 
         DF_Regional_Ger = separar_shunt(DF_Regional_Ger)
         DF_Regional_PQ = separar_shunt(DF_Regional_PQ)
-
         DF_Regional_PQ = fill_nan_columns(DF_Regional_PQ,
                                         ['PG_MW', 'QG_MVAR', 'PL_MW', 'QL_MVAR', 'Shunt_Ind', 'Shunt_Cap',
                                             'SHUNT_INST_IND', 'SHUNT_INST_CAP'])
         DF_Regional_Ger = fill_nan_columns(DF_Regional_Ger, ['Shunt_Ind', 'Shunt_Cap', 'SHUNT_INST_IND', 'SHUNT_INST_CAP'])
-
         DF_Regional_Ger['PG_Dist'] = DF_Regional_Ger['PG_MW'] - (
                     DF_Regional_Ger['PG_UHE'] + DF_Regional_Ger['PG_UTE'] + DF_Regional_Ger['PG_EOL'] +
                     DF_Regional_Ger['PG_SOL'] + DF_Regional_Ger['PG_BIO']) + DF_Regional_PQ['PG_MW']
@@ -698,8 +702,6 @@ class ProcessData():
         DF_Regional_Ger['PG_FERV'] =  (DF_Regional_Ger['PG_EOL'] + DF_Regional_Ger['PG_SOL'])/DF_Regional_Ger['PL_MW']
         DF_Regional_Ger['ReservaINDshunt'] = DF_Regional_Ger['SHUNT_INST_IND'] - DF_Regional_Ger['Shunt_Ind']
         DF_Regional_Ger['ReservaCAPshunt'] = DF_Regional_Ger['SHUNT_INST_CAP'] - DF_Regional_Ger['Shunt_Cap']
-
-        DF_Regional_Ger[['PG_MW', 'QG_MVAR', 'PL_MW', 'QL_MVAR','Shunt_Ind', 'Shunt_Cap','SHUNT_INST_IND', 'SHUNT_INST_CAP', 'ReservaIND', 'ReservaCAP','PG_UHE', 'PG_UTE', 'PG_EOL', 'PG_SOL', 'PG_BIO', 'PG_Dist', 'QG/QL', 'PG/PL', 'PG_FERV', 'ReservaINDshunt', 'ReservaCAPshunt']].to_csv(self.cenario + '/DF_POT_Reg.csv')
 
         self.DF_REGIONAL_GER = DF_Regional_Ger
         self.DF_REGIONAL_PQ = DF_Regional_PQ
