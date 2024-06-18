@@ -64,6 +64,35 @@ class MainWindow(QMainWindow):
         widgets.stackedWidget.setCurrentWidget(widgets.home)      
 
 
+        # ========================================================================================================================================================================
+        # ===                                                                                                                                                                  ===
+        # ===                                                                              DYNAMIC                                                                             ===
+        # ===                                                                                                                                                                  ===
+        # ========================================================================================================================================================================
+        
+
+        widgets.data_match_local_search_button.clicked.connect(lambda: UIFunctions.data_match_local_search_button_function(self))
+        widgets.dvp_search_file_button.clicked.connect(lambda: UIFunctions.dvp_sf_button_function(self))
+        widgets.dvp_read_file_button.clicked.connect(lambda: UIFunctions.dvp_read_file_button_function(self))
+
+        widgets.vars_search.clicked.connect(lambda: UIFunctions.processed_open_button_function(self))
+        widgets.instavel.clicked.connect(lambda: UIFunctions.instavel_button(self))
+        widgets.estavel.clicked.connect(lambda: UIFunctions.estavel_button(self))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def buttonClick(self):
 
         # GET BUTTON CLICKED

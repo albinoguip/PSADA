@@ -528,7 +528,7 @@ class Ui_MainWindow(object):
         self.row_1_dvp.setObjectName(u"row_1_dvp")
         self.row_1_dvp.setFrameShape(QFrame.StyledPanel)
         self.row_1_dvp.setFrameShadow(QFrame.Raised)
-        self.row_1_dvp.setMaximumHeight(100)
+        self.row_1_dvp.setMaximumHeight(150)
 
         self.LG_row_1_dvp = QGridLayout(self.row_1_dvp)
         self.LG_row_1_dvp.setSpacing(5)
@@ -545,13 +545,7 @@ class Ui_MainWindow(object):
 
         self.data_match_qline_files = QLineEdit(self.row_1_dvp)
         self.data_match_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_1_dvp.addWidget(self.data_match_qline_files, 0, 2, 1, 9)
-
-        self.data_match_read_file_button = QPushButton(self.row_1_dvp)
-        self.data_match_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.data_match_read_file_button.setText("Open")
-        self.LG_row_1_dvp.addWidget(self.data_match_read_file_button, 0, 11, 1, 2)
-
+        self.LG_row_1_dvp.addWidget(self.data_match_qline_files, 0, 2, 1, 8)
 
 
 
@@ -565,47 +559,57 @@ class Ui_MainWindow(object):
 
         self.dvp_qline_files = QLineEdit(self.row_1_dvp)
         self.dvp_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_1_dvp.addWidget(self.dvp_qline_files, 1, 2, 1, 9)
+        self.LG_row_1_dvp.addWidget(self.dvp_qline_files, 1, 2, 1, 8)
 
         self.dvp_read_file_button = QPushButton(self.row_1_dvp)
         self.dvp_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         self.dvp_read_file_button.setText("Process")
-        self.LG_row_1_dvp.addWidget(self.dvp_read_file_button, 1, 11, 1, 2)
-
-
-        
-
-
-
-
-
-
-
-
-        # self.dvp_label_ptc = QLabel(self.row_1_dvp)
-        # self.dvp_label_ptc.setObjectName(u"labelVersion_3")
-        # self.dvp_label_ptc.setStyleSheet(u"color: rgb(10, 10, 10);")
-        # self.dvp_label_ptc.setLineWidth(1)
-        # self.dvp_label_ptc.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        # self.LG_row_1_dvp.addWidget(self.dvp_label_ptc, 2, 0, 1, 1)
-
-
-        # self.dvp_search_file_button_ptc = QPushButton(self.row_1_dvp)
-        # self.dvp_search_file_button_ptc.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        # self.dvp_search_file_button_ptc.setText("Search")
-        # self.LG_row_1_dvp.addWidget(self.dvp_search_file_button_ptc, 2, 1, 1, 2)
-
-        # self.dvp_multi_combo_ptc = CheckableComboBox(self.row_1_dvp)
-        # self.dvp_multi_combo_ptc.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        # self.LG_row_1_dvp.addWidget(self.dvp_multi_combo_ptc, 2, 3, 1, 8)
-
-        # self.dvp_read_file_button_ptc = QPushButton(self.row_1_dvp)
-        # self.dvp_read_file_button_ptc.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        # self.dvp_read_file_button_ptc.setText("Open")
-        # self.LG_row_1_dvp.addWidget(self.dvp_read_file_button_ptc, 2, 11, 1, 2)
+        self.LG_row_1_dvp.addWidget(self.dvp_read_file_button, 0, 10, 2, 2)
 
 
         self.verticalLayout_dvp.addWidget(self.row_1_dvp)
+
+
+
+
+
+        self.row_2_dvp = QFrame(self.infos_dvp)
+        self.row_2_dvp.setObjectName(u"row_3_dvp")
+        self.row_2_dvp.setFrameShape(QFrame.StyledPanel)
+        self.row_2_dvp.setFrameShadow(QFrame.Raised)
+
+        self.LG_row_2_dvp = QGridLayout(self.row_2_dvp)
+        self.LG_row_2_dvp.setSpacing(5)
+        self.LG_row_2_dvp.setObjectName(u"LG_row_3_dvp")
+        self.LG_row_2_dvp.setContentsMargins(0, 0, 1, 1)
+
+
+        self.vars_search = QPushButton(self.row_2_dvp)
+        self.vars_search.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.vars_search.setText("Processed")
+        self.LG_row_2_dvp.addWidget(self.vars_search, 2, 0, 1, 2)
+
+        self.vars_qline = QLineEdit(self.row_2_dvp)
+        self.vars_qline.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_2_dvp.addWidget(self.vars_qline, 2, 2, 1, 10)
+
+
+
+
+        self.instavel = QPushButton(self.row_2_dvp)
+        self.instavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.instavel.setText("Instável")
+        self.LG_row_2_dvp.addWidget(self.instavel, 3, 0, 1, 6)
+
+        self.estavel = QPushButton(self.row_2_dvp)
+        self.estavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.estavel.setText("Estável")
+        self.LG_row_2_dvp.addWidget(self.estavel, 3, 6, 1, 6)
+
+
+
+
+        self.verticalLayout_dvp.addWidget(self.row_2_dvp)
 
         
         # self.mainLayout_dvp.addWidget(self.pdf_dvp)
@@ -721,103 +725,103 @@ class Ui_MainWindow(object):
         self.verticalLayout_pdf_dvp.setObjectName(u"verticalLayout_pdf_dvp")
         self.verticalLayout_pdf_dvp.setContentsMargins(10, 10, 10, 10)
 
-        # ROW 2
+        # # ROW 2
 
-        self.row_2_dvp = QFrame(self.pdf_dvp)
-        self.row_2_dvp.setObjectName(u"row_2_dvp")
-        # self.row_2_dvp.setMinimumSize(QSize(500, 110))
-        self.row_2_dvp.setFrameShape(QFrame.StyledPanel)
-        self.row_2_dvp.setFrameShadow(QFrame.Raised)
-        # self.row_2_dvp.setMaximumHeight(100)
+        # self.row_2_dvp = QFrame(self.pdf_dvp)
+        # self.row_2_dvp.setObjectName(u"row_2_dvp")
+        # # self.row_2_dvp.setMinimumSize(QSize(500, 110))
+        # self.row_2_dvp.setFrameShape(QFrame.StyledPanel)
+        # self.row_2_dvp.setFrameShadow(QFrame.Raised)
+        # # self.row_2_dvp.setMaximumHeight(100)
 
-        self.LG_row_2_dvp = QGridLayout(self.row_2_dvp)
-        self.LG_row_2_dvp.setSpacing(5)
-        self.LG_row_2_dvp.setObjectName(u"LG_row_2_dvp")
-        self.LG_row_2_dvp.setContentsMargins(0, 0, 1, 1)
-
-
-        # 00
-        self.dvp_infos00 = QLabel(self.row_2_dvp)
-        self.dvp_infos00.setObjectName(u"labelVersion_3")
-        self.dvp_infos00.setStyleSheet(u"color: rgb(10, 10, 10);")
-        self.dvp_infos00.setLineWidth(1)
-        self.dvp_infos00.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.LG_row_2_dvp.addWidget(self.dvp_infos00, 0, 0, 1, 1)
-        self.dvp_infos00_l = QLineEdit(self.row_1_dvp)
-        self.dvp_infos00_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_2_dvp.addWidget(self.dvp_infos00_l, 0, 1, 1, 3)
-
-        # 01
-        self.dvp_infos01 = QLabel(self.row_2_dvp)
-        self.dvp_infos01.setObjectName(u"labelVersion_3")
-        self.dvp_infos01.setStyleSheet(u"color: rgb(10, 10, 10);")
-        self.dvp_infos01.setLineWidth(1)
-        self.dvp_infos01.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.LG_row_2_dvp.addWidget(self.dvp_infos01, 0, 4, 1, 1)
-        self.dvp_infos01_l = QLineEdit(self.row_1_dvp)
-        self.dvp_infos01_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_2_dvp.addWidget(self.dvp_infos01_l, 0, 5, 1, 3)
+        # self.LG_row_2_dvp = QGridLayout(self.row_2_dvp)
+        # self.LG_row_2_dvp.setSpacing(5)
+        # self.LG_row_2_dvp.setObjectName(u"LG_row_2_dvp")
+        # self.LG_row_2_dvp.setContentsMargins(0, 0, 1, 1)
 
 
-        # 10
-        self.dvp_infos10 = QLabel(self.row_2_dvp)
-        self.dvp_infos10.setObjectName(u"labelVersion_3")
-        self.dvp_infos10.setStyleSheet(u"color: rgb(10, 10, 10);")
-        self.dvp_infos10.setLineWidth(1)
-        self.dvp_infos10.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.LG_row_2_dvp.addWidget(self.dvp_infos10, 1, 0, 1, 1)
-        self.dvp_infos10_l = QLineEdit(self.row_1_dvp)
-        self.dvp_infos10_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_2_dvp.addWidget(self.dvp_infos10_l, 1, 1, 1, 3)
+        # # 00
+        # self.dvp_infos00 = QLabel(self.row_2_dvp)
+        # self.dvp_infos00.setObjectName(u"labelVersion_3")
+        # self.dvp_infos00.setStyleSheet(u"color: rgb(10, 10, 10);")
+        # self.dvp_infos00.setLineWidth(1)
+        # self.dvp_infos00.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos00, 0, 0, 1, 1)
+        # self.dvp_infos00_l = QLineEdit(self.row_1_dvp)
+        # self.dvp_infos00_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos00_l, 0, 1, 1, 3)
 
-        # 11
-        self.dvp_infos11 = QLabel(self.row_2_dvp)
-        self.dvp_infos11.setObjectName(u"labelVersion_3")
-        self.dvp_infos11.setStyleSheet(u"color: rgb(10, 10, 10);")
-        self.dvp_infos11.setLineWidth(1)
-        self.dvp_infos11.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.LG_row_2_dvp.addWidget(self.dvp_infos11, 1, 4, 1, 1)
-        self.dvp_infos11_l = QLineEdit(self.row_1_dvp)
-        self.dvp_infos11_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_2_dvp.addWidget(self.dvp_infos11_l, 1, 5, 1, 3)
-
-        # 20
-        self.dvp_infos20 = QLabel(self.row_2_dvp)
-        self.dvp_infos20.setObjectName(u"labelVersion_3")
-        self.dvp_infos20.setStyleSheet(u"color: rgb(10, 10, 10);")
-        self.dvp_infos20.setLineWidth(1)
-        self.dvp_infos20.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.LG_row_2_dvp.addWidget(self.dvp_infos20, 2, 0, 1, 1)
-        self.dvp_infos20_l = QLineEdit(self.row_1_dvp)
-        self.dvp_infos20_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_2_dvp.addWidget(self.dvp_infos20_l, 2, 1, 1, 3)
-
-        # 21
-        self.dvp_infos21 = QLabel(self.row_2_dvp)
-        self.dvp_infos21.setObjectName(u"labelVersion_3")
-        self.dvp_infos21.setStyleSheet(u"color: rgb(10, 10, 10);")
-        self.dvp_infos21.setLineWidth(1)
-        self.dvp_infos21.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.LG_row_2_dvp.addWidget(self.dvp_infos21, 2, 4, 1, 1)
-        self.dvp_infos21_l = QLineEdit(self.row_1_dvp)
-        self.dvp_infos21_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_2_dvp.addWidget(self.dvp_infos21_l, 2, 5, 1, 3)
+        # # 01
+        # self.dvp_infos01 = QLabel(self.row_2_dvp)
+        # self.dvp_infos01.setObjectName(u"labelVersion_3")
+        # self.dvp_infos01.setStyleSheet(u"color: rgb(10, 10, 10);")
+        # self.dvp_infos01.setLineWidth(1)
+        # self.dvp_infos01.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos01, 0, 4, 1, 1)
+        # self.dvp_infos01_l = QLineEdit(self.row_1_dvp)
+        # self.dvp_infos01_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos01_l, 0, 5, 1, 3)
 
 
-        # 3-
-        self.dvp_infos30 = QLabel(self.row_2_dvp)
-        self.dvp_infos30.setObjectName(u"labelVersion_3")
-        self.dvp_infos30.setStyleSheet(u"color: rgb(10, 10, 10);")
-        self.dvp_infos30.setLineWidth(1)
-        self.dvp_infos30.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.LG_row_2_dvp.addWidget(self.dvp_infos30, 3, 0, 1, 1)
-        self.dvp_infos30_l = QLineEdit(self.row_1_dvp)
-        self.dvp_infos30_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_2_dvp.addWidget(self.dvp_infos30_l, 4, 0, 10, 8)
+        # # 10
+        # self.dvp_infos10 = QLabel(self.row_2_dvp)
+        # self.dvp_infos10.setObjectName(u"labelVersion_3")
+        # self.dvp_infos10.setStyleSheet(u"color: rgb(10, 10, 10);")
+        # self.dvp_infos10.setLineWidth(1)
+        # self.dvp_infos10.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos10, 1, 0, 1, 1)
+        # self.dvp_infos10_l = QLineEdit(self.row_1_dvp)
+        # self.dvp_infos10_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos10_l, 1, 1, 1, 3)
+
+        # # 11
+        # self.dvp_infos11 = QLabel(self.row_2_dvp)
+        # self.dvp_infos11.setObjectName(u"labelVersion_3")
+        # self.dvp_infos11.setStyleSheet(u"color: rgb(10, 10, 10);")
+        # self.dvp_infos11.setLineWidth(1)
+        # self.dvp_infos11.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos11, 1, 4, 1, 1)
+        # self.dvp_infos11_l = QLineEdit(self.row_1_dvp)
+        # self.dvp_infos11_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos11_l, 1, 5, 1, 3)
+
+        # # 20
+        # self.dvp_infos20 = QLabel(self.row_2_dvp)
+        # self.dvp_infos20.setObjectName(u"labelVersion_3")
+        # self.dvp_infos20.setStyleSheet(u"color: rgb(10, 10, 10);")
+        # self.dvp_infos20.setLineWidth(1)
+        # self.dvp_infos20.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos20, 2, 0, 1, 1)
+        # self.dvp_infos20_l = QLineEdit(self.row_1_dvp)
+        # self.dvp_infos20_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos20_l, 2, 1, 1, 3)
+
+        # # 21
+        # self.dvp_infos21 = QLabel(self.row_2_dvp)
+        # self.dvp_infos21.setObjectName(u"labelVersion_3")
+        # self.dvp_infos21.setStyleSheet(u"color: rgb(10, 10, 10);")
+        # self.dvp_infos21.setLineWidth(1)
+        # self.dvp_infos21.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos21, 2, 4, 1, 1)
+        # self.dvp_infos21_l = QLineEdit(self.row_1_dvp)
+        # self.dvp_infos21_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos21_l, 2, 5, 1, 3)
+
+
+        # # 3-
+        # self.dvp_infos30 = QLabel(self.row_2_dvp)
+        # self.dvp_infos30.setObjectName(u"labelVersion_3")
+        # self.dvp_infos30.setStyleSheet(u"color: rgb(10, 10, 10);")
+        # self.dvp_infos30.setLineWidth(1)
+        # self.dvp_infos30.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos30, 3, 0, 1, 1)
+        # self.dvp_infos30_l = QLineEdit(self.row_1_dvp)
+        # self.dvp_infos30_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_2_dvp.addWidget(self.dvp_infos30_l, 4, 0, 10, 8)
 
 
 
-        self.verticalLayout_pdf_dvp.addWidget(self.row_2_dvp)
+        # self.verticalLayout_pdf_dvp.addWidget(self.row_2_dvp)
 
 
 
