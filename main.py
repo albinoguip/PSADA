@@ -54,15 +54,7 @@ class MainWindow(QMainWindow):
         UIFunctions.uiDefinitions(self)                                                  # SET UI DEFINITIONS
 
         widgets.btn_home.clicked.connect(self.buttonClick)     # HOME
-        widgets.btn_dvp.clicked.connect(self.buttonClick)      # SS DVP
-        widgets.btn_dec.clicked.connect(self.buttonClick)      # DELAY COMP
-        widgets.btn_dec_inca.clicked.connect(self.buttonClick) # DELAY COMP
-        widgets.btn_idi.clicked.connect(self.buttonClick)      # SWEEP CURRENT
-        # widgets.btn_idi_inca.clicked.connect(self.buttonClick) # SWEEP CURRENT
-        widgets.btn_ddi.clicked.connect(self.buttonClick)      # SWEEP CURRENT
-        widgets.btn_temp.clicked.connect(self.buttonClick)     # SWEEP CURRENT
-
-        # widgets.btn_dvpd.clicked.connect(self.buttonClick)  # SWEEP CURRENT
+        widgets.btn_dynamic.clicked.connect(self.buttonClick)  # DYNAMIC
         
 
         self.show() 
@@ -70,6 +62,35 @@ class MainWindow(QMainWindow):
         UIFunctions.theme(self, resource_path('assets/albino_light_theme.qss'), True)
 
         widgets.stackedWidget.setCurrentWidget(widgets.home)      
+
+
+        # ========================================================================================================================================================================
+        # ===                                                                                                                                                                  ===
+        # ===                                                                              DYNAMIC                                                                             ===
+        # ===                                                                                                                                                                  ===
+        # ========================================================================================================================================================================
+        
+
+        widgets.data_match_local_search_button.clicked.connect(lambda: UIFunctions.data_match_local_search_button_function(self))
+        widgets.dvp_search_file_button.clicked.connect(lambda: UIFunctions.dvp_sf_button_function(self))
+        widgets.dvp_read_file_button.clicked.connect(lambda: UIFunctions.dvp_read_file_button_function(self))
+
+        widgets.vars_search.clicked.connect(lambda: UIFunctions.processed_open_button_function(self))
+        widgets.instavel.clicked.connect(lambda: UIFunctions.instavel_button(self))
+        widgets.estavel.clicked.connect(lambda: UIFunctions.estavel_button(self))
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     def buttonClick(self):
@@ -84,58 +105,11 @@ class MainWindow(QMainWindow):
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
-        # SHOW DVP PAGE
-        if btnName == "btn_dvp":
+        # SHOW DYNAMIC PAGE
+        if btnName == "btn_dynamic":
             widgets.stackedWidget.setCurrentWidget(widgets.dvp)
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-        # SHOW IdIq PAGE
-        if btnName == "btn_idi":
-            widgets.stackedWidget.setCurrentWidget(widgets.idq)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-        # SHOW IdIq PAGE
-        if btnName == "btn_idi_inca":
-            widgets.stackedWidget.setCurrentWidget(widgets.idq_inca)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-        # SHOW DELAY COMP PAGE
-        if btnName == "btn_dec":
-            widgets.stackedWidget.setCurrentWidget(widgets.delay)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-        # SHOW DELAY COMP PAGE
-        if btnName == "btn_dec_inca":
-            widgets.stackedWidget.setCurrentWidget(widgets.delay_inca)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-        # SHOW IdIq PAGE
-        if btnName == "btn_ddi":
-            widgets.stackedWidget.setCurrentWidget(widgets.ddi)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-        # SHOW IdIq PAGE
-        if btnName == "btn_temp":
-            widgets.stackedWidget.setCurrentWidget(widgets.temp)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-
-
-
-        # # SHOW IdIq PAGE
-        # if btnName == "btn_dvpd":
-        #     widgets.stackedWidget.setCurrentWidget(widgets.dvpd)
-        #     UIFunctions.resetStyle(self, btnName)
-        #     btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-        
 
 
 

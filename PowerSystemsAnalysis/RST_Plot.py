@@ -97,9 +97,6 @@ class RST_Plot():
             self.renovaveis['Hora'] = [OP.replace(':', '-') for OP in self.renovaveis['hora'].values]
             self.renovaveis['%MW']  = self.renovaveis[['MW_x', 'MW_y']].sum(axis=1)*100
 
-            self.renovaveis['%MW_r']  = [round(mw, 0) for mw in self.renovaveis['%MW'].values]
-
-            self.estavel = self.estavel.merge(self.renovaveis[['Dia', 'Hora', '%MW', '%MW_r']], on=['Dia', 'Hora'], how='left')
 
     # ================================================================================================================================= #
 
@@ -748,7 +745,6 @@ class RST_Plot_estavel(RST_Plot):
         
         est = est[est['Contigence'].isin(tipos['Perda de Geração'])]
 
-        print(est[['%MW', '%MW_r']])
 
         print(est.columns)
         
@@ -1367,7 +1363,7 @@ class RST_Plot_estavel(RST_Plot):
 
 
 
-        est_raw = self.estavel[['Dia', 'Hora', 'OP', 'Contigence', '%MW_r', 'A_RCFC', 'A_INRT', 'B_INRT', 'DCIM_I1', 'DCIM_I2', 'DCIM_I3', 'DCIM_I1']]
+        est_raw = self.estavel[['Dia', 'Hora', 'OP', 'Contigence', 'A_RCFC', 'A_INRT', 'B_INRT', 'DCIM_I1', 'DCIM_I2', 'DCIM_I3', 'DCIM_I1']]
         est_raw['DCIM'] = est_raw[['DCIM_I2', 'DCIM_I3']].sum(axis=1)
         est_raw['INER'] = est_raw['B_INRT'] - est_raw['DCIM']
 
@@ -1444,7 +1440,7 @@ class RST_Plot_estavel(RST_Plot):
 
     def plot_est_duplo_hist_NDRC_NDRC(self, show=False):
 
-        est_raw = self.estavel[['OP', 'Contigence', '%MW_r', 'A_NDRC', 'A_INRT', 'B_INRT', 'DCIM_I1', 'DCIM_I2', 'DCIM_I3', 'DCIM_I1']]
+        est_raw = self.estavel[['OP', 'Contigence', 'A_NDRC', 'A_INRT', 'B_INRT', 'DCIM_I1', 'DCIM_I2', 'DCIM_I3', 'DCIM_I1']]
 
         est_raw['DCIM']    = est_raw[['DCIM_I2', 'DCIM_I3']].sum(axis=1)
         est_raw['INER']    = est_raw['B_INRT'] - est_raw['DCIM']
