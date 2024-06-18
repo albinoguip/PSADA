@@ -10,26 +10,13 @@ from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_compl
 
 class ReadScenarios:
 
-    def __init__(self, path, cenario, PO, pathcsv=None, genscript=False):
+    def __init__(self, path, cenario, PO, pathcsv=None):
         self.path = path
         self.PO = PO
         self.csv = pathcsv
         self.cenario = cenario
         self.folders = []
-
-        if not genscript:
-            if not PO:
-                archivos = os.listdir(path)
-                self.folders = sorted([nomes_archivos for nomes_archivos in archivos if 'DS202' in nomes_archivos])
-                if pathcsv:
-                    self.get_dataframes_csv()
-                else:
-                    self.get_data_extract()
-            else:
-                self.folders = 'PO'
-                self.get_data_extract()
-        else:
-            self.generate_script()
+        pass
 
     @staticmethod
     def get_unique_bus(df):
@@ -117,7 +104,8 @@ class ReadScenarios:
 # ======================================================================================================================
         
     def get_Networkinfo(self, linhas=True, Reserva=False, Intercambios=False, hour=None):
-        print(f'*** ETAPA: LEITURA DE INFORMAÇÃO DAS LINHAS ***')
+
+        print(f'*** LEITURA DOS PWF_.CSV GERADOS ***')
         
         dtype_dict_linhas = {
             'From#': 'int32', ' From Name': 'object', ' To# - Circ#': 'object', ' To Name': 'object', ' Type': 'object',
@@ -129,7 +117,6 @@ class ReadScenarios:
             ' Mvar:From-To', ' Mvar:Losses', ' MW:To-From', ' Power Factor:From-To', ' Power Factor:To-From'
         ]
         col_list_hvdc = ['Bus #', ' Bus Name', ' Type', ' Pole #', ' P(MW)', ' Q(Mvar)', ' Status']
-        # col_list_hvdc = ['Bus #', ' Bus Name', ' Type', ' Pole #', ' P(MW)', ' Q(Mvar)', ' Satus']  # Esta linha tem uma alteração devido a que tem um erro nos arquivos rodados para 2022 no nome da columna Status
         col_list_reserve = ['Bus', ' Group', ' Bus Name', ' Area', ' Zone', ' V (pu)', ' Pg(MW)', ' Qg(Mvar)', ' Reserve', ' Units']
 
         def add_dia_hora(df, path, dia, hour=None):
@@ -272,14 +259,11 @@ class ReadScenarios:
         print('Script para rodar fluxos gerado exitosamente!')
 
     def get_Intercambios(self, df=None):
-        print(f'*** ETAPA: OBTENÇÃO DOS INTERCAMBIOS ***')
+        print(f'*** OBTENÇÃO DOS INTERCAMBIOS ***')
         if df is None:
             PWF16_concatenados = self.linesInfo
         else:
             PWF16_concatenados = df
-
-        # PWF16_concatenados = PWF16_concatenados.set_index(['From#', 'To#'])
-        # PWF16_concatenados = PWF16_concatenados[(PWF16_concatenados['Type'] == ' TL')]  #Importante ver si afecta!!
 
         linhas_expNE = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_EXPNE.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
         linhas_expNE_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_EXPNE_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
@@ -323,7 +307,7 @@ class ReadScenarios:
         print(f'*** Concatenating ... ***')
         self.DF_Intercambios = pd.concat([EXPNE_grouped,Fluxo_NESE_grouped, Fluxo_NS_grouped, Fluxo_SULSECO_grouped, Fluxo_NEN_grouped, Fluxo_RSUL_grouped], axis=0, keys=['EXP_NE', 'Fluxo_NE-SE', 'Fluxo_N-S' ,'Fluxo_SUL-SECO', 'Fluxo_NE-N', 'Fluxo_RSUL'])
 
-        print(f'*** ETAPA: FINAL OBTENÇÃO DOS INTERCAMBIOS ***')
+        print(f'*** FINAL OBTENÇÃO DOS INTERCAMBIOS ***')
 
 # ======================================================================================================================
 #                                                   CONVERGENCE INFO EXTRACTION
@@ -382,35 +366,13 @@ class ReadScenarios:
 
 class ProcessData():
 
-    def __init__(self,  df, cenario, pathcsv=None, extract_fromcsv=False, savecsv = True, busdata=False, ):
+    def __init__(self, cenario, options):
         
-        self.df  = df
         self.cenario = cenario
+        self.mapsdata = options['MapasPlots']
+        pass
 
-        if extract_fromcsv:
-            self.Df_VF_SF = df
-            self.get_splitdata_PV_PQ()
-            self.get_processdata_region()
-        else:
-            if busdata:
-                file = os.path.abspath("Static-Analysis/RECURSOS/GeoINFO_BusesSIN.csv")
-                df1 = pd.read_csv(file, sep=';')
-
-                #************************ Merge com o DATA FRAME COMPLETO ***************************
-                columns = ['BUS_ID', 'BUS_NAME', 'VBASEKV', 'TP', 'ARE', 'MODV_PU', 'ANGV_DEG', 'BASE_MVA', 'PG_MW', 'QG_MVAR', 'PMAX_MW', 'PMIN_MW', 'QMX_MVAR','QMN_MVAR', 'Ger_Units','Ger_Active_Units', 'PL_MW', 'QL_MVAR', 'TC', 'VMAX_PU', 'VMIN_PU', 'BCO_ID', 'B0_MVAR', 'ST', 'SHUNT_INST_IND', 'SHUNT_INST_CAP', 'Dia','Hora']
-                Df_VF_novo = self.df[columns].merge(df1[['BUS_ID','Gen_Type','U_FED','REG', 'Latitude','Longitude']], on='BUS_ID', how='left')
-                Df_VF_novo.drop(Df_VF_novo[Df_VF_novo['REG'] == np.nan].index)
-                self.Df_VF_SF = Df_VF_novo
-            else:
-                self.get_processdata()
-            
-            self.get_splitdata_PV_PQ()
-            self.get_processdata_region()
-            if savecsv:
-                print(f'*** Salvando Dataframe com Região e Estado ***')
-                self.Df_VF_SF.to_csv(pathcsv, sep=';', index=False)
-        
-    def get_processdata(self):
+    def get_processdata(self, Df_VF):
 
     # ========================== Define main funtions for this method ===================================================================
         def labelBUS_UF_GT(data, keys, num: int, sf=None):
@@ -473,7 +435,6 @@ class ProcessData():
         BarraGeo = pd.read_excel(file, sheet_name='Planilha1', header=0)
         BarraGeo.rename(columns=column_rename_mapping, inplace=True)
 
-        Df_VF = self.df
         # dataframe com um unico ponto de operação
         Df_ = Df_VF[(Df_VF['Dia']==Df_VF['Dia'].unique()[0]) & (Df_VF['Hora']==Df_VF['Hora'].unique()[0])][['BUS_ID', 'BUS_NAME']].copy()
         Df_.insert(1, 'U_FED', np.nan)
@@ -524,98 +485,109 @@ class ProcessData():
                     'VMAX_PU', 'VMIN_PU', 'BCO_ID', 'B0_MVAR', 'ST', 'SHUNT_INST_IND', 
                     'SHUNT_INST_CAP', 'Dia', 'Hora']
         # Dataframe geral 
-        Df_VF_novo = Df_VF[columns].merge(Df_[['BUS_ID','U_FED','Gen_Type','REG', 'Latitude','Longitude']], on='BUS_ID', how='left')
-        Df_VF_novo.drop(Df_VF_novo[Df_VF_novo['REG'] == np.nan].index)
-        # Dataframe geral sem filtro
-        self.Df_VF_SF = Df_VF_novo
+        self.Df_VF_SF = Df_VF[columns].merge(Df_[['BUS_ID','U_FED','Gen_Type','REG', 'Latitude','Longitude']], on='BUS_ID', how='left')
+        self.Df_VF_SF.drop(self.Df_VF_SF[self.Df_VF_SF['REG'] == np.nan].index)
 
-    def get_splitdata_PV_PQ(self):
+    @staticmethod
+    def add_key(data):
+        from datetime import datetime, timedelta
+        fechas = [dia for dia in range(1, 30)]
+        semihoras_dia = [(datetime(2022, 10, dia, 0, 0) + timedelta(minutes=30*i)).strftime('%d-%H-%M') for dia in fechas for i in range(48)]
+        df = pd.DataFrame({'key': semihoras_dia})
+        df[['Dia', 'Hora']] = df['key'].str.split('-', n=1, expand=True)
+        df['key'] = df['key'].str.replace('-','_')
+        df['key'] = 'D_' + df['key'].str.slice(0,2) + '_H' + df['key'].str.slice(2) 
+        df['Dia'] = df['Dia'].astype(str)
+        data = data.merge(df, on=['Dia','Hora'], how='inner')
+        return data
+    
+    def get_splitdata_PV_PQ(self, df):
 
         # Read DBAR.csv into DataFrame
         file = os.path.abspath('Static-Analysis\RECURSOS\DBAR.csv')
         df_buscode = pd.read_csv(file, sep=';')
 
-        Df_VF = self.Df_VF_SF
         # complexo madeira buses
         barra_ids = [7050, 7051, 7061, 7062, 7064, 7055, 7053, 7063, 7060, 7056, 7065]
-        Df_VF['REG'] = np.where(Df_VF['BUS_ID'].isin(barra_ids), 'Sudeste-Centro-Oeste', Df_VF['REG'])
         print(f"Trocando de Região as barras do complexo madeira: {barra_ids}")
+        self.Df_VF_SF['REG'] = np.where(self.Df_VF_SF['BUS_ID'].isin(barra_ids), 'Sudeste-Centro-Oeste', self.Df_VF_SF['REG'])
+        
         # Usinas Eolicas buses
-        barra_ids =['MSULD3-EOL22', 'CLEMNTEOL-66', 'CLEMNTEOL-60', 'MSULD1-EOL27', 'MSULD2-EOL27', 'MSULD4-EOL08']  
-        Df_VF['Gen_Type'] = np.where(Df_VF['BUS_NAME'].isin(barra_ids), 'EOL', Df_VF['Gen_Type'])
+        barra_ids =['MSULD3-EOL22', 'CLEMNTEOL-66', 'CLEMNTEOL-60', 'MSULD1-EOL27', 'MSULD2-EOL27', 'MSULD4-EOL08'] 
         print(f"Asignando tipo de geração nas usinas eolicas faltantes: {barra_ids}")
+        self.Df_VF_SF['Gen_Type'] = np.where(self.Df_VF_SF['BUS_NAME'].isin(barra_ids), 'EOL', self.Df_VF_SF['Gen_Type'])
+        
+        # Asignando Chave
+        print("Asignando uma chave no dataframe ...")
+        self.Df_VF_SF = self.add_key(self.Df_VF_SF)
 
         # Drop rows with NaN Latitude
-        Df_VF = Df_VF[Df_VF['Latitude'].notna()]
-        # Filter df_buscode and Df_VF based on 'Code' and 'BUS_ID' respectively
+        self.Df_VF_SF = self.Df_VF_SF[self.Df_VF_SF['Latitude'].notna()]
+        # Filter df_buscode and self.Df_VF_SF based on 'Code' and 'BUS_ID' respectively
         dfcode = df_buscode[df_buscode['Code'] == 0]
-        # Df_VF = Df_VF[Df_VF['BUS_ID'].isin(dfcode['BusID'].unique())]
-        Df_VF.merge(dfcode[['BusID']], left_on='BUS_ID', right_on='BusID', how='inner').drop(columns=['BusID'])
+        self.Df_VF_SF = self.Df_VF_SF.merge(dfcode[['BusID']], left_on='BUS_ID', right_on='BusID', how='inner').drop(columns=['BusID'])
 
         # Print number of unique BUS_IDs
         print(f"Numero de Barras no pwf sem aplicar o filtro:  {df_buscode['BusID'].nunique()}") 
         print(f"Numero de Barras no pwf filtrando barras com indice 0: {dfcode['BusID'].nunique()}") 
-        print(f"Numero de Barras no ntw sem filtro de barras: {self.df['BUS_ID'].nunique()}") 
-        print(f"Numero de Barras no ntw filtrando barras com indice 0: {Df_VF['BUS_ID'].nunique()}") 
-
-        self.Df_VF = Df_VF
+        print(f"Numero de Barras no ntw sem filtro de barras: {df['BUS_ID'].nunique()}") 
+        print(f"Numero de Barras no ntw filtrando barras com indice 0: {self.Df_VF_SF['BUS_ID'].nunique()}") 
 
         # Barras PV
-        df_Final_ger = Df_VF[Df_VF['TP'].isin([2, 3])].copy()
-        online = df_Final_ger[df_Final_ger['PG_MW'] != 0].groupby('BUS_ID')['PG_MW'].count().rename('Online').reset_index()
-        compsyn = df_Final_ger[(df_Final_ger['PG_MW'] == 0) & (df_Final_ger['QG_MVAR'] != 0)].groupby('BUS_ID')['QG_MVAR'].count().rename('Compsync').reset_index()
-        dff_Ger_map = df_Final_ger.groupby('BUS_ID').agg(
-            BUS_NAME=('BUS_NAME', 'first'),
-            VBASEKV=('VBASEKV', 'first'),
-            U_FED=('U_FED', 'first'),
-            REG=('REG', 'first'),
-            Gen_Type=('Gen_Type', 'first'),
-            Latitude=('Latitude', 'first'),
-            Longitude=('Longitude', 'first'),
-            Dia=('Dia', list),
-            Hora=('Hora', list),
-            MODV_PU=('MODV_PU', list),
-            BASE_MVA=('BASE_MVA', 'mean'),
-            Ger_Units=('Ger_Units', 'first'),
-            PG_MW=('PG_MW', 'mean'),
-            QG_MVAR=('QG_MVAR', 'mean'),
-            PMAX_MW=('PMAX_MW', 'mean'),
-            PMIN_MW=('PMIN_MW', 'mean'),
-            QMX_MVAR=('QMX_MVAR', 'mean'),
-            QMN_MVAR=('QMN_MVAR', 'mean'),
-        ).reset_index()
-        dff_Ger_map = dff_Ger_map.merge(online, on='BUS_ID', how='left').merge(compsyn, on='BUS_ID', how='left').fillna({'Online': 0, 'Compsync': 0})
-
+        df_Final_ger = self.Df_VF_SF[self.Df_VF_SF['TP'].isin([2, 3])].copy()
         # Barras PQ
-        df_Final_nt = Df_VF[Df_VF['TP'].isin([0, 1])].copy()
-        dff_NT_map = df_Final_nt.groupby('BUS_ID').agg(
-            BUS_NAME=('BUS_NAME', 'first'),
-            VBASEKV=('VBASEKV', 'first'),
-            U_FED=('U_FED', 'first'),
-            REG=('REG', 'first'),
-            Gen_Type=('Gen_Type', 'first'),
-            Latitude=('Latitude', 'first'),
-            Longitude=('Longitude', 'first'),
-            MODV_PU=('MODV_PU', list),
-            SHUNT=('B0_MVAR', 'first'),
-            SHUNT_INST_IND=('SHUNT_INST_IND', 'first'),
-            SHUNT_INST_CAP=('SHUNT_INST_CAP', 'first'),
-        ).reset_index()
-
-        # Calculate 'ReservaINDshunt' and 'ReservaCAPshunt' using vectorized operations
-        df_Final_nt['ReservaINDshunt'] = np.where(df_Final_nt['B0_MVAR'] < 0, df_Final_nt['SHUNT_INST_IND'] - df_Final_nt['B0_MVAR'], df_Final_nt['SHUNT_INST_IND'])
-        df_Final_nt['ReservaCAPshunt'] = np.where(df_Final_nt['B0_MVAR'] > 0, df_Final_nt['SHUNT_INST_CAP'] - df_Final_nt['B0_MVAR'], df_Final_nt['SHUNT_INST_CAP'])
+        df_Final_nt = self.Df_VF_SF[self.Df_VF_SF['TP'].isin([0, 1])].copy()
 
         # Calculate 'Qmin' and 'Qmax' using vectorized operations
         df_Final_ger['Qmin'] = (df_Final_ger['QMN_MVAR'] / df_Final_ger['Ger_Units']) * df_Final_ger['Ger_Active_Units']
         df_Final_ger['Qmax'] = (df_Final_ger['QMX_MVAR'] / df_Final_ger['Ger_Units']) * df_Final_ger['Ger_Active_Units']
         df_Final_ger['ReservaIND'] = np.where(df_Final_ger['QG_MVAR'] < 0, df_Final_ger['Qmin'] - df_Final_ger['QG_MVAR'], df_Final_ger['Qmin'])
         df_Final_ger['ReservaCAP'] = np.where(df_Final_ger['QG_MVAR'] > 0, df_Final_ger['Qmax'] - df_Final_ger['QG_MVAR'], df_Final_ger['Qmax'])
+        # Calculate 'ReservaINDshunt' and 'ReservaCAPshunt' using vectorized operations
+        df_Final_nt['ReservaINDshunt'] = np.where(df_Final_nt['B0_MVAR'] < 0, df_Final_nt['SHUNT_INST_IND'] - df_Final_nt['B0_MVAR'], df_Final_nt['SHUNT_INST_IND'])
+        df_Final_nt['ReservaCAPshunt'] = np.where(df_Final_nt['B0_MVAR'] > 0, df_Final_nt['SHUNT_INST_CAP'] - df_Final_nt['B0_MVAR'], df_Final_nt['SHUNT_INST_CAP'])
+
+        if self.mapsdata:
+            online = df_Final_ger[df_Final_ger['PG_MW'] != 0].groupby('BUS_ID')['PG_MW'].count().rename('Online').reset_index()
+            compsyn = df_Final_ger[(df_Final_ger['PG_MW'] == 0) & (df_Final_ger['QG_MVAR'] != 0)].groupby('BUS_ID')['QG_MVAR'].count().rename('Compsync').reset_index()
+            self.dff_Ger_map = df_Final_ger.groupby('BUS_ID').agg(
+                BUS_NAME=('BUS_NAME', 'first'),
+                VBASEKV=('VBASEKV', 'first'),
+                U_FED=('U_FED', 'first'),
+                REG=('REG', 'first'),
+                Gen_Type=('Gen_Type', 'first'),
+                Latitude=('Latitude', 'first'),
+                Longitude=('Longitude', 'first'),
+                Dia=('Dia', list),
+                Hora=('Hora', list),
+                MODV_PU=('MODV_PU', list),
+                BASE_MVA=('BASE_MVA', 'mean'),
+                Ger_Units=('Ger_Units', 'first'),
+                PG_MW=('PG_MW', 'mean'),
+                QG_MVAR=('QG_MVAR', 'mean'),
+                PMAX_MW=('PMAX_MW', 'mean'),
+                PMIN_MW=('PMIN_MW', 'mean'),
+                QMX_MVAR=('QMX_MVAR', 'mean'),
+                QMN_MVAR=('QMN_MVAR', 'mean'),
+            ).reset_index()
+            self.dff_Ger_map = self.dff_Ger_map.merge(online, on='BUS_ID', how='left').merge(compsyn, on='BUS_ID', how='left').fillna({'Online': 0, 'Compsync': 0})
+            
+            self.dff_NT_map = df_Final_nt.groupby('BUS_ID').agg(
+                BUS_NAME=('BUS_NAME', 'first'),
+                VBASEKV=('VBASEKV', 'first'),
+                U_FED=('U_FED', 'first'),
+                REG=('REG', 'first'),
+                Gen_Type=('Gen_Type', 'first'),
+                Latitude=('Latitude', 'first'),
+                Longitude=('Longitude', 'first'),
+                MODV_PU=('MODV_PU', list),
+                SHUNT=('B0_MVAR', 'first'),
+                SHUNT_INST_IND=('SHUNT_INST_IND', 'first'),
+                SHUNT_INST_CAP=('SHUNT_INST_CAP', 'first'),
+            ).reset_index()
 
         self.df_Final_ger = df_Final_ger
         self.df_Final_nt = df_Final_nt
-        self.dff_Ger_map = dff_Ger_map
-        self.dff_NT_map = dff_NT_map
 
     def get_processdata_region(self):
 
@@ -623,11 +595,9 @@ class ProcessData():
             indutivo = sum(valor for valor in valor_lista if valor < 0)
             capacitivo = sum(valor for valor in valor_lista if valor > 0)
             return indutivo, capacitivo
-
         def separar_shunt(data):
             data[['Shunt_Ind', 'Shunt_Cap']] = data['B0_MVAR'].apply(lambda x: pd.Series(discriminador(x)))
             return data
-
         def process_generation_data(df_gerbar, generation_type, group_columns):
             df_generation = df_gerbar[df_gerbar['Gen_Type'].isin(generation_type)]
             return df_generation.groupby(by=group_columns).agg(
@@ -635,12 +605,11 @@ class ProcessData():
                 QG_MVAR=('QG_MVAR', 'sum'),
                 NUM_USINAS=('PG_MW', 'count')
             )
-
         def fill_nan_columns(df, columns):
             df[columns] = df[columns].fillna(0)
             return df
 
-        print(f'*** ETAPA: COMENÇO DA CRIAÇÃO DE DATAFRAME COM INFO REGIONAL ***')
+        print(f'*** ETAPA: CRIAÇÃO DE DATAFRAME COM INFO REGIONAL ***')
 
         Df_UHE = process_generation_data(self.df_Final_ger, ['UHE', 'PCH'], ['Dia', 'Hora', 'REG'])
         Df_UTE = process_generation_data(self.df_Final_ger, ['UTE', 'UNE'], ['Dia', 'Hora', 'REG'])
@@ -652,20 +621,16 @@ class ProcessData():
         DF_Regional_Ger = self.df_Final_ger.groupby(by=['Dia', 'Hora', 'REG']).agg({
             'BUS_ID': 'unique', 'MODV_PU': list, 'B0_MVAR': list, 'PG_MW': 'sum', 'QG_MVAR': 'sum',
             'PL_MW': 'sum', 'QL_MVAR': 'sum', 'SHUNT_INST_IND': 'sum', 'SHUNT_INST_CAP': 'sum', 'ReservaIND': 'sum',
-            'ReservaCAP': 'sum'
+            'ReservaCAP': 'sum', 'key':'first'
         })
 
-        for df, df_name in zip([Df_UHE, Df_UTE, Df_FERV_EOL, Df_FERV_SOL, Df_FERV_BIO, Df_FERV_SIN],
-                            ['PG_UHE', 'PG_UTE', 'PG_EOL', 'PG_SOL', 'PG_BIO', 'PG_SIN']):
+        for df, df_name in zip([Df_UHE, Df_UTE, Df_FERV_EOL, Df_FERV_SOL, Df_FERV_BIO, Df_FERV_SIN],['PG_UHE', 'PG_UTE', 'PG_EOL', 'PG_SOL', 'PG_BIO', 'PG_SIN']):
             DF_Regional_Ger[df_name] = df['PG_MW']
 
-        for df, df_name in zip([Df_UHE, Df_UTE, Df_FERV_EOL, Df_FERV_SOL, Df_FERV_BIO, Df_FERV_SIN],
-                            ['QG_UHE', 'QG_UTE', 'QG_EOL', 'QG_SOL', 'QG_BIO', 'QG_SIN']):
+        for df, df_name in zip([Df_UHE, Df_UTE, Df_FERV_EOL, Df_FERV_SOL, Df_FERV_BIO, Df_FERV_SIN],['QG_UHE', 'QG_UTE', 'QG_EOL', 'QG_SOL', 'QG_BIO', 'QG_SIN']):
             DF_Regional_Ger[df_name] = df['QG_MVAR']
 
-        for df, df_name in zip([Df_UHE, Df_UTE, Df_FERV_EOL, Df_FERV_SOL, Df_FERV_BIO, Df_FERV_SIN],
-                            ['Num_Usinas_UHE', 'Num_Usinas_UTE', 'Num_Usinas_EOL', 'Num_Usinas_SOL',
-                                'Num_Usinas_BIO', 'Num_Usinas_SIN']):
+        for df, df_name in zip([Df_UHE, Df_UTE, Df_FERV_EOL, Df_FERV_SOL, Df_FERV_BIO, Df_FERV_SIN],['Num_Usinas_UHE', 'Num_Usinas_UTE', 'Num_Usinas_EOL', 'Num_Usinas_SOL',  'Num_Usinas_BIO', 'Num_Usinas_SIN']): 
             DF_Regional_Ger[df_name] = df['NUM_USINAS']
 
         DF_Regional_Ger = fill_nan_columns(DF_Regional_Ger, ['PG_UHE', 'PG_UTE', 'PG_EOL', 'PG_SOL', 'PG_BIO', 'PG_SIN',
@@ -674,9 +639,9 @@ class ProcessData():
                                                             'Num_Usinas_SOL', 'Num_Usinas_BIO', 'Num_Usinas_SIN'])
 
         DF_Regional_PQ = self.df_Final_nt.groupby(by=['Dia', 'Hora', 'REG']).agg({
-            'BUS_ID': 'unique', 'MODV_PU': list, 'B0_MVAR': list, 'PG_MW': 'sum', 'QG_MVAR': 'sum', 'PL_MW': 'sum',
-            'QL_MVAR': 'sum', 'SHUNT_INST_IND': 'sum', 'SHUNT_INST_CAP': 'sum'
-        })
+                        'BUS_ID': 'unique', 'MODV_PU': list, 'B0_MVAR': list, 'PG_MW': 'sum', 'QG_MVAR': 'sum', 'PL_MW': 'sum',
+                        'QL_MVAR': 'sum', 'SHUNT_INST_IND': 'sum', 'SHUNT_INST_CAP': 'sum','key':'first'
+                    })
 
         print(f'*** ETAPA: SEPARAÇÃO DE SHUNT ***')
 
@@ -706,7 +671,7 @@ class ProcessData():
         self.DF_REGIONAL_GER = DF_Regional_Ger
         self.DF_REGIONAL_PQ = DF_Regional_PQ
         
-        print(f'*** ETAPA: FINAL DO PROCESSAMENTO DE DADOS ***')
+        print(f'*** FINAL DO PROCESSAMENTO DE DADOS ***')
 
 
 # if __name__ == "__main__":
@@ -718,11 +683,5 @@ class ProcessData():
 #                 'ConvergenceAnalise' : True,
 #                 'busdata' : True,
 #                 }
-#     start_time = time.time()
-#     read_scenarios = Read_Scenarios(path, "C:/Users/david/OneDrive/Documents/FERV_documentos/0_Repositorio_Resultados")
-#     end_time = time.time()
-#     # Calcula la diferencia de tiempo
-#     execution_time = end_time - start_time
-#     print("Tiempo de ejecución:", execution_time, "segundos")
 
 

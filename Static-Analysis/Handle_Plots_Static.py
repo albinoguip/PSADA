@@ -1,9 +1,7 @@
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 import seaborn as sns
 import numpy as np
 import pandas as pd
-
 
 class Plots_Static():
 
@@ -17,7 +15,7 @@ class Plots_Static():
 
     ## Definição de Funções Gerais =========================================================================================
 
-    def plot_boxplot(self, data, labels, title, xlabel, ylabel, limites=None, vert = True, rotation = 0, text = True, nbarra = None):
+    def plot_boxplot(self, data, labels, title, xlabel, ylabel, pathtosave, limites=None, vert = True, rotation = 0, text = True, nbarra = None):
         
         markerfacecolor = dict(markerfacecolor='gray', marker='o')  # El diccionario que define el color y marcador
         fig1, axs = plt.subplots(figsize=(25, 20))
@@ -58,16 +56,16 @@ class Plots_Static():
         plt.yticks(fontsize=25)
         plt.grid(True, linestyle='--', linewidth=0.5, alpha=0.6)
         axs.xaxis.grid(False)
-        nome = self.cenario + '/Plots/BoxPlot Tensão/' + title + '.png'
+        nome = pathtosave + title + '.png'
         plt.savefig(nome, bbox_inches = 'tight')
         if self.svg:
-            nome = self.cenario + '/Plots/BoxPlot Tensão/BoxPlot/' + title + '.svg'
+            nome = pathtosave + title + '.svg'
             plt.savefig(nome)
         plt.close()
 
     def plot_Potencia(self, df_data, eje_y, title, limites=None):
         
-        fig, axs = plt.subplots(nrows=1, figsize=(20, 10), sharex=False)
+        fig, axs = plt.subplots(1, 1, figsize=(20, 10), sharex=False)
 
         axs.plot(df_data.values, color=sns.color_palette("Paired")[1], lw=2.5)
             
@@ -95,6 +93,10 @@ class Plots_Static():
             nome = self.cenario + '/Plots/Reserva/' + title + '.png'
         plt.savefig(nome, bbox_inches = 'tight')
         plt.close()
+
+        # plt.plot([1, 2, 3, 4])
+        # plt.ylabel('some numbers')
+        # plt.show()
 
     def plot_reserva_reg (self, df_data, eje_y, name, title, INDICE, xlimites=None,ylimites=None, order = False):
 
@@ -128,18 +130,16 @@ class Plots_Static():
 
     def plot_Intercambio (self, df_AC, df_DC , eje_y, title, COL_AC, COL_DC, Ylimites=None, Xlimites=  None):
 
-        fig, axs = plt.subplots(nrows=1, figsize=(16, 7))
-        colores1 = [self.paletadcolor[0], self.paletadcolor[1], self.paletadcolor[2],self.paletadcolor[3],self.paletadcolor[4], self.paletadcolor[5]]
-        colores2 = [self.paletadcolor[5], self.paletadcolor[4], self.paletadcolor[3],self.paletadcolor[2],self.paletadcolor[1], self.paletadcolor[0]]
+        fig, axs = plt.subplots(1, 1, figsize=(16, 7))
+        colores1 = self.paletadcolor[:len(COL_AC)]
+        colores2 = self.paletadcolor[:len(COL_DC)][::-1]
 
-        # DF_REGIONAL_GER.loc[:,:,'Nordeste']['PG_EOL'].plot(figsize=(10, 6),lw=1.5, color = paletadcolor[5])
-
-        for idx, fluxo in enumerate(COL_AC): 
-            data_ = df_AC.loc[fluxo]['MW:From-To']
-            axs.plot(data_.values, color=colores1[idx], label= fluxo.replace('_',' '), lw=1.4, linestyle='-')
-        for idx, fluxo in enumerate(COL_DC): 
-            data_ = df_DC.loc[fluxo][' P(MW)']
-            axs.plot(data_.values, color=colores2[idx+1], label= fluxo.replace('_',' '), lw=2.2, linestyle='-')
+        for idx, fluxo in enumerate(COL_AC):
+            data_ = df_AC.loc[fluxo, 'MW:From-To']
+            axs.plot(data_.values, color=colores1[idx], label=fluxo.replace('_', ' '), lw=1.4, linestyle='-')
+        for idx, fluxo in enumerate(COL_DC):
+            data_ = df_DC.loc[fluxo, 'P(MW)']
+            axs.plot(data_.values, color=colores2[idx], label=fluxo.replace('_', ' '), lw=2.2, linestyle='-')
 
         axs.xaxis.set_major_locator(plt.MaxNLocator(12))
         axs.legend(loc='best', fontsize=14)
@@ -148,20 +148,23 @@ class Plots_Static():
         axs.set_xlabel('Semihoras', fontsize=15)
         axs.set_ylabel(eje_y, fontsize=15)
         axs.set_title(title, fontsize=20)
-        if Ylimites != None:
+
+        if Ylimites is not None:
             axs.set_ylim(Ylimites)
-        if Xlimites != None:
+        if Xlimites is not None:
             axs.set_xlim(Xlimites)
+
         axs.grid(True, linestyle='--', linewidth=1, alpha=0.2)
         plt.tight_layout()
-        nome = self.cenario + '/Plots/Intercambios AC-DC/' + title + '.png'
-        plt.savefig(nome)
+
+        plot_dir = f"{self.cenario}/Plots/Intercambios AC-DC/"
+        plt.savefig(f"{plot_dir}{title}.png")
         if self.svg:
-            nome = self.cenario + '/Plots/Intercambios AC-DC/' + title + '.svg'
-            plt.savefig(nome)
+            plt.savefig(f"{plot_dir}{title}.svg")
+
         plt.close()
 
-    def plot_indice_0 (self, df_data, eje_y, name, title, INDICE, xlimites=None,ylimites=None, order = False, ax=None):
+    def plot_indice_0 (self, df_data, eje_y, name, title, INDICE, pathtosave, xlimites=None,ylimites=None, order = False, ax=None):
         
         if ax is None:
             fig, axs = plt.subplots(nrows=1, figsize=(15, 6), sharex=False)
@@ -196,18 +199,18 @@ class Plots_Static():
         axs.grid(True, linestyle='-', linewidth=1.2, alpha=0.4)
         plt.tight_layout()
         if ax is None:
-            nome = self.cenario + '/Plots/Indice/' + name + '.png'
+            nome = pathtosave + name + '.png'
             plt.savefig(nome, bbox_inches = 'tight')
             if self.svg:
-                nome = self.cenario + '/Plots/Indice/' + name + '.svg'
+                nome = pathtosave + name + '.svg'
                 plt.savefig(nome, bbox_inches = 'tight')
             plt.close()
 
         return area_trapezoidal
 
-    def plot_indice (self, df_data, eje_y, name, title, INDICE, xlimites=None,ylimites=None,  order = False):
+    def plot_indice (self, df_data, eje_y, name, title, INDICE, pathtosave, xlimites=None, ylimites=None, order = False):
 
-        fig, axs = plt.subplots(nrows=1, figsize=(10, 6), sharex=False)
+        fig, axs = plt.subplots(1, 1, figsize=(10, 6), sharex=False)
         colores = [sns.color_palette("Paired")[1], sns.color_palette("Paired")[3], sns.color_palette("Paired")[5],sns.color_palette("Paired")[7],sns.color_palette("Paired")[9]]
         region_map = {'Nordeste':'Northeast', 'Norte':'North', 'Sudeste-Centro-Oeste':'SE-CW', 'Sul':'South','AC-RO':'AC-RO'}
         for idx, regiao in enumerate(['Norte','Nordeste','Sudeste-Centro-Oeste', 'Sul', 'AC-RO']):
@@ -251,14 +254,14 @@ class Plots_Static():
             axs.set_ylim(ylimites)
         axs.grid(True, linestyle='-', linewidth=1.2, alpha=0.4)
         plt.tight_layout()
-        nome = self.cenario + '/Plots/Indice/' + name + '.png'
+        nome = pathtosave + name + '.png'
         plt.savefig(nome, bbox_inches = 'tight')
         if self.svg:
-            nome = self.cenario + '/Plots/Indice/' + name + '.svg'
+            nome = pathtosave + name + '.svg'
             plt.savefig(nome)
         plt.close()     
 
-    def plot_indice_1 (self, df_pv, df_pq, eje_y, title, regiao, limites=None, order = True):
+    def plot_indice_1 (self, df_pv, df_pq, eje_y, title, regiao, pathtosave, limites=None, order = True):
 
         fig, axs = plt.subplots(nrows=1, figsize=(10, 6))
         colores = [self.paletadcolor[4], self.paletadcolor[0], self.paletadcolor[3],self.paletadcolor[2],self.paletadcolor[3]]
@@ -290,14 +293,14 @@ class Plots_Static():
             axs.set_ylim(limites)
         axs.grid(True, linestyle='--', linewidth=1, alpha=0.2)
         plt.tight_layout()
-        nome = self.cenario + '/Plots/Indice/' + title + '.png'
+        nome = pathtosave + title + '.png'
         plt.savefig(nome, bbox_inches = 'tight')
         if self.svg:
-            nome = self.cenario + '/Plots/Indice/' + title + '.svg'
+            nome = pathtosave + title + '.svg'
             plt.savefig(nome)       
         plt.close()
 
-    def plot_indice_2 (self, df, eje_y, name ,title, regiao, INDICE, GB, limites=None, order = True):
+    def plot_indice_2 (self, df, eje_y, name ,title, regiao, INDICE, GB, pathtosave, limites=None, order = True):
 
         fig, axs = plt.subplots(nrows=1, figsize=(10, 6))
         labelG = {'BIO': 'Bio', 'EOL': 'Wind', 'PCH': 'SHP','UFV': 'Solar', 'UHE': 'Hydro','UTE': 'Thermal', 'SIN': 'Synchronous C.'}
@@ -322,11 +325,8 @@ class Plots_Static():
                 axs.bar(str(G_bus), data_.values, color=colores[G_bus], label=label, linewidth=2)
 
         axs.legend(loc='best', fontsize=14)
-        # Calculate the number of data points in a day (assuming each day has 48 data points)
         data_points_per_day = 48
-        # Calculate the number of days based on the length of the data
         num_days = len(data_) // data_points_per_day
-        # Set x-axis ticks and labels for each day
         axs.set_xticks([i * data_points_per_day for i in range(num_days)])
         axs.set_xticklabels([f'{i+1}' for i in range(num_days)], fontsize=18, rotation=0, ha='center')
         axs.tick_params(axis='y', labelsize=18)
@@ -341,10 +341,10 @@ class Plots_Static():
             axs.set_ylim(limites)
         axs.grid(True, linestyle='-', linewidth=1.2, alpha=0.4)
         plt.tight_layout()
-        nome = self.cenario + '/Plots/Indice/' + name + '.png'
+        nome = pathtosave + name + '.png'
         plt.savefig(nome, bbox_inches = 'tight')
         if self.svg:
-            nome = self.cenario + '/Plots/Indice/' + name + '.svg'
+            nome = pathtosave + name + '.svg'
             plt.savefig(nome)
         plt.close()
 
@@ -489,3 +489,15 @@ class Plots_Static():
         nomesave = self.cenario + '/Plots/Potencia/MW_' + nome + '.png'
         plt.savefig(nomesave)
         plt.close()
+
+
+
+if __name__ == "__main__":
+
+    path = 'C:/Users/David/OneDrive/Documents/GitHub/Power-System-Static-Analysis/RESULTS/V1A1F2_RESP_FNS_lim_rev1_2026/StaticAnalysis/Data/Potencia/Df_Reserva_PO_MW.csv'
+    data = pd.read_csv(path, index_col=0)
+    cenario = 'C:/Users/David/OneDrive/Documents/GitHub/Power-System-Static-Analysis/RESULTS/V1A1F2_RESP_FNS_lim_rev1_2026/StaticAnalysis/'
+    plot = Plots_Static(cenario)
+    plot.plot_Potencia(data[' Reserve'], 'MW','FIGURA')
+
+
