@@ -74,6 +74,9 @@ class Ui_MainWindow(object):
 
         self._create_dvp()
         
+        self._static_view()
+
+
 
         self.verticalLayout_15.addWidget(self.stackedWidget)
 
@@ -607,6 +610,17 @@ class Ui_MainWindow(object):
         self.LG_row_2_dvp.addWidget(self.estavel, 3, 6, 1, 6)
 
 
+        self.per_cont = QPushButton(self.row_2_dvp)
+        self.per_cont.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.per_cont.setText("Por Contingência")
+        self.LG_row_2_dvp.addWidget(self.per_cont, 4, 0, 1, 6)
+
+        self.per_group = QPushButton(self.row_2_dvp)
+        self.per_group.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.per_group.setText("Por Grupo")
+        self.LG_row_2_dvp.addWidget(self.per_group, 4, 6, 1, 6)
+
+
 
 
         self.verticalLayout_dvp.addWidget(self.row_2_dvp)
@@ -957,6 +971,15 @@ class Ui_MainWindow(object):
         # ADD ALL
 
         self.stackedWidget.addWidget(self.dvp)
+
+
+
+
+
+    def _static_view(self):
+
+
+        pass
 
 
 

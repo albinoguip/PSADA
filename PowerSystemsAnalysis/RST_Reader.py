@@ -151,7 +151,7 @@ class RST_Process():
             df['OP'] = name
         
             df = df[['OP', 'Contigence', 'SIGLA', 'A', 'B']]
-            df = df[df['SIGLA'].isin(['CODE', 'STAB', 'DAMP', 'RCFC', 'NDRC', 'INRT', 'PGTM'])]
+            df = df[df['SIGLA'].isin(['CODE', 'STAB', 'DAMP', 'RCFC', 'RCFG', 'NDRC', 'NDRB', 'INRT', 'PGTM'])]
             df = df.pivot_table(['A', 'B'], ['OP', 'Contigence'], 'SIGLA').reset_index(drop=False)
 
         except:

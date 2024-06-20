@@ -258,32 +258,33 @@ _, _ = DG.ChangeLoad(carga='D:/Modeling/BASE/CARGA.csv', min_load=0.30, max_load
 
 
 
-
-
+# D:/BATCH
+# C:\Users\PC-67\Desktop\BATCH_16
 # batchs = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16']
+batchs = ['15']
 
-# for i in batchs:
+for i in batchs:
 
-#     path_script = f'D:/BATCH/BATCH_{i}/NTW_automation.txt'
+    path_script = f'D:/BATCH/BATCH_{i}/NTW_automation.txt'
 
-#     with open(path_script, 'w') as f:        
+    with open(path_script, 'w') as f:        
 
-#         casos = [f.split('.')[0] for f in os.listdir(f'D:/BATCH/BATCH_{i}/Conv/') if ('.ntw' in f or '.NTW' in f)]
+        casos = [f.split('.')[0] for f in os.listdir(f'D:/BATCH/BATCH_{i}/Conv/') if ('.ntw' in f or '.NTW' in f)]
 
-#         os.makedirs(f"D:/BATCH/BATCH_{i}/Conv/NEWTON/", exist_ok=True)
+        os.makedirs(f"D:/BATCH/BATCH_{i}/Conv/NEWTON/", exist_ok=True)
 
-#         for caso in tqdm(casos):
+        for caso in tqdm(casos):
 
-#             actual = caso.split('_')[0]
+            actual = caso.split('_')[0]
 
-#             f.write(f'OPEN "D:/Organon.prm"')
-#             f.write('\n')
-#             f.write(f'OPEN "D:/BATCH/BATCH_{i}/Conv/{actual}.ntw"')
-#             f.write('\n')
-#             f.write('NEWTON')
-#             f.write('\n')
-#             f.write(f'SAVE "D:/BATCH/BATCH_{i}/Conv/NEWTON/{actual}_NEWTON.ntw"')
-#             f.write('\n')
+            f.write(f'OPEN "C:/Users/PC-67/Desktop/Organon.prm"')
+            f.write('\n')
+            f.write(f'OPEN "C:/Users/PC-67/Desktop/BATCH_{i}/Conv/{actual}.ntw"')
+            f.write('\n')
+            f.write('NEWTON')
+            f.write('\n')
+            f.write(f'SAVE "C:/Users/PC-67/Desktop/BATCH_{i}/Conv/NEWTON/{actual}_NEWTON.ntw"')
+            f.write('\n')
 
 
 

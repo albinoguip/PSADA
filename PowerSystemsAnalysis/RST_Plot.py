@@ -16,66 +16,28 @@ pd.set_option('mode.chained_assignment', None)
 
 class RST_Plot():
 
-    def __init__(self, report_path, eol=None, sol=None, save_path=None):
+    def __init__(self, report_path, eol=None, sol=None, save_path=None, code_filtro=None):
 
         self.save_path = save_path
         self.data      = pd.read_csv(report_path)
-
-        PO = []
-        with open('D:/PowerSystems/Sistemas/SIN/MEDIA_3/PO_Inseguros2.txt') as f:
-            for line in f:
-                lin        = line.strip().replace('\'', '').replace('\"', '').replace('(', '').replace(')', '').replace(' ', '').split(',')[:2]
-                day, hour  = int(lin[0]), lin[1]
-                PO.append(f'D_{day}_H_{hour}')
-
-        self.data = self.data[~self.data['OP'].isin(PO)]
  
         self.codigo   = self.data[self.data['A_RCFC'].isna()].reset_index(drop=True)
         self.estavel  = self.data[~self.data['A_RCFC'].isna()].reset_index(drop=True)
-        self.instavel = self.data[self.data['A_STAB'] == 1].reset_index(drop=True)
-        self.instavel = self.instavel[self.instavel['A_CODE'].isin([2, 3])].reset_index(drop=True)
+        self.instavel = self.data[self.data['A_STAB'] >= 1].reset_index(drop=True)
+        self.instavel = self.instavel[self.instavel['A_CODE'].isin([2, 3, 4])].reset_index(drop=True)
 
-        print(self.data[(self.data['Contigence'] == 1) & (self.data['OP'] == 'D_15_H_12-00')])#(self.data['Contigence'] == 1) & 
-        print(self.instavel[self.instavel['Contigence'] == 1])
-        print(len(self.instavel[self.instavel['Contigence'] == 1]))
+        print(self.instavel['A_CODE'].unique())
 
-        # self.instavel = self.instavel[~self.instavel['OP'].isin(['D_27_H_08-00', 'D_17_H_23-30'])].reset_index(drop=True)
-        # self.instavel = self.instavel[self.instavel['A_CODE'] == 3].reset_index(drop=True)
-        # self.instavel = self.instavel[self.instavel['B_STAB'] == 614].reset_index(drop=True)
+        if code_filtro:
+            self.instavel = self.instavel[self.instavel['A_CODE'].isin(code_filtro)].reset_index(drop=True)
 
-        # print(self.instavel)
+        print(self.instavel)
 
         horas = {'00-00', '00-30', '01-00', '01-30', '02-00', '02-30', '03-00', '03-30', '04-00', '04-30', '05-00', '05-30', '06-00', '06-30',
                  '07-00', '07-30', '08-00', '08-30', '09-00', '09-30', '10-00', '10-30', '11-00', '11-30', '12-00', '12-30', '13-00', '13-30', 
                  '14-00', '14-30', '15-00', '15-30', '16-00', '16-30', '17-00', '17-30', '18-00', '18-30', '19-00', '19-30', '20-00', '20-30',
                  '21-00', '21-30', '22-00', '22-30', '23-00', '23-30'}
         
-        # print(f" +--------------------+-----------+")
-        # print(f" | PONTOS DE OPERAÇÃO |   {len(self.data['OP'].unique())}    |")
-        # print(f" +--------------------+-----------+")
-        # print(f" | CONTINGÊNCIAS      |   {len(self.data['Contigence'].unique())}      |")
-        # print(f" +--------------------+-----------+")        
-        # print(f" | CENARIOS           |   {len(self.data)}   |")
-        # print(f" +--------------------+-----------+")
-        # print(f" | CODIGOS (6 & 8)    |   {len(self.codigo[self.codigo['A_CODE'].isin([6,8])])}       |")
-        # print(f" +--------------------+-----------+")
-        # print(f" | ESTÁVEIS           |   {len(self.estavel)}   |")
-        # print(f" +--------------------+-----------+")
-        # print(f" | INSTÁVEIS          |   {len(self.instavel)}     |")
-        # print(f" +--------------------+-----------+")
-
-        # for dia in self.data['Dia'].unique():
-
-        #     df_dia = self.data[self.data['Dia'] == dia]
-
-        #     # print(dia, len(df_dia['Hora'].unique()))
-
-        #     if len(df_dia['Hora'].unique()) < 48:
-        #         print(dia, horas - set(df_dia['Hora'].unique()))
-
-        # print(len(self.data['OP'].unique()))
-
-        # COLORS
 
         # colors    = ['lightsteelblue', 'royalblue', 'lightgreen', 'green', 'tan', 'darkgoldenrod', 'thistle', 'purple', 'lightcoral', 'red']
         colors    = ['royalblue', 'navy', 'lightgreen', 'green', 'tan', 'darkgoldenrod', 'thistle', 'purple', 'lightcoral', 'red']

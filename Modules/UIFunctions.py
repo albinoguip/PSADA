@@ -241,6 +241,27 @@ class UIFunctions(MainWindow):
         RP.plot_inst_histogram_CODE(show=False)
         RP.plot_code_histogram_CODE(show=False)
 
+        for code in [2, 3, 4]:
+
+            save_path = '/'.join(self.file_vars.split('/')[:-1]) + f'/IMAGENS/INSTAVEL/CODE_{code}/'
+
+            if not os.path.exists(save_path):
+                os.makedirs(save_path)
+
+            RP = RST_Plot_instavel(report_path  = self.file_vars,
+                                    save_path   = save_path,
+                                    code_filtro = [code])
+
+            RP.plot_inst_days_hours(show=False)
+            RP.plot_inst_contigence_bus(show=False)
+            RP.plot_inst_contigence_op(show=False)
+            RP.plot_inst_histogram_contingence(show=False)
+            RP.plot_inst_histogram_operation_points(show=False)
+            RP.plot_inst_histogram_day(show=False)
+            RP.plot_inst_histogram_hour(show=False)
+            RP.plot_inst_histogram_CODE(show=False)
+            RP.plot_code_histogram_CODE(show=False)
+
 
     def estavel_button(self): 
 
@@ -267,9 +288,6 @@ class UIFunctions(MainWindow):
 
 
 
-
-
-
         save_path = '/'.join(self.file_vars.split('/')[:-1]) + '/IMAGENS/ESTAVEL/'
 
         if not os.path.exists(save_path):
@@ -284,6 +302,30 @@ class UIFunctions(MainWindow):
         RP.plot_est_duplo_hist_RCFC_NDRC()
         RP.plot_est_duplo_hist_NDRC_NDRC()
 
+
+
+    def per_cont_button(self): 
+
+
+
+        tipos = {'CC e Abertura de Linha'                       : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], #1, 8, 9
+                'Perda de Geração'                             : [11, 12, 13, 14, 15],
+                'Bloqueio de Polo'                             : [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+                'Falha de comutação nos elos HVDC'             : [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 46, 47],
+                'Perda dupla de linha'                         : [44, 45],
+                'Curto na LT CC seguido do bloqueio do bipolo' : [48, 49],
+                'Bloqueio (ESOF) do bipolo com FCB'            : [50, 51],}
+
+
+        cc = tipos['CC e Abertura de Linha']
+        pg = tipos['Perda de Geração']
+        bp = tipos['Bloqueio de Polo']
+        fc = tipos['Falha de comutação nos elos HVDC']
+        dl = tipos['Perda dupla de linha']
+        cb = tipos['Curto na LT CC seguido do bloqueio do bipolo']
+        es = tipos['Bloqueio (ESOF) do bipolo com FCB']
+
+        conts = [cc, pg, bp, fc, dl, cb, es]
 
 
         for i in tqdm(range(0, 52)):
@@ -376,6 +418,29 @@ class UIFunctions(MainWindow):
             RP.NDRC_comparation(x_variable='HRSV'   , xlabel='HRSV', title='Frequency Nadir x HRSV [ILHA 1]', contigence=[i], mean=False , round=None  , islands=[1], single=True , show=False, line=False)
             RP.NDRC_comparation(x_variable='Reserva', xlabel='Generation Reserve [MW]', title='Frequency Nadir x Generation Reserve', contigence=[i], mean=False , round=None  , islands=[1], single=True , show=False, line=False)
 
+
+    def per_group_button(self): 
+
+
+
+        tipos = {'CC e Abertura de Linha'                       : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], #1, 8, 9
+                'Perda de Geração'                             : [11, 12, 13, 14, 15],
+                'Bloqueio de Polo'                             : [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+                'Falha de comutação nos elos HVDC'             : [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 46, 47],
+                'Perda dupla de linha'                         : [44, 45],
+                'Curto na LT CC seguido do bloqueio do bipolo' : [48, 49],
+                'Bloqueio (ESOF) do bipolo com FCB'            : [50, 51],}
+
+
+        cc = tipos['CC e Abertura de Linha']
+        pg = tipos['Perda de Geração']
+        bp = tipos['Bloqueio de Polo']
+        fc = tipos['Falha de comutação nos elos HVDC']
+        dl = tipos['Perda dupla de linha']
+        cb = tipos['Curto na LT CC seguido do bloqueio do bipolo']
+        es = tipos['Bloqueio (ESOF) do bipolo com FCB']
+
+        conts = [cc, pg, bp, fc, dl, cb, es]
 
         for i in tqdm(range(0, 7)):
 
