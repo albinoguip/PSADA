@@ -258,9 +258,10 @@ _, _ = DG.ChangeLoad(carga='D:/Modeling/BASE/CARGA.csv', min_load=0.30, max_load
 
 
 
-
-
+# D:/BATCH
+# C:\Users\PC-67\Desktop\BATCH_16
 # batchs = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16']
+# batchs = ['15']
 
 # for i in batchs:
 
@@ -276,13 +277,13 @@ _, _ = DG.ChangeLoad(carga='D:/Modeling/BASE/CARGA.csv', min_load=0.30, max_load
 
 #             actual = caso.split('_')[0]
 
-#             f.write(f'OPEN "D:/Organon.prm"')
+#             f.write(f'OPEN "C:/Users/PC-67/Desktop/Organon.prm"')
 #             f.write('\n')
-#             f.write(f'OPEN "D:/BATCH/BATCH_{i}/Conv/{actual}.ntw"')
+#             f.write(f'OPEN "C:/Users/PC-67/Desktop/BATCH_{i}/Conv/{actual}.ntw"')
 #             f.write('\n')
 #             f.write('NEWTON')
 #             f.write('\n')
-#             f.write(f'SAVE "D:/BATCH/BATCH_{i}/Conv/NEWTON/{actual}_NEWTON.ntw"')
+#             f.write(f'SAVE "C:/Users/PC-67/Desktop/BATCH_{i}/Conv/NEWTON/{actual}_NEWTON.ntw"')
 #             f.write('\n')
 
 
@@ -298,13 +299,30 @@ _, _ = DG.ChangeLoad(carga='D:/Modeling/BASE/CARGA.csv', min_load=0.30, max_load
 
 
 
-# batchs = ['02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16']
+# batchs = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']#, '11', '12', '13', '14', '15', '16']
 
 # # # f'D:/BATCH/BATCH_{batch}/OPF/'
 
 # for batch in batchs:
 
-#     files = [f.split('.')[0] for f in os.listdir(f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/') if 'ntw' in f]
+#     files = [f.split('.')[0] for f in os.listdir(f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/') if ('ntw' in f.lower())]
+
+
+#     shutil.copyfile('D:/Modeling/MOD/bus68.dyn', f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/bus68.dyn')
+#     shutil.copyfile('D:/Modeling/MOD/bus68.evt', f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/bus68.evt')
+#     shutil.copyfile('D:/Organon.prm'           , f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/Organon.prm')
+
+#     for caso in tqdm(files):
+
+#         WorkData(save_path=f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/{caso}.dsa', lista=['Organon.prm', f'{caso}.ntw', f'bus68.dyn', 'bus68.evt'])
+
+
+# batchs = ['11', '12', '13', '14', '15', '16']
+
+# for batch in batchs:
+
+#     files = [f.split('.')[0] for f in os.listdir(f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/') if ('ntw' in f.lower())]
+
 
 #     shutil.copyfile('D:/Modeling/MOD/bus68.dyn', f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/bus68.dyn')
 #     shutil.copyfile('D:/Modeling/MOD/bus68.evt', f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/bus68.evt')
@@ -332,28 +350,34 @@ _, _ = DG.ChangeLoad(carga='D:/Modeling/BASE/CARGA.csv', min_load=0.30, max_load
 
 
 
-# path_script = 'D:/RST_automation.txt'
-# with open(path_script, 'w') as f:
 
-#     for i in [21]: 
 
-#         print(i)
+batchs = ['01']#, '02', '03', '04', '05', '06', '07', '08', '09', '10']#, '11', '12', '13', '14', '15', '16']
 
-#         casos   = [f for f in os.listdir(f'D:/BATCH/BATCH_{i}/NEWTON/') if '.dsa' in f]
-#         rodados = [f.replace('_NEWTON.rst', '.dsa') for f in os.listdir(f'D:/BATCH/BATCH_{i}/NEWTON/') if '.rst' in f]
-#         casos   = list(set(casos) - set(rodados))
+for batch in batchs: 
+    os.makedirs(f'D:/BATCH/BATCH_{batch}/Conv/DSA/', exist_ok=True)
 
+for batch in batchs: 
+
+    path_script = f'D:/BATCH/BATCH_{batch}/RST_automation.txt'
+    with open(path_script, 'w') as f:
+
+        casos   = [f for f in os.listdir(f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/') if '.dsa' in f]
+        rodados = [f.replace('.rst', '.dsa') for f in os.listdir(f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/') if '.rst' in f] # .replace('_NEWTON.rst', '.dsa')
+        casos   = list(set(casos) - set(rodados))
+
+        print(len(casos), len(rodados), casos[0], rodados[0])
         
 
-#         for caso in tqdm(casos):
+        for caso in tqdm(casos):
 
-#             actual = caso.split('.')[0]
+            actual = caso.split('.')[0]
 
-#             f.write(f'OPEN "D:/BATCH/BATCH_{i}/NEWTON/Organon.prm"')
-#             f.write('\n')
-#             f.write(f'OPEN "D:/BATCH/BATCH_{i}/NEWTON/{actual}.dsa"')
-#             f.write('\n')
-#             f.write('DSA DOP')
-#             f.write('\n')
-#             f.write(f'SAVE "D:/BATCH/BATCH_{i}/NEWTON/{actual}D.ntw"')
-#             f.write('\n')
+            f.write(f'OPEN "D:/BATCH/BATCH_{batch}/Conv/NEWTON/Organon.prm"')
+            f.write('\n')
+            f.write(f'OPEN "D:/BATCH/BATCH_{batch}/Conv/NEWTON/{actual}.dsa"')
+            f.write('\n')
+            f.write('DSA DOP')
+            f.write('\n')
+            f.write(f'SAVE "D:/BATCH/BATCH_{batch}/Conv/DSA/{actual}.ntw"')
+            f.write('\n')

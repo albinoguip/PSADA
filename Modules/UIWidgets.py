@@ -72,8 +72,14 @@ class Ui_MainWindow(object):
         self._create_page_container()
         self._create_home()
 
-        self._create_dvp()
+        self._create_dynamic()
+        self._create_static()
+        self._create_dynamic_static()
+        self._create_network()
         
+        self._static_view()
+
+
 
         self.verticalLayout_15.addWidget(self.stackedWidget)
 
@@ -279,6 +285,42 @@ class Ui_MainWindow(object):
         self.btn_dynamic.setLayoutDirection(Qt.LeftToRight)
         self.btn_dynamic.setStyleSheet(u"background-image: url(./images/1.png); color: black;")
         self.verticalLayout_8.addWidget(self.btn_dynamic)
+
+
+        self.btn_static = QPushButton(self.topMenu)
+        self.btn_static.setObjectName(u"btn_static")
+        self.sizePolicy.setHeightForWidth(self.btn_static.sizePolicy().hasHeightForWidth())
+        self.btn_static.setSizePolicy(self.sizePolicy)
+        self.btn_static.setMinimumSize(QSize(0, 45))
+        self.btn_static.setFont(self.font0)
+        self.btn_static.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_static.setLayoutDirection(Qt.LeftToRight)
+        self.btn_static.setStyleSheet(u"background-image: url(./images/1.png); color: black;")
+        self.verticalLayout_8.addWidget(self.btn_static)
+
+
+        self.btn_dynamic_static = QPushButton(self.topMenu)
+        self.btn_dynamic_static.setObjectName(u"btn_dynamic_static")
+        self.sizePolicy.setHeightForWidth(self.btn_dynamic_static.sizePolicy().hasHeightForWidth())
+        self.btn_dynamic_static.setSizePolicy(self.sizePolicy)
+        self.btn_dynamic_static.setMinimumSize(QSize(0, 45))
+        self.btn_dynamic_static.setFont(self.font0)
+        self.btn_dynamic_static.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_dynamic_static.setLayoutDirection(Qt.LeftToRight)
+        self.btn_dynamic_static.setStyleSheet(u"background-image: url(./images/1.png); color: black;")
+        self.verticalLayout_8.addWidget(self.btn_dynamic_static)
+
+
+        self.btn_network = QPushButton(self.topMenu)
+        self.btn_network.setObjectName(u"btn_network")
+        self.sizePolicy.setHeightForWidth(self.btn_network.sizePolicy().hasHeightForWidth())
+        self.btn_network.setSizePolicy(self.sizePolicy)
+        self.btn_network.setMinimumSize(QSize(0, 45))
+        self.btn_network.setFont(self.font0)
+        self.btn_network.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_network.setLayoutDirection(Qt.LeftToRight)
+        self.btn_network.setStyleSheet(u"background-image: url(./images/1.png); color: black;")
+        self.verticalLayout_8.addWidget(self.btn_network)
      
 
         
@@ -491,7 +533,7 @@ class Ui_MainWindow(object):
 
 
 
-    def _create_dvp(self):
+    def _create_dynamic(self):
 
         font1 = QFont()
         font1.setFamily(u"Times New Roman")
@@ -528,7 +570,7 @@ class Ui_MainWindow(object):
         self.row_1_dvp.setObjectName(u"row_1_dvp")
         self.row_1_dvp.setFrameShape(QFrame.StyledPanel)
         self.row_1_dvp.setFrameShadow(QFrame.Raised)
-        self.row_1_dvp.setMaximumHeight(150)
+        self.row_1_dvp.setMaximumHeight(110)
 
         self.LG_row_1_dvp = QGridLayout(self.row_1_dvp)
         self.LG_row_1_dvp.setSpacing(5)
@@ -577,6 +619,7 @@ class Ui_MainWindow(object):
         self.row_2_dvp.setObjectName(u"row_3_dvp")
         self.row_2_dvp.setFrameShape(QFrame.StyledPanel)
         self.row_2_dvp.setFrameShadow(QFrame.Raised)
+        self.row_2_dvp.setMaximumHeight(110)
 
         self.LG_row_2_dvp = QGridLayout(self.row_2_dvp)
         self.LG_row_2_dvp.setSpacing(5)
@@ -607,6 +650,17 @@ class Ui_MainWindow(object):
         self.LG_row_2_dvp.addWidget(self.estavel, 3, 6, 1, 6)
 
 
+        self.per_cont = QPushButton(self.row_2_dvp)
+        self.per_cont.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.per_cont.setText("Por Contingência")
+        self.LG_row_2_dvp.addWidget(self.per_cont, 4, 0, 1, 6)
+
+        self.per_group = QPushButton(self.row_2_dvp)
+        self.per_group.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.per_group.setText("Por Grupo")
+        self.LG_row_2_dvp.addWidget(self.per_group, 4, 6, 1, 6)
+
+
 
 
         self.verticalLayout_dvp.addWidget(self.row_2_dvp)
@@ -622,6 +676,7 @@ class Ui_MainWindow(object):
         self.row_3_dvp.setObjectName(u"row_3_dvp")
         self.row_3_dvp.setFrameShape(QFrame.StyledPanel)
         self.row_3_dvp.setFrameShadow(QFrame.Raised)
+        self.row_3_dvp.setMinimumHeight(300)
 
         self.LG_row_3_dvp = QGridLayout(self.row_3_dvp)
         self.LG_row_3_dvp.setSpacing(5)
@@ -633,82 +688,81 @@ class Ui_MainWindow(object):
 
 
 
-        
-        self.dvp_concatenate = QPushButton(self.row_3_dvp)
-        self.dvp_concatenate.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.dvp_concatenate.setText("Concatenate")
-        self.LG_row_3_dvp.addWidget(self.dvp_concatenate, 0, 0, 1, 2)
 
-        self.dvp_select_data = QComboBox(self.row_3_dvp)
-        # self.dvp_select_data.addItems(plots_list.keys())
-        self.dvp_select_data.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_dvp.addWidget(self.dvp_select_data, 0, 2, 1, 3)
+        self.dynamic_x = QComboBox(self.row_3_dvp)
+        self.dynamic_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_dvp.addWidget(self.dynamic_x, 0, 0, 1, 3)
+
+        self.dynamic_y = QComboBox(self.row_3_dvp)
+        self.dynamic_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_dvp.addWidget(self.dynamic_y, 0, 3, 1, 3)
 
 
-        self.dvp_select_plot = QComboBox(self.row_3_dvp)
-        # self.dvp_select_plot.addItems(plots_list.keys())
-        self.dvp_select_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_dvp.addWidget(self.dvp_select_plot, 1, 0, 1, 2)
+        self.dynamic_c = QComboBox(self.row_3_dvp)
+        self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_dvp.addWidget(self.dynamic_c, 0, 6, 1, 3)
 
-        self.speed_select = QComboBox(self.row_3_dvp)
-        # self.speed_select.addItems(['None', '+', '-'])
-        self.speed_select.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_dvp.addWidget(self.speed_select, 1, 2, 1, 1)
 
-        self.dvp_see_plot = QPushButton(self.row_3_dvp)
-        self.dvp_see_plot.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.dvp_see_plot.setText("Plot")
-        self.LG_row_3_dvp.addWidget(self.dvp_see_plot, 1, 3, 1, 2)
+
+        self.dynamic_plot = QComboBox(self.row_3_dvp)
+        self.dynamic_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_dvp.addWidget(self.dynamic_plot, 1, 0, 1, 3)
+
+        self.dynamic_stats = QComboBox(self.row_3_dvp)
+        self.dynamic_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_dvp.addWidget(self.dynamic_stats, 1, 3, 1, 3)
+
+
+        # self.dynamic_c = QComboBox(self.row_3_dvp)
+        # self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_dvp.addWidget(self.dynamic_c, 0, 6, 1, 3)
+
+
+
+
+        self.dynamic_plot_button = QPushButton(self.row_3_dvp)
+        self.dynamic_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_plot_button.setText("Plot")
+        self.LG_row_3_dvp.addWidget(self.dynamic_plot_button, 0, 9, 2, 3)
+
+
+
+
+
+
+        self.dvp_combo_variable = ExtendedComboBox(self.row_3_dvp)
+        self.dvp_combo_variable.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_dvp.addWidget(self.dvp_combo_variable, 2, 0, 1, 3)
+
+        self.dvp_combo_sinal = QComboBox(self.row_3_dvp)
+        self.dvp_combo_sinal.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_dvp.addWidget(self.dvp_combo_sinal, 2, 3, 1, 3)
+
+
+        self.dvp_label_value = QLineEdit(self.row_3_dvp)
+        self.dvp_label_value.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_dvp.addWidget(self.dvp_label_value, 2, 6, 1, 3)
+
+        self.dvp_button_apply_filter = QPushButton(self.row_3_dvp)
+        self.dvp_button_apply_filter.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dvp_button_apply_filter.setText("Apply Filter")
+        self.LG_row_3_dvp.addWidget(self.dvp_button_apply_filter, 2, 9, 1, 3)
+
+
 
         # ===================================================================================
 
-        self.sc = MplCanvas(self, width=5, height=4, dpi=100)
+        self.sc = MplCanvas(self, width=12, height=12, dpi=100)
         self.sc.axes.plot([0,1,2,3,4], [10,1,20,3,40])
 
         self.toolbar = NavigationToolbar2QT(self.sc)
 
-        self.LG_row_3_dvp.addWidget(self.toolbar, 2, 0, 1, 5)
-        self.LG_row_3_dvp.addWidget(self.sc     , 3, 0, 3, 5)
+        self.LG_row_3_dvp.addWidget(self.toolbar, 3, 0,  1, 12)
+        self.LG_row_3_dvp.addWidget(self.sc     , 4, 0, 12, 12)
 
         # ===================================================================================
         self.verticalLayout_dvp.addWidget(self.row_3_dvp)
 
-        # ROW 4
-
-        self.row_4_dvp = QFrame(self.infos_dvp)
-        self.row_4_dvp.setObjectName(u"row_3_dvp")
-        self.row_4_dvp.setFrameShape(QFrame.StyledPanel)
-        self.row_4_dvp.setFrameShadow(QFrame.Raised)
-        self.row_4_dvp.setMaximumHeight(100)
-
-        self.LG_row_4_dvp = QGridLayout(self.row_4_dvp)
-        self.LG_row_4_dvp.setSpacing(5)
-        self.LG_row_4_dvp.setObjectName(u"LG_row_3_dvp")
-        self.LG_row_4_dvp.setContentsMargins(0, 0, 1, 1)
-
-
-        self.dvp_combo_variable = ExtendedComboBox(self.row_4_dvp)
-        self.dvp_combo_variable.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_4_dvp.addWidget(self.dvp_combo_variable, 0, 0, 1, 2)
-
-        self.dvp_combo_sinal = QComboBox(self.row_4_dvp)
-        self.dvp_combo_sinal.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_4_dvp.addWidget(self.dvp_combo_sinal, 0, 2, 1, 2)
-
-
-        self.dvp_label_value = QLineEdit(self.row_4_dvp)
-        self.dvp_label_value.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_4_dvp.addWidget(self.dvp_label_value, 0, 4, 1, 2)
-
-        self.dvp_button_apply_filter = QPushButton(self.row_4_dvp)
-        self.dvp_button_apply_filter.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.dvp_button_apply_filter.setText("Apply Filter")
-        self.LG_row_4_dvp.addWidget(self.dvp_button_apply_filter, 0, 6, 1, 2)
- 
-
-
-
-        self.verticalLayout_dvp.addWidget(self.row_4_dvp)
 
         self.mainLayout_dvp.addWidget(self.infos_dvp)
 
@@ -725,118 +779,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_pdf_dvp.setObjectName(u"verticalLayout_pdf_dvp")
         self.verticalLayout_pdf_dvp.setContentsMargins(10, 10, 10, 10)
 
-        # # ROW 2
-
-        # self.row_2_dvp = QFrame(self.pdf_dvp)
-        # self.row_2_dvp.setObjectName(u"row_2_dvp")
-        # # self.row_2_dvp.setMinimumSize(QSize(500, 110))
-        # self.row_2_dvp.setFrameShape(QFrame.StyledPanel)
-        # self.row_2_dvp.setFrameShadow(QFrame.Raised)
-        # # self.row_2_dvp.setMaximumHeight(100)
-
-        # self.LG_row_2_dvp = QGridLayout(self.row_2_dvp)
-        # self.LG_row_2_dvp.setSpacing(5)
-        # self.LG_row_2_dvp.setObjectName(u"LG_row_2_dvp")
-        # self.LG_row_2_dvp.setContentsMargins(0, 0, 1, 1)
-
-
-        # # 00
-        # self.dvp_infos00 = QLabel(self.row_2_dvp)
-        # self.dvp_infos00.setObjectName(u"labelVersion_3")
-        # self.dvp_infos00.setStyleSheet(u"color: rgb(10, 10, 10);")
-        # self.dvp_infos00.setLineWidth(1)
-        # self.dvp_infos00.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos00, 0, 0, 1, 1)
-        # self.dvp_infos00_l = QLineEdit(self.row_1_dvp)
-        # self.dvp_infos00_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos00_l, 0, 1, 1, 3)
-
-        # # 01
-        # self.dvp_infos01 = QLabel(self.row_2_dvp)
-        # self.dvp_infos01.setObjectName(u"labelVersion_3")
-        # self.dvp_infos01.setStyleSheet(u"color: rgb(10, 10, 10);")
-        # self.dvp_infos01.setLineWidth(1)
-        # self.dvp_infos01.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos01, 0, 4, 1, 1)
-        # self.dvp_infos01_l = QLineEdit(self.row_1_dvp)
-        # self.dvp_infos01_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos01_l, 0, 5, 1, 3)
-
-
-        # # 10
-        # self.dvp_infos10 = QLabel(self.row_2_dvp)
-        # self.dvp_infos10.setObjectName(u"labelVersion_3")
-        # self.dvp_infos10.setStyleSheet(u"color: rgb(10, 10, 10);")
-        # self.dvp_infos10.setLineWidth(1)
-        # self.dvp_infos10.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos10, 1, 0, 1, 1)
-        # self.dvp_infos10_l = QLineEdit(self.row_1_dvp)
-        # self.dvp_infos10_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos10_l, 1, 1, 1, 3)
-
-        # # 11
-        # self.dvp_infos11 = QLabel(self.row_2_dvp)
-        # self.dvp_infos11.setObjectName(u"labelVersion_3")
-        # self.dvp_infos11.setStyleSheet(u"color: rgb(10, 10, 10);")
-        # self.dvp_infos11.setLineWidth(1)
-        # self.dvp_infos11.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos11, 1, 4, 1, 1)
-        # self.dvp_infos11_l = QLineEdit(self.row_1_dvp)
-        # self.dvp_infos11_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos11_l, 1, 5, 1, 3)
-
-        # # 20
-        # self.dvp_infos20 = QLabel(self.row_2_dvp)
-        # self.dvp_infos20.setObjectName(u"labelVersion_3")
-        # self.dvp_infos20.setStyleSheet(u"color: rgb(10, 10, 10);")
-        # self.dvp_infos20.setLineWidth(1)
-        # self.dvp_infos20.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos20, 2, 0, 1, 1)
-        # self.dvp_infos20_l = QLineEdit(self.row_1_dvp)
-        # self.dvp_infos20_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos20_l, 2, 1, 1, 3)
-
-        # # 21
-        # self.dvp_infos21 = QLabel(self.row_2_dvp)
-        # self.dvp_infos21.setObjectName(u"labelVersion_3")
-        # self.dvp_infos21.setStyleSheet(u"color: rgb(10, 10, 10);")
-        # self.dvp_infos21.setLineWidth(1)
-        # self.dvp_infos21.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos21, 2, 4, 1, 1)
-        # self.dvp_infos21_l = QLineEdit(self.row_1_dvp)
-        # self.dvp_infos21_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos21_l, 2, 5, 1, 3)
-
-
-        # # 3-
-        # self.dvp_infos30 = QLabel(self.row_2_dvp)
-        # self.dvp_infos30.setObjectName(u"labelVersion_3")
-        # self.dvp_infos30.setStyleSheet(u"color: rgb(10, 10, 10);")
-        # self.dvp_infos30.setLineWidth(1)
-        # self.dvp_infos30.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos30, 3, 0, 1, 1)
-        # self.dvp_infos30_l = QLineEdit(self.row_1_dvp)
-        # self.dvp_infos30_l.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        # self.LG_row_2_dvp.addWidget(self.dvp_infos30_l, 4, 0, 10, 8)
-
-
-
-        # self.verticalLayout_pdf_dvp.addWidget(self.row_2_dvp)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      
 
 
         self.d_row_1_dvp = QFrame(self.pdf_dvp)
@@ -946,17 +889,1129 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_pdf_dvp.addWidget(self.d_row_1_dvp)
         self.mainLayout_dvp.addWidget(self.pdf_dvp)
-
-
-
-
-
-
-        
+       
 
         # ADD ALL
 
         self.stackedWidget.addWidget(self.dvp)
+
+
+
+
+
+    def _create_static(self):
+
+        font1 = QFont()
+        font1.setFamily(u"Times New Roman")
+        font1.setPointSize(120)
+        font1.setBold(True)
+        font1.setItalic(False)
+        self.styleSheet.setFont(font1)
+
+        self.STATIC = QWidget()
+        self.STATIC.setObjectName(u"STATIC")
+        self.STATIC.setStyleSheet(u"b")
+
+        self.mainLayout_STATIC = QHBoxLayout(self.STATIC)
+        self.mainLayout_STATIC.setSpacing(10)
+        self.mainLayout_STATIC.setObjectName(u"mainLayout_STATIC")
+        self.mainLayout_STATIC.setContentsMargins(10, 10, 10, 10)
+
+        # === ESQUERDA
+
+        self.infos_STATIC = QFrame(self.STATIC)
+        self.infos_STATIC.setObjectName(u"row_1")
+        self.infos_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.infos_STATIC.setFrameShadow(QFrame.Raised)
+        self.infos_STATIC.setMinimumWidth(800)
+
+        self.verticalLayout_STATIC = QVBoxLayout(self.infos_STATIC)
+        self.verticalLayout_STATIC.setSpacing(10)
+        self.verticalLayout_STATIC.setObjectName(u"verticalLayout_STATIC")
+        self.verticalLayout_STATIC.setContentsMargins(10, 10, 10, 10)
+
+        # ROW 1
+
+        self.row_1_STATIC = QFrame(self.infos_STATIC)
+        self.row_1_STATIC.setObjectName(u"row_1_STATIC")
+        self.row_1_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.row_1_STATIC.setFrameShadow(QFrame.Raised)
+        self.row_1_STATIC.setMaximumHeight(110)
+
+        self.LG_row_1_STATIC = QGridLayout(self.row_1_STATIC)
+        self.LG_row_1_STATIC.setSpacing(5)
+        self.LG_row_1_STATIC.setObjectName(u"LG_row_1_STATIC")
+        self.LG_row_1_STATIC.setContentsMargins(0, 0, 1, 1)
+
+
+
+
+        self.data_match_local_search_button = QPushButton(self.row_1_STATIC)
+        self.data_match_local_search_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.data_match_local_search_button.setText("Search")
+        self.LG_row_1_STATIC.addWidget(self.data_match_local_search_button, 0, 0, 1, 2)
+
+        self.data_match_qline_files = QLineEdit(self.row_1_STATIC)
+        self.data_match_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_1_STATIC.addWidget(self.data_match_qline_files, 0, 2, 1, 8)
+
+
+
+
+
+
+        self.STATIC_search_file_button = QPushButton(self.row_1_STATIC)
+        self.STATIC_search_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.STATIC_search_file_button.setText("Select")
+        self.LG_row_1_STATIC.addWidget(self.STATIC_search_file_button, 1, 0, 1, 2)
+
+        self.STATIC_qline_files = QLineEdit(self.row_1_STATIC)
+        self.STATIC_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_1_STATIC.addWidget(self.STATIC_qline_files, 1, 2, 1, 8)
+
+        self.STATIC_read_file_button = QPushButton(self.row_1_STATIC)
+        self.STATIC_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.STATIC_read_file_button.setText("Process")
+        self.LG_row_1_STATIC.addWidget(self.STATIC_read_file_button, 0, 10, 2, 2)
+
+
+        self.verticalLayout_STATIC.addWidget(self.row_1_STATIC)
+
+
+
+
+
+        self.row_2_STATIC = QFrame(self.infos_STATIC)
+        self.row_2_STATIC.setObjectName(u"row_3_STATIC")
+        self.row_2_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.row_2_STATIC.setFrameShadow(QFrame.Raised)
+        self.row_2_STATIC.setMaximumHeight(110)
+
+        self.LG_row_2_STATIC = QGridLayout(self.row_2_STATIC)
+        self.LG_row_2_STATIC.setSpacing(5)
+        self.LG_row_2_STATIC.setObjectName(u"LG_row_3_STATIC")
+        self.LG_row_2_STATIC.setContentsMargins(0, 0, 1, 1)
+
+
+        self.vars_search = QPushButton(self.row_2_STATIC)
+        self.vars_search.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.vars_search.setText("Processed")
+        self.LG_row_2_STATIC.addWidget(self.vars_search, 2, 0, 1, 2)
+
+        self.vars_qline = QLineEdit(self.row_2_STATIC)
+        self.vars_qline.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_2_STATIC.addWidget(self.vars_qline, 2, 2, 1, 10)
+
+
+
+
+        self.instavel = QPushButton(self.row_2_STATIC)
+        self.instavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.instavel.setText("Instável")
+        self.LG_row_2_STATIC.addWidget(self.instavel, 3, 0, 1, 6)
+
+        self.estavel = QPushButton(self.row_2_STATIC)
+        self.estavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.estavel.setText("Estável")
+        self.LG_row_2_STATIC.addWidget(self.estavel, 3, 6, 1, 6)
+
+
+        self.per_cont = QPushButton(self.row_2_STATIC)
+        self.per_cont.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.per_cont.setText("Por Contingência")
+        self.LG_row_2_STATIC.addWidget(self.per_cont, 4, 0, 1, 6)
+
+        self.per_group = QPushButton(self.row_2_STATIC)
+        self.per_group.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.per_group.setText("Por Grupo")
+        self.LG_row_2_STATIC.addWidget(self.per_group, 4, 6, 1, 6)
+
+
+
+
+        self.verticalLayout_STATIC.addWidget(self.row_2_STATIC)
+
+        
+        # self.mainLayout_STATIC.addWidget(self.pdf_STATIC)
+
+
+
+        # ROW 3
+
+        self.row_3_STATIC = QFrame(self.infos_STATIC)
+        self.row_3_STATIC.setObjectName(u"row_3_STATIC")
+        self.row_3_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.row_3_STATIC.setFrameShadow(QFrame.Raised)
+        self.row_3_STATIC.setMinimumHeight(300)
+
+        self.LG_row_3_STATIC = QGridLayout(self.row_3_STATIC)
+        self.LG_row_3_STATIC.setSpacing(5)
+        self.LG_row_3_STATIC.setObjectName(u"LG_row_3_STATIC")
+        self.LG_row_3_STATIC.setContentsMargins(0, 0, 1, 1)
+
+
+
+
+
+
+
+        self.dynamic_x = QComboBox(self.row_3_STATIC)
+        self.dynamic_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_STATIC.addWidget(self.dynamic_x, 0, 0, 1, 3)
+
+        self.dynamic_y = QComboBox(self.row_3_STATIC)
+        self.dynamic_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_STATIC.addWidget(self.dynamic_y, 0, 3, 1, 3)
+
+
+        self.dynamic_c = QComboBox(self.row_3_STATIC)
+        self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_STATIC.addWidget(self.dynamic_c, 0, 6, 1, 3)
+
+
+
+        self.dynamic_plot = QComboBox(self.row_3_STATIC)
+        self.dynamic_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_STATIC.addWidget(self.dynamic_plot, 1, 0, 1, 3)
+
+        self.dynamic_stats = QComboBox(self.row_3_STATIC)
+        self.dynamic_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_STATIC.addWidget(self.dynamic_stats, 1, 3, 1, 3)
+
+
+        # self.dynamic_c = QComboBox(self.row_3_STATIC)
+        # self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_STATIC.addWidget(self.dynamic_c, 0, 6, 1, 3)
+
+
+
+
+        self.dynamic_plot_button = QPushButton(self.row_3_STATIC)
+        self.dynamic_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_plot_button.setText("Plot")
+        self.LG_row_3_STATIC.addWidget(self.dynamic_plot_button, 0, 9, 2, 3)
+
+
+
+
+
+
+        self.STATIC_combo_variable = ExtendedComboBox(self.row_3_STATIC)
+        self.STATIC_combo_variable.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_STATIC.addWidget(self.STATIC_combo_variable, 2, 0, 1, 3)
+
+        self.STATIC_combo_sinal = QComboBox(self.row_3_STATIC)
+        self.STATIC_combo_sinal.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_STATIC.addWidget(self.STATIC_combo_sinal, 2, 3, 1, 3)
+
+
+        self.STATIC_label_value = QLineEdit(self.row_3_STATIC)
+        self.STATIC_label_value.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_STATIC.addWidget(self.STATIC_label_value, 2, 6, 1, 3)
+
+        self.STATIC_button_apply_filter = QPushButton(self.row_3_STATIC)
+        self.STATIC_button_apply_filter.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.STATIC_button_apply_filter.setText("Apply Filter")
+        self.LG_row_3_STATIC.addWidget(self.STATIC_button_apply_filter, 2, 9, 1, 3)
+
+
+
+        # ===================================================================================
+
+        self.sc = MplCanvas(self, width=12, height=12, dpi=100)
+        self.sc.axes.plot([0,1,2,3,4], [10,1,20,3,40])
+
+        self.toolbar = NavigationToolbar2QT(self.sc)
+
+        self.LG_row_3_STATIC.addWidget(self.toolbar, 3, 0,  1, 12)
+        self.LG_row_3_STATIC.addWidget(self.sc     , 4, 0, 12, 12)
+
+        # ===================================================================================
+        self.verticalLayout_STATIC.addWidget(self.row_3_STATIC)
+
+
+        self.mainLayout_STATIC.addWidget(self.infos_STATIC)
+
+        # === DIREITA
+
+        self.pdf_STATIC = QFrame(self.STATIC)
+        self.pdf_STATIC.setObjectName(u"row_1")
+        # self.pdf_STATIC.setMinimumSize(QSize(600, 110))
+        self.pdf_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.pdf_STATIC.setFrameShadow(QFrame.Raised)
+
+        self.verticalLayout_pdf_STATIC = QVBoxLayout(self.pdf_STATIC)
+        self.verticalLayout_pdf_STATIC.setSpacing(10)
+        self.verticalLayout_pdf_STATIC.setObjectName(u"verticalLayout_pdf_STATIC")
+        self.verticalLayout_pdf_STATIC.setContentsMargins(10, 10, 10, 10)
+
+      
+
+
+        self.d_row_1_STATIC = QFrame(self.pdf_STATIC)
+        self.d_row_1_STATIC.setObjectName(u"d_row_1_STATIC")
+        self.d_row_1_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.d_row_1_STATIC.setFrameShadow(QFrame.Raised)
+        self.d_row_1_STATIC.setMaximumHeight(600)
+        # self.d_row_1_STATIC.setMaximumSize(QSize(600, 400))
+
+        self.d_LG_row_1_STATIC = QGridLayout(self.d_row_1_STATIC)
+        self.d_LG_row_1_STATIC.setSpacing(0)
+        self.d_LG_row_1_STATIC.setObjectName(u"d_LG_row_1_STATIC")
+        self.d_LG_row_1_STATIC.setContentsMargins(0, 0, 1, 1)
+
+        ## ============================
+
+
+        self.pdfView_STATIC = QPdfView(self.pdf_STATIC)
+        self.pdfView_STATIC.setObjectName(u"pdfView_STATIC")
+
+        self.m_document = QPdfDocument(self.pdf_STATIC)
+
+        self.pdfView_STATIC.setDocument(self.m_document)
+
+
+        ## ============================
+
+
+
+        self.mainToolBar = QToolBar(self.d_row_1_STATIC)
+        self.mainToolBar.setObjectName(u"mainToolBar")
+        self.mainToolBar.setMovable(False)
+        self.mainToolBar.setFloatable(False)
+
+
+        # ACTIONS
+
+
+        self.run_STATIC = QPushButton(self.d_row_1_STATIC)
+        self.run_STATIC.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.run_STATIC.setText("Run")
+
+        self.actionZoom_In_STATIC = QPushButton(self.d_row_1_STATIC)
+        self.actionZoom_In_STATIC.setText('In')
+        self.actionZoom_In_STATIC.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.actionZoom_Out = QPushButton(self.d_row_1_STATIC)
+        self.actionZoom_Out.setText('Out')
+        self.actionZoom_Out.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.m_zoomSelector = ZoomSelector(self.d_row_1_STATIC)
+        self.m_zoomSelector.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.m_zoomSelector.setMaximumWidth(150)
+        self.m_zoomSelector.zoom_mode_changed.connect(self.pdfView_STATIC.setZoomMode)
+        self.m_zoomSelector.zoom_factor_changed.connect(self.pdfView_STATIC.setZoomFactor)
+        self.m_zoomSelector.reset()
+        self.pdfView_STATIC.zoomFactorChanged.connect(self.m_zoomSelector.set_zoom_factor)
+
+        self.actionPage_down_STATIC = QPushButton(self.d_row_1_STATIC)
+        self.actionPage_down_STATIC.setText('-')
+        self.actionPage_down_STATIC.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.actionPage_up_STATIC = QPushButton(self.d_row_1_STATIC)
+        self.actionPage_up_STATIC.setText('+')
+        self.actionPage_up_STATIC.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.m_pageSelector = QSpinBox(self.d_row_1_STATIC)
+        self.m_pageSelector.valueChanged.connect(self.page_selected)
+        self.m_pageSelector.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        nav = self.pdfView_STATIC.pageNavigator()
+        nav.currentPageChanged.connect(self.m_pageSelector.setValue)
+        # nav.backAvailableChanged.connect(self.actionBack.setEnabled)
+        # nav.forwardAvailableChanged.connect(self.actionForward.setEnabled)
+
+        self.actionSave = QPushButton(self.d_row_1_STATIC)
+        self.actionSave.setText('Save')
+        self.actionSave.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+
+
+
+
+        self.mainToolBar.addWidget(self.run_STATIC)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionZoom_In_STATIC)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.m_zoomSelector)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionZoom_Out)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionPage_down_STATIC)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.m_pageSelector)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionPage_up_STATIC)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionSave)
+
+
+
+
+        ## =============
+
+
+        self.d_LG_row_1_STATIC.addWidget(self.mainToolBar, 0, 0, 1, 1)
+        self.d_LG_row_1_STATIC.addWidget(self.pdfView_STATIC, 1, 0, 1, 1)
+
+        self.verticalLayout_pdf_STATIC.addWidget(self.d_row_1_STATIC)
+        self.mainLayout_STATIC.addWidget(self.pdf_STATIC)
+       
+
+        # ADD ALL
+
+        self.stackedWidget.addWidget(self.STATIC)
+
+
+
+
+
+
+
+
+    def _create_dynamic_static(self):
+
+        font1 = QFont()
+        font1.setFamily(u"Times New Roman")
+        font1.setPointSize(120)
+        font1.setBold(True)
+        font1.setItalic(False)
+        self.styleSheet.setFont(font1)
+
+        self.DYNAMIC_STATIC = QWidget()
+        self.DYNAMIC_STATIC.setObjectName(u"DYNAMIC_STATIC")
+        self.DYNAMIC_STATIC.setStyleSheet(u"b")
+
+        self.mainLayout_DYNAMIC_STATIC = QHBoxLayout(self.DYNAMIC_STATIC)
+        self.mainLayout_DYNAMIC_STATIC.setSpacing(10)
+        self.mainLayout_DYNAMIC_STATIC.setObjectName(u"mainLayout_DYNAMIC_STATIC")
+        self.mainLayout_DYNAMIC_STATIC.setContentsMargins(10, 10, 10, 10)
+
+        # === ESQUERDA
+
+        self.infos_DYNAMIC_STATIC = QFrame(self.DYNAMIC_STATIC)
+        self.infos_DYNAMIC_STATIC.setObjectName(u"row_1")
+        self.infos_DYNAMIC_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.infos_DYNAMIC_STATIC.setFrameShadow(QFrame.Raised)
+        self.infos_DYNAMIC_STATIC.setMinimumWidth(800)
+
+        self.verticalLayout_DYNAMIC_STATIC = QVBoxLayout(self.infos_DYNAMIC_STATIC)
+        self.verticalLayout_DYNAMIC_STATIC.setSpacing(10)
+        self.verticalLayout_DYNAMIC_STATIC.setObjectName(u"verticalLayout_DYNAMIC_STATIC")
+        self.verticalLayout_DYNAMIC_STATIC.setContentsMargins(10, 10, 10, 10)
+
+        # ROW 1
+
+        self.row_1_DYNAMIC_STATIC = QFrame(self.infos_DYNAMIC_STATIC)
+        self.row_1_DYNAMIC_STATIC.setObjectName(u"row_1_DYNAMIC_STATIC")
+        self.row_1_DYNAMIC_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.row_1_DYNAMIC_STATIC.setFrameShadow(QFrame.Raised)
+        self.row_1_DYNAMIC_STATIC.setMaximumHeight(110)
+
+        self.LG_row_1_DYNAMIC_STATIC = QGridLayout(self.row_1_DYNAMIC_STATIC)
+        self.LG_row_1_DYNAMIC_STATIC.setSpacing(5)
+        self.LG_row_1_DYNAMIC_STATIC.setObjectName(u"LG_row_1_DYNAMIC_STATIC")
+        self.LG_row_1_DYNAMIC_STATIC.setContentsMargins(0, 0, 1, 1)
+
+
+
+
+        self.data_match_local_search_button = QPushButton(self.row_1_DYNAMIC_STATIC)
+        self.data_match_local_search_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.data_match_local_search_button.setText("Search")
+        self.LG_row_1_DYNAMIC_STATIC.addWidget(self.data_match_local_search_button, 0, 0, 1, 2)
+
+        self.data_match_qline_files = QLineEdit(self.row_1_DYNAMIC_STATIC)
+        self.data_match_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_1_DYNAMIC_STATIC.addWidget(self.data_match_qline_files, 0, 2, 1, 8)
+
+
+
+
+
+
+        self.DYNAMIC_STATIC_search_file_button = QPushButton(self.row_1_DYNAMIC_STATIC)
+        self.DYNAMIC_STATIC_search_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.DYNAMIC_STATIC_search_file_button.setText("Select")
+        self.LG_row_1_DYNAMIC_STATIC.addWidget(self.DYNAMIC_STATIC_search_file_button, 1, 0, 1, 2)
+
+        self.DYNAMIC_STATIC_qline_files = QLineEdit(self.row_1_DYNAMIC_STATIC)
+        self.DYNAMIC_STATIC_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_1_DYNAMIC_STATIC.addWidget(self.DYNAMIC_STATIC_qline_files, 1, 2, 1, 8)
+
+        self.DYNAMIC_STATIC_read_file_button = QPushButton(self.row_1_DYNAMIC_STATIC)
+        self.DYNAMIC_STATIC_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.DYNAMIC_STATIC_read_file_button.setText("Process")
+        self.LG_row_1_DYNAMIC_STATIC.addWidget(self.DYNAMIC_STATIC_read_file_button, 0, 10, 2, 2)
+
+
+        self.verticalLayout_DYNAMIC_STATIC.addWidget(self.row_1_DYNAMIC_STATIC)
+
+
+
+
+
+        self.row_2_DYNAMIC_STATIC = QFrame(self.infos_DYNAMIC_STATIC)
+        self.row_2_DYNAMIC_STATIC.setObjectName(u"row_3_DYNAMIC_STATIC")
+        self.row_2_DYNAMIC_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.row_2_DYNAMIC_STATIC.setFrameShadow(QFrame.Raised)
+        self.row_2_DYNAMIC_STATIC.setMaximumHeight(110)
+
+        self.LG_row_2_DYNAMIC_STATIC = QGridLayout(self.row_2_DYNAMIC_STATIC)
+        self.LG_row_2_DYNAMIC_STATIC.setSpacing(5)
+        self.LG_row_2_DYNAMIC_STATIC.setObjectName(u"LG_row_3_DYNAMIC_STATIC")
+        self.LG_row_2_DYNAMIC_STATIC.setContentsMargins(0, 0, 1, 1)
+
+
+        self.vars_search = QPushButton(self.row_2_DYNAMIC_STATIC)
+        self.vars_search.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.vars_search.setText("Processed")
+        self.LG_row_2_DYNAMIC_STATIC.addWidget(self.vars_search, 2, 0, 1, 2)
+
+        self.vars_qline = QLineEdit(self.row_2_DYNAMIC_STATIC)
+        self.vars_qline.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_2_DYNAMIC_STATIC.addWidget(self.vars_qline, 2, 2, 1, 10)
+
+
+
+
+        self.instavel = QPushButton(self.row_2_DYNAMIC_STATIC)
+        self.instavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.instavel.setText("Instável")
+        self.LG_row_2_DYNAMIC_STATIC.addWidget(self.instavel, 3, 0, 1, 6)
+
+        self.estavel = QPushButton(self.row_2_DYNAMIC_STATIC)
+        self.estavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.estavel.setText("Estável")
+        self.LG_row_2_DYNAMIC_STATIC.addWidget(self.estavel, 3, 6, 1, 6)
+
+
+        self.per_cont = QPushButton(self.row_2_DYNAMIC_STATIC)
+        self.per_cont.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.per_cont.setText("Por Contingência")
+        self.LG_row_2_DYNAMIC_STATIC.addWidget(self.per_cont, 4, 0, 1, 6)
+
+        self.per_group = QPushButton(self.row_2_DYNAMIC_STATIC)
+        self.per_group.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.per_group.setText("Por Grupo")
+        self.LG_row_2_DYNAMIC_STATIC.addWidget(self.per_group, 4, 6, 1, 6)
+
+
+
+
+        self.verticalLayout_DYNAMIC_STATIC.addWidget(self.row_2_DYNAMIC_STATIC)
+
+        
+        # self.mainLayout_DYNAMIC_STATIC.addWidget(self.pdf_DYNAMIC_STATIC)
+
+
+
+        # ROW 3
+
+        self.row_3_DYNAMIC_STATIC = QFrame(self.infos_DYNAMIC_STATIC)
+        self.row_3_DYNAMIC_STATIC.setObjectName(u"row_3_DYNAMIC_STATIC")
+        self.row_3_DYNAMIC_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.row_3_DYNAMIC_STATIC.setFrameShadow(QFrame.Raised)
+        self.row_3_DYNAMIC_STATIC.setMinimumHeight(300)
+
+        self.LG_row_3_DYNAMIC_STATIC = QGridLayout(self.row_3_DYNAMIC_STATIC)
+        self.LG_row_3_DYNAMIC_STATIC.setSpacing(5)
+        self.LG_row_3_DYNAMIC_STATIC.setObjectName(u"LG_row_3_DYNAMIC_STATIC")
+        self.LG_row_3_DYNAMIC_STATIC.setContentsMargins(0, 0, 1, 1)
+
+
+
+
+
+
+
+        self.dynamic_x = QComboBox(self.row_3_DYNAMIC_STATIC)
+        self.dynamic_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_x, 0, 0, 1, 3)
+
+        self.dynamic_y = QComboBox(self.row_3_DYNAMIC_STATIC)
+        self.dynamic_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_y, 0, 3, 1, 3)
+
+
+        self.dynamic_c = QComboBox(self.row_3_DYNAMIC_STATIC)
+        self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_c, 0, 6, 1, 3)
+
+
+
+        self.dynamic_plot = QComboBox(self.row_3_DYNAMIC_STATIC)
+        self.dynamic_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_plot, 1, 0, 1, 3)
+
+        self.dynamic_stats = QComboBox(self.row_3_DYNAMIC_STATIC)
+        self.dynamic_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_stats, 1, 3, 1, 3)
+
+
+        # self.dynamic_c = QComboBox(self.row_3_DYNAMIC_STATIC)
+        # self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_c, 0, 6, 1, 3)
+
+
+
+
+        self.dynamic_plot_button = QPushButton(self.row_3_DYNAMIC_STATIC)
+        self.dynamic_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_plot_button.setText("Plot")
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_plot_button, 0, 9, 2, 3)
+
+
+
+
+
+
+        self.DYNAMIC_STATIC_combo_variable = ExtendedComboBox(self.row_3_DYNAMIC_STATIC)
+        self.DYNAMIC_STATIC_combo_variable.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.DYNAMIC_STATIC_combo_variable, 2, 0, 1, 3)
+
+        self.DYNAMIC_STATIC_combo_sinal = QComboBox(self.row_3_DYNAMIC_STATIC)
+        self.DYNAMIC_STATIC_combo_sinal.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.DYNAMIC_STATIC_combo_sinal, 2, 3, 1, 3)
+
+
+        self.DYNAMIC_STATIC_label_value = QLineEdit(self.row_3_DYNAMIC_STATIC)
+        self.DYNAMIC_STATIC_label_value.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.DYNAMIC_STATIC_label_value, 2, 6, 1, 3)
+
+        self.DYNAMIC_STATIC_button_apply_filter = QPushButton(self.row_3_DYNAMIC_STATIC)
+        self.DYNAMIC_STATIC_button_apply_filter.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.DYNAMIC_STATIC_button_apply_filter.setText("Apply Filter")
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.DYNAMIC_STATIC_button_apply_filter, 2, 9, 1, 3)
+
+
+
+        # ===================================================================================
+
+        self.sc = MplCanvas(self, width=12, height=12, dpi=100)
+        self.sc.axes.plot([0,1,2,3,4], [10,1,20,3,40])
+
+        self.toolbar = NavigationToolbar2QT(self.sc)
+
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.toolbar, 3, 0,  1, 12)
+        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.sc     , 4, 0, 12, 12)
+
+        # ===================================================================================
+        self.verticalLayout_DYNAMIC_STATIC.addWidget(self.row_3_DYNAMIC_STATIC)
+
+
+        self.mainLayout_DYNAMIC_STATIC.addWidget(self.infos_DYNAMIC_STATIC)
+
+        # === DIREITA
+
+        self.pdf_DYNAMIC_STATIC = QFrame(self.DYNAMIC_STATIC)
+        self.pdf_DYNAMIC_STATIC.setObjectName(u"row_1")
+        # self.pdf_DYNAMIC_STATIC.setMinimumSize(QSize(600, 110))
+        self.pdf_DYNAMIC_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.pdf_DYNAMIC_STATIC.setFrameShadow(QFrame.Raised)
+
+        self.verticalLayout_pdf_DYNAMIC_STATIC = QVBoxLayout(self.pdf_DYNAMIC_STATIC)
+        self.verticalLayout_pdf_DYNAMIC_STATIC.setSpacing(10)
+        self.verticalLayout_pdf_DYNAMIC_STATIC.setObjectName(u"verticalLayout_pdf_DYNAMIC_STATIC")
+        self.verticalLayout_pdf_DYNAMIC_STATIC.setContentsMargins(10, 10, 10, 10)
+
+      
+
+
+        self.d_row_1_DYNAMIC_STATIC = QFrame(self.pdf_DYNAMIC_STATIC)
+        self.d_row_1_DYNAMIC_STATIC.setObjectName(u"d_row_1_DYNAMIC_STATIC")
+        self.d_row_1_DYNAMIC_STATIC.setFrameShape(QFrame.StyledPanel)
+        self.d_row_1_DYNAMIC_STATIC.setFrameShadow(QFrame.Raised)
+        self.d_row_1_DYNAMIC_STATIC.setMaximumHeight(600)
+        # self.d_row_1_DYNAMIC_STATIC.setMaximumSize(QSize(600, 400))
+
+        self.d_LG_row_1_DYNAMIC_STATIC = QGridLayout(self.d_row_1_DYNAMIC_STATIC)
+        self.d_LG_row_1_DYNAMIC_STATIC.setSpacing(0)
+        self.d_LG_row_1_DYNAMIC_STATIC.setObjectName(u"d_LG_row_1_DYNAMIC_STATIC")
+        self.d_LG_row_1_DYNAMIC_STATIC.setContentsMargins(0, 0, 1, 1)
+
+        ## ============================
+
+
+        self.pdfView_DYNAMIC_STATIC = QPdfView(self.pdf_DYNAMIC_STATIC)
+        self.pdfView_DYNAMIC_STATIC.setObjectName(u"pdfView_DYNAMIC_STATIC")
+
+        self.m_document = QPdfDocument(self.pdf_DYNAMIC_STATIC)
+
+        self.pdfView_DYNAMIC_STATIC.setDocument(self.m_document)
+
+
+        ## ============================
+
+
+
+        self.mainToolBar = QToolBar(self.d_row_1_DYNAMIC_STATIC)
+        self.mainToolBar.setObjectName(u"mainToolBar")
+        self.mainToolBar.setMovable(False)
+        self.mainToolBar.setFloatable(False)
+
+
+        # ACTIONS
+
+
+        self.run_DYNAMIC_STATIC = QPushButton(self.d_row_1_DYNAMIC_STATIC)
+        self.run_DYNAMIC_STATIC.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.run_DYNAMIC_STATIC.setText("Run")
+
+        self.actionZoom_In_DYNAMIC_STATIC = QPushButton(self.d_row_1_DYNAMIC_STATIC)
+        self.actionZoom_In_DYNAMIC_STATIC.setText('In')
+        self.actionZoom_In_DYNAMIC_STATIC.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.actionZoom_Out = QPushButton(self.d_row_1_DYNAMIC_STATIC)
+        self.actionZoom_Out.setText('Out')
+        self.actionZoom_Out.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.m_zoomSelector = ZoomSelector(self.d_row_1_DYNAMIC_STATIC)
+        self.m_zoomSelector.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.m_zoomSelector.setMaximumWidth(150)
+        self.m_zoomSelector.zoom_mode_changed.connect(self.pdfView_DYNAMIC_STATIC.setZoomMode)
+        self.m_zoomSelector.zoom_factor_changed.connect(self.pdfView_DYNAMIC_STATIC.setZoomFactor)
+        self.m_zoomSelector.reset()
+        self.pdfView_DYNAMIC_STATIC.zoomFactorChanged.connect(self.m_zoomSelector.set_zoom_factor)
+
+        self.actionPage_down_DYNAMIC_STATIC = QPushButton(self.d_row_1_DYNAMIC_STATIC)
+        self.actionPage_down_DYNAMIC_STATIC.setText('-')
+        self.actionPage_down_DYNAMIC_STATIC.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.actionPage_up_DYNAMIC_STATIC = QPushButton(self.d_row_1_DYNAMIC_STATIC)
+        self.actionPage_up_DYNAMIC_STATIC.setText('+')
+        self.actionPage_up_DYNAMIC_STATIC.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.m_pageSelector = QSpinBox(self.d_row_1_DYNAMIC_STATIC)
+        self.m_pageSelector.valueChanged.connect(self.page_selected)
+        self.m_pageSelector.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        nav = self.pdfView_DYNAMIC_STATIC.pageNavigator()
+        nav.currentPageChanged.connect(self.m_pageSelector.setValue)
+        # nav.backAvailableChanged.connect(self.actionBack.setEnabled)
+        # nav.forwardAvailableChanged.connect(self.actionForward.setEnabled)
+
+        self.actionSave = QPushButton(self.d_row_1_DYNAMIC_STATIC)
+        self.actionSave.setText('Save')
+        self.actionSave.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+
+
+
+
+        self.mainToolBar.addWidget(self.run_DYNAMIC_STATIC)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionZoom_In_DYNAMIC_STATIC)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.m_zoomSelector)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionZoom_Out)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionPage_down_DYNAMIC_STATIC)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.m_pageSelector)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionPage_up_DYNAMIC_STATIC)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionSave)
+
+
+
+
+        ## =============
+
+
+        self.d_LG_row_1_DYNAMIC_STATIC.addWidget(self.mainToolBar, 0, 0, 1, 1)
+        self.d_LG_row_1_DYNAMIC_STATIC.addWidget(self.pdfView_DYNAMIC_STATIC, 1, 0, 1, 1)
+
+        self.verticalLayout_pdf_DYNAMIC_STATIC.addWidget(self.d_row_1_DYNAMIC_STATIC)
+        self.mainLayout_DYNAMIC_STATIC.addWidget(self.pdf_DYNAMIC_STATIC)
+       
+
+        # ADD ALL
+
+        self.stackedWidget.addWidget(self.DYNAMIC_STATIC)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def _create_network(self):
+
+        font1 = QFont()
+        font1.setFamily(u"Times New Roman")
+        font1.setPointSize(120)
+        font1.setBold(True)
+        font1.setItalic(False)
+        self.styleSheet.setFont(font1)
+
+        self.NETWORK = QWidget()
+        self.NETWORK.setObjectName(u"NETWORK")
+        self.NETWORK.setStyleSheet(u"b")
+
+        self.mainLayout_NETWORK = QHBoxLayout(self.NETWORK)
+        self.mainLayout_NETWORK.setSpacing(10)
+        self.mainLayout_NETWORK.setObjectName(u"mainLayout_NETWORK")
+        self.mainLayout_NETWORK.setContentsMargins(10, 10, 10, 10)
+
+        # === ESQUERDA
+
+        self.infos_NETWORK = QFrame(self.NETWORK)
+        self.infos_NETWORK.setObjectName(u"row_1")
+        self.infos_NETWORK.setFrameShape(QFrame.StyledPanel)
+        self.infos_NETWORK.setFrameShadow(QFrame.Raised)
+        self.infos_NETWORK.setMinimumWidth(800)
+
+        self.verticalLayout_NETWORK = QVBoxLayout(self.infos_NETWORK)
+        self.verticalLayout_NETWORK.setSpacing(10)
+        self.verticalLayout_NETWORK.setObjectName(u"verticalLayout_NETWORK")
+        self.verticalLayout_NETWORK.setContentsMargins(10, 10, 10, 10)
+
+        # ROW 1
+
+        self.row_1_NETWORK = QFrame(self.infos_NETWORK)
+        self.row_1_NETWORK.setObjectName(u"row_1_NETWORK")
+        self.row_1_NETWORK.setFrameShape(QFrame.StyledPanel)
+        self.row_1_NETWORK.setFrameShadow(QFrame.Raised)
+        self.row_1_NETWORK.setMaximumHeight(110)
+
+        self.LG_row_1_NETWORK = QGridLayout(self.row_1_NETWORK)
+        self.LG_row_1_NETWORK.setSpacing(5)
+        self.LG_row_1_NETWORK.setObjectName(u"LG_row_1_NETWORK")
+        self.LG_row_1_NETWORK.setContentsMargins(0, 0, 1, 1)
+
+
+
+
+        self.data_match_local_search_button = QPushButton(self.row_1_NETWORK)
+        self.data_match_local_search_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.data_match_local_search_button.setText("Search")
+        self.LG_row_1_NETWORK.addWidget(self.data_match_local_search_button, 0, 0, 1, 2)
+
+        self.data_match_qline_files = QLineEdit(self.row_1_NETWORK)
+        self.data_match_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_1_NETWORK.addWidget(self.data_match_qline_files, 0, 2, 1, 8)
+
+
+
+
+
+
+        self.NETWORK_search_file_button = QPushButton(self.row_1_NETWORK)
+        self.NETWORK_search_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.NETWORK_search_file_button.setText("Select")
+        self.LG_row_1_NETWORK.addWidget(self.NETWORK_search_file_button, 1, 0, 1, 2)
+
+        self.NETWORK_qline_files = QLineEdit(self.row_1_NETWORK)
+        self.NETWORK_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_1_NETWORK.addWidget(self.NETWORK_qline_files, 1, 2, 1, 8)
+
+        self.NETWORK_read_file_button = QPushButton(self.row_1_NETWORK)
+        self.NETWORK_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.NETWORK_read_file_button.setText("Process")
+        self.LG_row_1_NETWORK.addWidget(self.NETWORK_read_file_button, 0, 10, 2, 2)
+
+
+        self.verticalLayout_NETWORK.addWidget(self.row_1_NETWORK)
+
+
+
+
+
+        self.row_2_NETWORK = QFrame(self.infos_NETWORK)
+        self.row_2_NETWORK.setObjectName(u"row_3_NETWORK")
+        self.row_2_NETWORK.setFrameShape(QFrame.StyledPanel)
+        self.row_2_NETWORK.setFrameShadow(QFrame.Raised)
+        self.row_2_NETWORK.setMaximumHeight(110)
+
+        self.LG_row_2_NETWORK = QGridLayout(self.row_2_NETWORK)
+        self.LG_row_2_NETWORK.setSpacing(5)
+        self.LG_row_2_NETWORK.setObjectName(u"LG_row_3_NETWORK")
+        self.LG_row_2_NETWORK.setContentsMargins(0, 0, 1, 1)
+
+
+        self.vars_search = QPushButton(self.row_2_NETWORK)
+        self.vars_search.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.vars_search.setText("Processed")
+        self.LG_row_2_NETWORK.addWidget(self.vars_search, 2, 0, 1, 2)
+
+        self.vars_qline = QLineEdit(self.row_2_NETWORK)
+        self.vars_qline.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_2_NETWORK.addWidget(self.vars_qline, 2, 2, 1, 10)
+
+
+
+
+        self.instavel = QPushButton(self.row_2_NETWORK)
+        self.instavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.instavel.setText("Instável")
+        self.LG_row_2_NETWORK.addWidget(self.instavel, 3, 0, 1, 6)
+
+        self.estavel = QPushButton(self.row_2_NETWORK)
+        self.estavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.estavel.setText("Estável")
+        self.LG_row_2_NETWORK.addWidget(self.estavel, 3, 6, 1, 6)
+
+
+        self.per_cont = QPushButton(self.row_2_NETWORK)
+        self.per_cont.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.per_cont.setText("Por Contingência")
+        self.LG_row_2_NETWORK.addWidget(self.per_cont, 4, 0, 1, 6)
+
+        self.per_group = QPushButton(self.row_2_NETWORK)
+        self.per_group.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.per_group.setText("Por Grupo")
+        self.LG_row_2_NETWORK.addWidget(self.per_group, 4, 6, 1, 6)
+
+
+
+
+        self.verticalLayout_NETWORK.addWidget(self.row_2_NETWORK)
+
+        
+        # self.mainLayout_NETWORK.addWidget(self.pdf_NETWORK)
+
+
+
+        # ROW 3
+
+        self.row_3_NETWORK = QFrame(self.infos_NETWORK)
+        self.row_3_NETWORK.setObjectName(u"row_3_NETWORK")
+        self.row_3_NETWORK.setFrameShape(QFrame.StyledPanel)
+        self.row_3_NETWORK.setFrameShadow(QFrame.Raised)
+        self.row_3_NETWORK.setMinimumHeight(300)
+
+        self.LG_row_3_NETWORK = QGridLayout(self.row_3_NETWORK)
+        self.LG_row_3_NETWORK.setSpacing(5)
+        self.LG_row_3_NETWORK.setObjectName(u"LG_row_3_NETWORK")
+        self.LG_row_3_NETWORK.setContentsMargins(0, 0, 1, 1)
+
+
+
+
+
+
+
+        self.dynamic_x = QComboBox(self.row_3_NETWORK)
+        self.dynamic_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_NETWORK.addWidget(self.dynamic_x, 0, 0, 1, 3)
+
+        self.dynamic_y = QComboBox(self.row_3_NETWORK)
+        self.dynamic_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_NETWORK.addWidget(self.dynamic_y, 0, 3, 1, 3)
+
+
+        self.dynamic_c = QComboBox(self.row_3_NETWORK)
+        self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_NETWORK.addWidget(self.dynamic_c, 0, 6, 1, 3)
+
+
+
+        self.dynamic_plot = QComboBox(self.row_3_NETWORK)
+        self.dynamic_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_NETWORK.addWidget(self.dynamic_plot, 1, 0, 1, 3)
+
+        self.dynamic_stats = QComboBox(self.row_3_NETWORK)
+        self.dynamic_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_NETWORK.addWidget(self.dynamic_stats, 1, 3, 1, 3)
+
+
+        # self.dynamic_c = QComboBox(self.row_3_NETWORK)
+        # self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_NETWORK.addWidget(self.dynamic_c, 0, 6, 1, 3)
+
+
+
+
+        self.dynamic_plot_button = QPushButton(self.row_3_NETWORK)
+        self.dynamic_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_plot_button.setText("Plot")
+        self.LG_row_3_NETWORK.addWidget(self.dynamic_plot_button, 0, 9, 2, 3)
+
+
+
+
+
+
+        self.NETWORK_combo_variable = ExtendedComboBox(self.row_3_NETWORK)
+        self.NETWORK_combo_variable.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_NETWORK.addWidget(self.NETWORK_combo_variable, 2, 0, 1, 3)
+
+        self.NETWORK_combo_sinal = QComboBox(self.row_3_NETWORK)
+        self.NETWORK_combo_sinal.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_NETWORK.addWidget(self.NETWORK_combo_sinal, 2, 3, 1, 3)
+
+
+        self.NETWORK_label_value = QLineEdit(self.row_3_NETWORK)
+        self.NETWORK_label_value.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_3_NETWORK.addWidget(self.NETWORK_label_value, 2, 6, 1, 3)
+
+        self.NETWORK_button_apply_filter = QPushButton(self.row_3_NETWORK)
+        self.NETWORK_button_apply_filter.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.NETWORK_button_apply_filter.setText("Apply Filter")
+        self.LG_row_3_NETWORK.addWidget(self.NETWORK_button_apply_filter, 2, 9, 1, 3)
+
+
+
+        # ===================================================================================
+
+        self.sc = MplCanvas(self, width=12, height=12, dpi=100)
+        self.sc.axes.plot([0,1,2,3,4], [10,1,20,3,40])
+
+        self.toolbar = NavigationToolbar2QT(self.sc)
+
+        self.LG_row_3_NETWORK.addWidget(self.toolbar, 3, 0,  1, 12)
+        self.LG_row_3_NETWORK.addWidget(self.sc     , 4, 0, 12, 12)
+
+        # ===================================================================================
+        self.verticalLayout_NETWORK.addWidget(self.row_3_NETWORK)
+
+
+        self.mainLayout_NETWORK.addWidget(self.infos_NETWORK)
+
+        # === DIREITA
+
+        self.pdf_NETWORK = QFrame(self.NETWORK)
+        self.pdf_NETWORK.setObjectName(u"row_1")
+        # self.pdf_NETWORK.setMinimumSize(QSize(600, 110))
+        self.pdf_NETWORK.setFrameShape(QFrame.StyledPanel)
+        self.pdf_NETWORK.setFrameShadow(QFrame.Raised)
+
+        self.verticalLayout_pdf_NETWORK = QVBoxLayout(self.pdf_NETWORK)
+        self.verticalLayout_pdf_NETWORK.setSpacing(10)
+        self.verticalLayout_pdf_NETWORK.setObjectName(u"verticalLayout_pdf_NETWORK")
+        self.verticalLayout_pdf_NETWORK.setContentsMargins(10, 10, 10, 10)
+
+      
+
+
+        self.d_row_1_NETWORK = QFrame(self.pdf_NETWORK)
+        self.d_row_1_NETWORK.setObjectName(u"d_row_1_NETWORK")
+        self.d_row_1_NETWORK.setFrameShape(QFrame.StyledPanel)
+        self.d_row_1_NETWORK.setFrameShadow(QFrame.Raised)
+        self.d_row_1_NETWORK.setMaximumHeight(600)
+        # self.d_row_1_NETWORK.setMaximumSize(QSize(600, 400))
+
+        self.d_LG_row_1_NETWORK = QGridLayout(self.d_row_1_NETWORK)
+        self.d_LG_row_1_NETWORK.setSpacing(0)
+        self.d_LG_row_1_NETWORK.setObjectName(u"d_LG_row_1_NETWORK")
+        self.d_LG_row_1_NETWORK.setContentsMargins(0, 0, 1, 1)
+
+        ## ============================
+
+
+        self.pdfView_NETWORK = QPdfView(self.pdf_NETWORK)
+        self.pdfView_NETWORK.setObjectName(u"pdfView_NETWORK")
+
+        self.m_document = QPdfDocument(self.pdf_NETWORK)
+
+        self.pdfView_NETWORK.setDocument(self.m_document)
+
+
+        ## ============================
+
+
+
+        self.mainToolBar = QToolBar(self.d_row_1_NETWORK)
+        self.mainToolBar.setObjectName(u"mainToolBar")
+        self.mainToolBar.setMovable(False)
+        self.mainToolBar.setFloatable(False)
+
+
+        # ACTIONS
+
+
+        self.run_NETWORK = QPushButton(self.d_row_1_NETWORK)
+        self.run_NETWORK.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.run_NETWORK.setText("Run")
+
+        self.actionZoom_In_NETWORK = QPushButton(self.d_row_1_NETWORK)
+        self.actionZoom_In_NETWORK.setText('In')
+        self.actionZoom_In_NETWORK.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.actionZoom_Out = QPushButton(self.d_row_1_NETWORK)
+        self.actionZoom_Out.setText('Out')
+        self.actionZoom_Out.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.m_zoomSelector = ZoomSelector(self.d_row_1_NETWORK)
+        self.m_zoomSelector.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.m_zoomSelector.setMaximumWidth(150)
+        self.m_zoomSelector.zoom_mode_changed.connect(self.pdfView_NETWORK.setZoomMode)
+        self.m_zoomSelector.zoom_factor_changed.connect(self.pdfView_NETWORK.setZoomFactor)
+        self.m_zoomSelector.reset()
+        self.pdfView_NETWORK.zoomFactorChanged.connect(self.m_zoomSelector.set_zoom_factor)
+
+        self.actionPage_down_NETWORK = QPushButton(self.d_row_1_NETWORK)
+        self.actionPage_down_NETWORK.setText('-')
+        self.actionPage_down_NETWORK.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.actionPage_up_NETWORK = QPushButton(self.d_row_1_NETWORK)
+        self.actionPage_up_NETWORK.setText('+')
+        self.actionPage_up_NETWORK.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+        self.m_pageSelector = QSpinBox(self.d_row_1_NETWORK)
+        self.m_pageSelector.valueChanged.connect(self.page_selected)
+        self.m_pageSelector.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        nav = self.pdfView_NETWORK.pageNavigator()
+        nav.currentPageChanged.connect(self.m_pageSelector.setValue)
+        # nav.backAvailableChanged.connect(self.actionBack.setEnabled)
+        # nav.forwardAvailableChanged.connect(self.actionForward.setEnabled)
+
+        self.actionSave = QPushButton(self.d_row_1_NETWORK)
+        self.actionSave.setText('Save')
+        self.actionSave.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+
+
+
+
+
+        self.mainToolBar.addWidget(self.run_NETWORK)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionZoom_In_NETWORK)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.m_zoomSelector)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionZoom_Out)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionPage_down_NETWORK)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.m_pageSelector)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionPage_up_NETWORK)
+        self.mainToolBar.addSeparator()
+        self.mainToolBar.addWidget(self.actionSave)
+
+
+
+
+        ## =============
+
+
+        self.d_LG_row_1_NETWORK.addWidget(self.mainToolBar, 0, 0, 1, 1)
+        self.d_LG_row_1_NETWORK.addWidget(self.pdfView_NETWORK, 1, 0, 1, 1)
+
+        self.verticalLayout_pdf_NETWORK.addWidget(self.d_row_1_NETWORK)
+        self.mainLayout_NETWORK.addWidget(self.pdf_NETWORK)
+       
+
+        # ADD ALL
+
+        self.stackedWidget.addWidget(self.NETWORK)
+
+    def _static_view(self):
+
+
+        pass
 
 
 
@@ -1095,6 +2150,9 @@ class Ui_MainWindow(object):
         self.toggleButton.setText(QCoreApplication.translate("MainWindow", u"Hide", None))
         self.btn_home.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.btn_dynamic.setText(QCoreApplication.translate("MainWindow", u"Dynamic", None))
+        self.btn_static.setText(QCoreApplication.translate("MainWindow", u"Static", None))
+        self.btn_dynamic_static.setText(QCoreApplication.translate("MainWindow", u"Dynamic-Static", None))
+        self.btn_network.setText(QCoreApplication.translate("MainWindow", u"Network", None))
 
 
 
