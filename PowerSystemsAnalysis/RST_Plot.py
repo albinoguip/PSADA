@@ -26,12 +26,8 @@ class RST_Plot():
         self.instavel = self.data[self.data['A_STAB'] >= 1].reset_index(drop=True)
         self.instavel = self.instavel[self.instavel['A_CODE'].isin([2, 3, 4])].reset_index(drop=True)
 
-        print(self.instavel['A_CODE'].unique())
-
         if code_filtro:
             self.instavel = self.instavel[self.instavel['A_CODE'].isin(code_filtro)].reset_index(drop=True)
-
-        print(self.instavel)
 
         horas = {'00-00', '00-30', '01-00', '01-30', '02-00', '02-30', '03-00', '03-30', '04-00', '04-30', '05-00', '05-30', '06-00', '06-30',
                  '07-00', '07-30', '08-00', '08-30', '09-00', '09-30', '10-00', '10-30', '11-00', '11-30', '12-00', '12-30', '13-00', '13-30', 
@@ -39,7 +35,6 @@ class RST_Plot():
                  '21-00', '21-30', '22-00', '22-30', '23-00', '23-30'}
         
 
-        # colors    = ['lightsteelblue', 'royalblue', 'lightgreen', 'green', 'tan', 'darkgoldenrod', 'thistle', 'purple', 'lightcoral', 'red']
         colors    = ['royalblue', 'navy', 'lightgreen', 'green', 'tan', 'darkgoldenrod', 'thistle', 'purple', 'lightcoral', 'red']
         cmap_name = 'my_list'
         self.cmap = LinearSegmentedColormap.from_list(cmap_name, colors, N=len(colors))
@@ -1650,67 +1645,75 @@ class RST_Plot_renovaveis(RST_Plot):
 
 
 
-if __name__ == '__main__':
 
-    '''INSTAVEL'''
 
-    RP = RST_Plot(report_path = 'Data/PTOPER_A2V2F2_rev3/OUT/vars.csv',
-                  eol         = 'Data/EOL.csv',
-                  sol         = 'Data/SOL.csv',
-                  save_path   = 'Data/PTOPER_A2V2F2_rev2/IMAGENS/')
 
-    # RP = RST_Plot_nao(repots_path      = 'Data/PTOPER_A2V2F2_rev2/RenovaveisDefault/PTOPER_A2V2F2_rev2.json',
-    #                        contigences_path = 'Data/PTOPER_A2V2F2_rev2/RenovaveisDefault/PTOPER_A2V2F2_rev2_cont.json',
-    #                        eol              = 'Data/EOL.csv',
-    #                        sol              = 'Data/SOL.csv',
-    #                        save_path        = 'Data/PTOPER_A2V2F2_rev2/RenovaveisDefault/imagens/')
+
+
+class RST_Generic(RST_Plot):
+
+    def _get_variables(self):
+
+        return list(self.estavel.columns)
     
-    # RP.plot_inst_days_hours()
 
-    '''INSTAVEL'''
+    def _change_plot(self, ui, x, y, plot_type, c=None, stats=None):
 
-    # RP = RST_Plot_instavel(report_path = 'Data/PTOPER_A2V2F2_rev3/OUT/vars.csv',
-    #                        eol         = 'Data/EOL.csv',
-    #                        sol         = 'Data/SOL.csv',
-    #                        save_path   = 'Data/PTOPER_A2V2F2_rev3/IMAGENS/')
+        x_var = self.estavel[x]
+        y_var = self.estavel[y]
+        # c_var = self.estavel[c] if c else None
+
+        if plot_type == 'Scatter':
+            if c:
+                print(self.estavel[c].unique())
+                for c_unique in self.estavel[c].unique():
+
+                    temp  = self.estavel[self.estavel[c] == c_unique]
+                    x_var = temp[x]
+                    y_var = temp[y]
+
+                    ui.sc.axes.scatter(x_var, y_var, label=c_unique)
+
+            else:
+                ui.sc.axes.scatter(x_var, y_var)
+        
+        elif plot_type == 'Line':
+            if c:
+                for c_unique in self.estavel[c].unique():
+
+                    temp  = self.estavel[self.estavel[c] == c_unique]
+                    x_var = temp[x]
+                    y_var = temp[y]
+
+                    ui.sc.axes.plot(x_var, y_var, label=c_unique)
+
+            else:
+                ui.sc.axes.plot(x_var, y_var)
+
+        elif plot_type == 'Histogram':
+            ui.sc.axes.hist(x_var)
+
+
+        ui.sc.axes.set_xlabel(x)
+        ui.sc.axes.set_ylabel(y)
+
+        ui.sc.axes.legend(bbox_to_anchor=(1.15, 1.5), loc='upper right', borderaxespad=0)
+        ui.sc.axes.grid()
+
+        ui.sc.draw()
+
+        return ui
     
-    # RP.plot_inst_days_hours(show=False)
-    # RP.plot_inst_contigence_bus(show=False)
-    # RP.plot_inst_contigence_op(show=False)
-    # RP.plot_inst_histogram_contingence(show=False)
-    # RP.plot_inst_histogram_operation_points(show=False)
-    # RP.plot_inst_histogram_day(show=False)
-    # RP.plot_inst_histogram_hour(show=False)
-    # RP.plot_inst_histogram_bus(show=False)
-    # RP.plot_inst_histogram_CODE(show=False)
-    # RP.plot_code_histogram_CODE(show=True)
 
-    '''ESTAVEL'''
+    def plot(self, ui, x, y, c=None):
 
-    RP = RST_Plot_estavel(report_path = 'Data/PTOPER_A2V2F2_rev3/OUT/vars.csv',
-                          eol         = 'Data/EOL.csv',
-                          sol         = 'Data/SOL.csv',
-                          save_path   = 'Data/PTOPER_A2V2F2_rev3/IMAGENS/')
+        x_var = self.estavel[x]
+        y_var = self.estavel[y]
 
-    # RP.plot_est_violin_rocof()
-    # RP.plot_est_violin_nadir()
-    # RP.plot_est_violin_damping()
-    RP.plot_est_duplo_hist_RCFC_NDRC()
-    RP.plot_est_duplo_hist_NDRC_NDRC()
-    # RP.plot_est_duplo_hist_DAMP_NDRC()
-    # RP.plot_inst_histogram_bus_DAMP(negativo=False, zero=False)
-    # RP.plot_inst_histogram_bus_DAMP(negativo=True,  zero=False)
-    # RP.plot_inst_histogram_bus_DAMP(negativo=False, zero=True)
+        fig = plt.figure(figsize=(10, 6))
 
-    '''RENOVAVEIS'''
+        plt.scatter(x_var, y_var)
 
-    # RP = RST_Plot_renovaveis(repots_path      = 'C:/Users/Scarlet/Desktop/Data/PTOPER_V3A3F2_rev1/PTOPER_V3A3F2_rev1/PTOPER_V3A3F2_rev1.json',
-    #                          contigences_path = 'C:/Users/Scarlet/Desktop/Data/PTOPER_V3A3F2_rev1/PTOPER_V3A3F2_rev1/PTOPER_V3A3F2_rev1_cont.json',
-    #                          eol              = 'C:/Users/Scarlet/Desktop/Data/EOL.csv',
-    #                          sol              = 'C:/Users/Scarlet/Desktop/Data/SOL.csv',
-    #                          save_path        = 'C:/Users/Scarlet/Desktop/Data/PTOPER_V3A3F2_rev1/imagens/')
+        plt.close()
 
-
-    # RP.histograma_Pene_NDRC_NDRC()
-    # RP.histograma_Pene_NDRC_RCFC()
-    # RP.histograma_RCFC_NDRC_Pene()
+        return fig

@@ -131,8 +131,24 @@ class UIFunctions(MainWindow):
 
         self.file_vars = self.file_vars[0]
 
-        self.ui.vars_qline.setText(self.file_vars)       
-        print(self.file_vars) 
+        self.ui.vars_qline.setText(self.file_vars)     
+
+        self.rst_generic = RST_Generic(report_path = self.file_vars,
+                                       eol         = None,
+                                       sol         = None,
+                                       save_path   = None,
+                                       code_filtro = None)
+        
+
+        c_options = [None]
+        c_options.extend(list(self.rst_generic._get_variables()))
+
+        self.ui.dynamic_x.addItems(self.rst_generic._get_variables())
+        self.ui.dynamic_y.addItems(self.rst_generic._get_variables())
+        self.ui.dynamic_c.addItems(c_options)
+
+        self.ui.dynamic_plot.addItems(['Scatter', 'Line', 'Histogram'])
+        self.ui.dynamic_c.addItems([None, 'Mean'])
 
 
 
@@ -146,26 +162,6 @@ class UIFunctions(MainWindow):
 
         if not os.path.exists(POUT):
             os.makedirs(POUT)
-
-        # print(FOLDERS)
-
-        # for folder in FOLDERS:
-
-        #     RSTS = os.listdir(PATH + folder + '/Output/')
-        #     RSTS = [rst for rst in RSTS if '.rst' in rst]
-
-        #     for rst in RSTS:
-        #         new_name = 'D_' + folder.replace('DS202610', '') + '_H_' + rst.split('_')[-1].split('.')[0] + '.rst'
-        #         shutil.copyfile(PATH + folder + '/Output/' + rst, POUT + '/' + new_name)
-
-
-        # RSTS = os.listdir(PATH)
-        # RSTS = [rst for rst in RSTS if '.rst' in rst]
-
-        # for rst in RSTS:
-        #     new_name = 'D_' + rst.split('_')[0].replace('Dia_', '') + '_H_' + rst.split('_')[-1].split('.')[0] + '.rst'
-        #     shutil.copyfile(PATH + rst, POUT + '/' + new_name)
-
 
         RSTS = os.listdir(PATH)
         RSTS = [rst for rst in RSTS if '.rst' in rst]
@@ -183,9 +179,6 @@ class UIFunctions(MainWindow):
 
             RR = RST_Reader(RST)
             a, net_info = RR.generate_json()
-
-            # print(a)
-            # print(net_info)
 
             rede = np.expand_dims(np.array(net_info).ravel(), axis=(0))
             columns = []
@@ -493,6 +486,29 @@ class UIFunctions(MainWindow):
             RP.NDRC_comparation(x_variable='HRSV'  , xlabel='HRSV', title='Nadir x HRSV [ILHA 1][Mean]', contigence=conts[i], mean=True , round=1   , islands=[1], single=True , show=False, line=True)
             RP.NDRC_comparation(x_variable='Reserva'  , xlabel='Reserva', title='Nadir x Reserva [ILHA 1][Mean]', contigence=conts[i], mean=True , round=1   , islands=[1], single=True , show=False, line=True)
 
+
+    def dynamic_plot_function(self):
+
+        print('cliclou')
+
+        self.ui.sc.axes.cla()
+
+        x_var = self.ui.dynamic_x.currentText()
+        y_var = self.ui.dynamic_y.currentText()
+        c_var = self.ui.dynamic_c.currentText()
+
+        p_var = self.ui.dynamic_plot.currentText()
+        s_var = self.ui.dynamic_stats.currentText()
+
+        self.ui = self.rst_generic._change_plot(self.ui, 
+                                                x_var, 
+                                                y_var,
+                                                p_var,
+                                                c     = c_var, 
+                                                stats = s_var)
+
+
+        
 
 
 

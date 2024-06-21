@@ -55,6 +55,9 @@ class MainWindow(QMainWindow):
 
         widgets.btn_home.clicked.connect(self.buttonClick)     # HOME
         widgets.btn_dynamic.clicked.connect(self.buttonClick)  # DYNAMIC
+        widgets.btn_static.clicked.connect(self.buttonClick)  # STATIC
+        widgets.btn_dynamic_static.clicked.connect(self.buttonClick)  # DYNAMIC STATIC
+        widgets.btn_network.clicked.connect(self.buttonClick)  # NETWORK
         
 
         self.show() 
@@ -78,6 +81,7 @@ class MainWindow(QMainWindow):
         widgets.vars_search.clicked.connect(lambda: UIFunctions.processed_open_button_function(self))
         widgets.instavel.clicked.connect(lambda: UIFunctions.instavel_button(self))
         widgets.estavel.clicked.connect(lambda: UIFunctions.estavel_button(self))
+        widgets.dynamic_plot_button.clicked.connect(lambda: UIFunctions.dynamic_plot_function(self))
 
 
 
@@ -111,6 +115,31 @@ class MainWindow(QMainWindow):
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
+        # SHOW STATIC PAGE
+        if btnName == "btn_static":
+            widgets.stackedWidget.setCurrentWidget(widgets.STATIC)
+            UIFunctions.resetStyle(self, btnName)
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+        
+        # SHOW DYNAMIC_STATIC PAGE
+        if btnName == "btn_dynamic_static":
+            widgets.stackedWidget.setCurrentWidget(widgets.DYNAMIC_STATIC)
+            UIFunctions.resetStyle(self, btnName)
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+
+        # SHOW NETWORK PAGE
+        if btnName == "btn_network":
+            widgets.stackedWidget.setCurrentWidget(widgets.NETWORK)
+            UIFunctions.resetStyle(self, btnName)
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+
+
+
+
+
+
+
+
 
 
         # PRINT BTN NAME
@@ -127,7 +156,7 @@ class MainWindow(QMainWindow):
         # SET DRAG POS WINDOW
         self.dragPos = event.globalPos()
 
-        # PRINT MOUSE EVENTS
+        # PRINT MOUSE EVENTS 
         if event.buttons() == Qt.LeftButton:
             print('Mouse click: LEFT CLICK')
         if event.buttons() == Qt.RightButton:
