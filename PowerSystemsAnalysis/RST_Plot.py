@@ -1672,10 +1672,10 @@ class RST_Generic(RST_Plot):
                     x_var = temp[x]
                     y_var = temp[y]
 
-                    ui.sc.axes.scatter(x_var, y_var, label=c_unique)
+                    ui.DYNAMIC_sc.axes.scatter(x_var, y_var, label=c_unique)
 
             else:
-                ui.sc.axes.scatter(x_var, y_var)
+                ui.DYNAMIC_sc.axes.scatter(x_var, y_var)
         
         elif plot_type == 'Line':
             if c:
@@ -1685,22 +1685,22 @@ class RST_Generic(RST_Plot):
                     x_var = temp[x]
                     y_var = temp[y]
 
-                    ui.sc.axes.plot(x_var, y_var, label=c_unique)
+                    ui.DYNAMIC_sc.axes.plot(x_var, y_var, label=c_unique)
 
             else:
-                ui.sc.axes.plot(x_var, y_var)
+                ui.DYNAMIC_sc.axes.plot(x_var, y_var)
 
         elif plot_type == 'Histogram':
-            ui.sc.axes.hist(x_var)
+            ui.DYNAMIC_sc.axes.hist(x_var)
 
 
-        ui.sc.axes.set_xlabel(x)
-        ui.sc.axes.set_ylabel(y)
+        ui.DYNAMIC_sc.axes.set_xlabel(x)
+        ui.DYNAMIC_sc.axes.set_ylabel(y)
 
-        ui.sc.axes.legend(bbox_to_anchor=(1.15, 1.5), loc='upper right', borderaxespad=0)
-        ui.sc.axes.grid()
+        ui.DYNAMIC_sc.axes.legend(bbox_to_anchor=(1.15, 1.5), loc='upper right', borderaxespad=0)
+        ui.DYNAMIC_sc.axes.grid()
 
-        ui.sc.draw()
+        ui.DYNAMIC_sc.draw()
 
         return ui
     

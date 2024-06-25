@@ -352,7 +352,7 @@ _, _ = DG.ChangeLoad(carga='D:/Modeling/BASE/CARGA.csv', min_load=0.30, max_load
 
 
 
-batchs = ['01']#, '02', '03', '04', '05', '06', '07', '08', '09', '10']#, '11', '12', '13', '14', '15', '16']
+batchs = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10']#, '11', '12', '13', '14', '15', '16']
 
 for batch in batchs: 
     os.makedirs(f'D:/BATCH/BATCH_{batch}/Conv/DSA/', exist_ok=True)
@@ -366,7 +366,10 @@ for batch in batchs:
         rodados = [f.replace('.rst', '.dsa') for f in os.listdir(f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/') if '.rst' in f] # .replace('_NEWTON.rst', '.dsa')
         casos   = list(set(casos) - set(rodados))
 
-        print(len(casos), len(rodados), casos[0], rodados[0])
+        try:
+            print(batch, len(casos), len(rodados), casos[0], rodados[0])
+        except:
+            print(batch, len(casos), len(rodados), casos[0], None)
         
 
         for caso in tqdm(casos):

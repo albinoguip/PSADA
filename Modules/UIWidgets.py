@@ -580,39 +580,37 @@ class Ui_MainWindow(object):
 
 
 
-        self.data_match_local_search_button = QPushButton(self.row_1_dvp)
-        self.data_match_local_search_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.data_match_local_search_button.setText("Search")
-        self.LG_row_1_dvp.addWidget(self.data_match_local_search_button, 0, 0, 1, 2)
+        # FIRST ROW
 
-        self.data_match_qline_files = QLineEdit(self.row_1_dvp)
-        self.data_match_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_1_dvp.addWidget(self.data_match_qline_files, 0, 2, 1, 8)
+        self.dynamic_local_search_button = QPushButton(self.row_1_dvp)
+        self.dynamic_local_search_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_local_search_button.setText("Search")
+        self.LG_row_1_dvp.addWidget(self.dynamic_local_search_button, 0, 0, 1, 2)
 
-
-
-
+        self.dynamic_qline_files = QLineEdit(self.row_1_dvp)
+        self.dynamic_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_1_dvp.addWidget(self.dynamic_qline_files, 0, 2, 1, 8)
 
 
-        self.dvp_search_file_button = QPushButton(self.row_1_dvp)
-        self.dvp_search_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.dvp_search_file_button.setText("Select")
-        self.LG_row_1_dvp.addWidget(self.dvp_search_file_button, 1, 0, 1, 2)
 
-        self.dvp_qline_files = QLineEdit(self.row_1_dvp)
-        self.dvp_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_1_dvp.addWidget(self.dvp_qline_files, 1, 2, 1, 8)
+        self.dynamic_search_file_button = QPushButton(self.row_1_dvp)
+        self.dynamic_search_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_search_file_button.setText("Select")
+        self.LG_row_1_dvp.addWidget(self.dynamic_search_file_button, 1, 0, 1, 2)
 
-        self.dvp_read_file_button = QPushButton(self.row_1_dvp)
-        self.dvp_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.dvp_read_file_button.setText("Process")
-        self.LG_row_1_dvp.addWidget(self.dvp_read_file_button, 0, 10, 2, 2)
+        self.dynamic_qline_files_out = QLineEdit(self.row_1_dvp)
+        self.dynamic_qline_files_out.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_1_dvp.addWidget(self.dynamic_qline_files_out, 1, 2, 1, 8)
 
+        self.dynamic_read_file_button = QPushButton(self.row_1_dvp)
+        self.dynamic_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_read_file_button.setText("Process")
+        self.LG_row_1_dvp.addWidget(self.dynamic_read_file_button, 0, 10, 2, 2)
 
         self.verticalLayout_dvp.addWidget(self.row_1_dvp)
 
 
-
+        # SECOND ROW
 
 
         self.row_2_dvp = QFrame(self.infos_dvp)
@@ -627,38 +625,38 @@ class Ui_MainWindow(object):
         self.LG_row_2_dvp.setContentsMargins(0, 0, 1, 1)
 
 
-        self.vars_search = QPushButton(self.row_2_dvp)
-        self.vars_search.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.vars_search.setText("Processed")
-        self.LG_row_2_dvp.addWidget(self.vars_search, 2, 0, 1, 2)
+        self.dynamic_vars_search = QPushButton(self.row_2_dvp)
+        self.dynamic_vars_search.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_vars_search.setText("Processed")
+        self.LG_row_2_dvp.addWidget(self.dynamic_vars_search, 2, 0, 1, 2)
 
-        self.vars_qline = QLineEdit(self.row_2_dvp)
-        self.vars_qline.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_2_dvp.addWidget(self.vars_qline, 2, 2, 1, 10)
-
-
+        self.dynamic_vars_qline = QLineEdit(self.row_2_dvp)
+        self.dynamic_vars_qline.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        self.LG_row_2_dvp.addWidget(self.dynamic_vars_qline, 2, 2, 1, 10)
 
 
-        self.instavel = QPushButton(self.row_2_dvp)
-        self.instavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.instavel.setText("Instável")
-        self.LG_row_2_dvp.addWidget(self.instavel, 3, 0, 1, 6)
-
-        self.estavel = QPushButton(self.row_2_dvp)
-        self.estavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.estavel.setText("Estável")
-        self.LG_row_2_dvp.addWidget(self.estavel, 3, 6, 1, 6)
 
 
-        self.per_cont = QPushButton(self.row_2_dvp)
-        self.per_cont.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.per_cont.setText("Por Contingência")
-        self.LG_row_2_dvp.addWidget(self.per_cont, 4, 0, 1, 6)
+        self.dynamic_instavel = QPushButton(self.row_2_dvp)
+        self.dynamic_instavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_instavel.setText("Instável")
+        self.LG_row_2_dvp.addWidget(self.dynamic_instavel, 3, 0, 1, 6)
 
-        self.per_group = QPushButton(self.row_2_dvp)
-        self.per_group.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.per_group.setText("Por Grupo")
-        self.LG_row_2_dvp.addWidget(self.per_group, 4, 6, 1, 6)
+        self.dynamic_estavel = QPushButton(self.row_2_dvp)
+        self.dynamic_estavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_estavel.setText("Estável")
+        self.LG_row_2_dvp.addWidget(self.dynamic_estavel, 3, 6, 1, 6)
+
+
+        self.dynamic_per_cont = QPushButton(self.row_2_dvp)
+        self.dynamic_per_cont.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_per_cont.setText("Por Contingência")
+        self.LG_row_2_dvp.addWidget(self.dynamic_per_cont, 4, 0, 1, 6)
+
+        self.dynamic_per_group = QPushButton(self.row_2_dvp)
+        self.dynamic_per_group.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        self.dynamic_per_group.setText("Por Grupo")
+        self.LG_row_2_dvp.addWidget(self.dynamic_per_group, 4, 6, 1, 6)
 
 
 
@@ -752,13 +750,13 @@ class Ui_MainWindow(object):
 
         # ===================================================================================
 
-        self.sc = MplCanvas(self, width=12, height=12, dpi=100)
-        self.sc.axes.plot([0,1,2,3,4], [10,1,20,3,40])
+        self.DYNAMIC_sc = MplCanvas(self, width=12, height=12, dpi=100)
+        self.DYNAMIC_sc.axes.plot([0,1,2,3,4], [10,1,20,3,40])
 
-        self.toolbar = NavigationToolbar2QT(self.sc)
+        self.toolbar = NavigationToolbar2QT(self.DYNAMIC_sc)
 
-        self.LG_row_3_dvp.addWidget(self.toolbar, 3, 0,  1, 12)
-        self.LG_row_3_dvp.addWidget(self.sc     , 4, 0, 12, 12)
+        self.LG_row_3_dvp.addWidget(self.toolbar   , 3, 0,  1, 12)
+        self.LG_row_3_dvp.addWidget(self.DYNAMIC_sc, 4, 0, 12, 12)
 
         # ===================================================================================
         self.verticalLayout_dvp.addWidget(self.row_3_dvp)
@@ -945,7 +943,6 @@ class Ui_MainWindow(object):
 
 
 
-
         self.data_match_local_search_button = QPushButton(self.row_1_STATIC)
         self.data_match_local_search_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         self.data_match_local_search_button.setText("Search")
@@ -971,7 +968,7 @@ class Ui_MainWindow(object):
 
         self.STATIC_read_file_button = QPushButton(self.row_1_STATIC)
         self.STATIC_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.STATIC_read_file_button.setText("Process")
+        self.STATIC_read_file_button.setText("TESTE")
         self.LG_row_1_STATIC.addWidget(self.STATIC_read_file_button, 0, 10, 2, 2)
 
 
@@ -1055,28 +1052,28 @@ class Ui_MainWindow(object):
 
 
 
-        self.dynamic_x = QComboBox(self.row_3_STATIC)
-        self.dynamic_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_STATIC.addWidget(self.dynamic_x, 0, 0, 1, 3)
+        # self.dynamic_x = QComboBox(self.row_3_STATIC)
+        # self.dynamic_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_STATIC.addWidget(self.dynamic_x, 0, 0, 1, 3)
 
-        self.dynamic_y = QComboBox(self.row_3_STATIC)
-        self.dynamic_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_STATIC.addWidget(self.dynamic_y, 0, 3, 1, 3)
-
-
-        self.dynamic_c = QComboBox(self.row_3_STATIC)
-        self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_STATIC.addWidget(self.dynamic_c, 0, 6, 1, 3)
+        # self.dynamic_y = QComboBox(self.row_3_STATIC)
+        # self.dynamic_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_STATIC.addWidget(self.dynamic_y, 0, 3, 1, 3)
 
 
+        # self.dynamic_c = QComboBox(self.row_3_STATIC)
+        # self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_STATIC.addWidget(self.dynamic_c, 0, 6, 1, 3)
 
-        self.dynamic_plot = QComboBox(self.row_3_STATIC)
-        self.dynamic_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_STATIC.addWidget(self.dynamic_plot, 1, 0, 1, 3)
 
-        self.dynamic_stats = QComboBox(self.row_3_STATIC)
-        self.dynamic_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_STATIC.addWidget(self.dynamic_stats, 1, 3, 1, 3)
+
+        # self.dynamic_plot = QComboBox(self.row_3_STATIC)
+        # self.dynamic_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_STATIC.addWidget(self.dynamic_plot, 1, 0, 1, 3)
+
+        # self.dynamic_stats = QComboBox(self.row_3_STATIC)
+        # self.dynamic_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_STATIC.addWidget(self.dynamic_stats, 1, 3, 1, 3)
 
 
         # self.dynamic_c = QComboBox(self.row_3_STATIC)
@@ -1086,10 +1083,10 @@ class Ui_MainWindow(object):
 
 
 
-        self.dynamic_plot_button = QPushButton(self.row_3_STATIC)
-        self.dynamic_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.dynamic_plot_button.setText("Plot")
-        self.LG_row_3_STATIC.addWidget(self.dynamic_plot_button, 0, 9, 2, 3)
+        # self.dynamic_plot_button = QPushButton(self.row_3_STATIC)
+        # self.dynamic_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        # self.dynamic_plot_button.setText("Plot")
+        # self.LG_row_3_STATIC.addWidget(self.dynamic_plot_button, 0, 9, 2, 3)
 
 
 
@@ -1424,28 +1421,28 @@ class Ui_MainWindow(object):
 
 
 
-        self.dynamic_x = QComboBox(self.row_3_DYNAMIC_STATIC)
-        self.dynamic_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_x, 0, 0, 1, 3)
+        # self.dynamic_x = QComboBox(self.row_3_DYNAMIC_STATIC)
+        # self.dynamic_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_x, 0, 0, 1, 3)
 
-        self.dynamic_y = QComboBox(self.row_3_DYNAMIC_STATIC)
-        self.dynamic_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_y, 0, 3, 1, 3)
-
-
-        self.dynamic_c = QComboBox(self.row_3_DYNAMIC_STATIC)
-        self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_c, 0, 6, 1, 3)
+        # self.dynamic_y = QComboBox(self.row_3_DYNAMIC_STATIC)
+        # self.dynamic_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_y, 0, 3, 1, 3)
 
 
+        # self.dynamic_c = QComboBox(self.row_3_DYNAMIC_STATIC)
+        # self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_c, 0, 6, 1, 3)
 
-        self.dynamic_plot = QComboBox(self.row_3_DYNAMIC_STATIC)
-        self.dynamic_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_plot, 1, 0, 1, 3)
 
-        self.dynamic_stats = QComboBox(self.row_3_DYNAMIC_STATIC)
-        self.dynamic_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_stats, 1, 3, 1, 3)
+
+        # self.dynamic_plot = QComboBox(self.row_3_DYNAMIC_STATIC)
+        # self.dynamic_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_plot, 1, 0, 1, 3)
+
+        # self.dynamic_stats = QComboBox(self.row_3_DYNAMIC_STATIC)
+        # self.dynamic_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_stats, 1, 3, 1, 3)
 
 
         # self.dynamic_c = QComboBox(self.row_3_DYNAMIC_STATIC)
@@ -1455,10 +1452,10 @@ class Ui_MainWindow(object):
 
 
 
-        self.dynamic_plot_button = QPushButton(self.row_3_DYNAMIC_STATIC)
-        self.dynamic_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.dynamic_plot_button.setText("Plot")
-        self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_plot_button, 0, 9, 2, 3)
+        # self.dynamic_plot_button = QPushButton(self.row_3_DYNAMIC_STATIC)
+        # self.dynamic_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        # self.dynamic_plot_button.setText("Plot")
+        # self.LG_row_3_DYNAMIC_STATIC.addWidget(self.dynamic_plot_button, 0, 9, 2, 3)
 
 
 
@@ -1802,28 +1799,28 @@ class Ui_MainWindow(object):
 
 
 
-        self.dynamic_x = QComboBox(self.row_3_NETWORK)
-        self.dynamic_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_NETWORK.addWidget(self.dynamic_x, 0, 0, 1, 3)
+        # self.dynamic_x = QComboBox(self.row_3_NETWORK)
+        # self.dynamic_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_NETWORK.addWidget(self.dynamic_x, 0, 0, 1, 3)
 
-        self.dynamic_y = QComboBox(self.row_3_NETWORK)
-        self.dynamic_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_NETWORK.addWidget(self.dynamic_y, 0, 3, 1, 3)
-
-
-        self.dynamic_c = QComboBox(self.row_3_NETWORK)
-        self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_NETWORK.addWidget(self.dynamic_c, 0, 6, 1, 3)
+        # self.dynamic_y = QComboBox(self.row_3_NETWORK)
+        # self.dynamic_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_NETWORK.addWidget(self.dynamic_y, 0, 3, 1, 3)
 
 
+        # self.dynamic_c = QComboBox(self.row_3_NETWORK)
+        # self.dynamic_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_NETWORK.addWidget(self.dynamic_c, 0, 6, 1, 3)
 
-        self.dynamic_plot = QComboBox(self.row_3_NETWORK)
-        self.dynamic_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_NETWORK.addWidget(self.dynamic_plot, 1, 0, 1, 3)
 
-        self.dynamic_stats = QComboBox(self.row_3_NETWORK)
-        self.dynamic_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        self.LG_row_3_NETWORK.addWidget(self.dynamic_stats, 1, 3, 1, 3)
+
+        # self.dynamic_plot = QComboBox(self.row_3_NETWORK)
+        # self.dynamic_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_NETWORK.addWidget(self.dynamic_plot, 1, 0, 1, 3)
+
+        # self.dynamic_stats = QComboBox(self.row_3_NETWORK)
+        # self.dynamic_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # self.LG_row_3_NETWORK.addWidget(self.dynamic_stats, 1, 3, 1, 3)
 
 
         # self.dynamic_c = QComboBox(self.row_3_NETWORK)
@@ -1833,10 +1830,10 @@ class Ui_MainWindow(object):
 
 
 
-        self.dynamic_plot_button = QPushButton(self.row_3_NETWORK)
-        self.dynamic_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        self.dynamic_plot_button.setText("Plot")
-        self.LG_row_3_NETWORK.addWidget(self.dynamic_plot_button, 0, 9, 2, 3)
+        # self.dynamic_plot_button = QPushButton(self.row_3_NETWORK)
+        # self.dynamic_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        # self.dynamic_plot_button.setText("Plot")
+        # self.LG_row_3_NETWORK.addWidget(self.dynamic_plot_button, 0, 9, 2, 3)
 
 
 

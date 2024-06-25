@@ -74,13 +74,15 @@ class MainWindow(QMainWindow):
         # ========================================================================================================================================================================
         
 
-        widgets.data_match_local_search_button.clicked.connect(lambda: UIFunctions.data_match_local_search_button_function(self))
-        widgets.dvp_search_file_button.clicked.connect(lambda: UIFunctions.dvp_sf_button_function(self))
-        widgets.dvp_read_file_button.clicked.connect(lambda: UIFunctions.dvp_read_file_button_function(self))
+        widgets.dynamic_local_search_button.clicked.connect(lambda: UIFunctions.data_match_local_search_button_function(self))
+        widgets.dynamic_search_file_button.clicked.connect(lambda: UIFunctions.dvp_sf_button_function(self))
+        widgets.dynamic_read_file_button.clicked.connect(lambda: UIFunctions.dvp_read_file_button_function(self))
 
-        widgets.vars_search.clicked.connect(lambda: UIFunctions.processed_open_button_function(self))
-        widgets.instavel.clicked.connect(lambda: UIFunctions.instavel_button(self))
-        widgets.estavel.clicked.connect(lambda: UIFunctions.estavel_button(self))
+        widgets.dynamic_vars_search.clicked.connect(lambda: UIFunctions.processed_open_button_function(self))
+        widgets.dynamic_instavel.clicked.connect(lambda: UIFunctions.instavel_button(self))
+        widgets.dynamic_estavel.clicked.connect(lambda: UIFunctions.estavel_button(self))
+        widgets.dynamic_per_cont.clicked.connect(lambda: UIFunctions.per_cont_button(self))
+        widgets.dynamic_per_group.clicked.connect(lambda: UIFunctions.per_group_button(self))
         widgets.dynamic_plot_button.clicked.connect(lambda: UIFunctions.dynamic_plot_function(self))
 
 

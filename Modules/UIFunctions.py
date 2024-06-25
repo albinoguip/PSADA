@@ -8,7 +8,7 @@ from Modules.Help_Widgets import *
 
 import shutil, json
 
-from win32com.shell import shell, shellcon
+from win32com.shell import shell, shellcon 
 
 
 
@@ -114,14 +114,14 @@ class UIFunctions(MainWindow):
 
         self.file_data_match = str(QFileDialog.getExistingDirectory(self, "Select Directory")) + '/'
 
-        self.ui.data_match_qline_files.setText(self.file_data_match)
+        self.ui.dynamic_qline_files.setText(self.file_data_match)
 
 
     def dvp_sf_button_function(self): 
 
         self.file_names_dvp = str(QFileDialog.getExistingDirectory(self, "Select Directory")) + '/'
 
-        self.ui.dvp_qline_files.setText(self.file_names_dvp)
+        self.ui.dynamic_qline_files_out.setText(self.file_names_dvp)
 
 
     def processed_open_button_function(self): 
@@ -131,7 +131,7 @@ class UIFunctions(MainWindow):
 
         self.file_vars = self.file_vars[0]
 
-        self.ui.vars_qline.setText(self.file_vars)     
+        self.ui.dynamic_vars_qline.setText(self.file_vars)     
 
         self.rst_generic = RST_Generic(report_path = self.file_vars,
                                        eol         = None,
