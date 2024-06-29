@@ -1,16 +1,18 @@
-import sys, os, platform
-
 # IMPORT / GUI AND MODULES AND WIDGETS
 # ///////////////////////////////////////////////////////////////
 from Modules import *
-# from widgets import *
+import sys, os, platform
+
+
+
+# SETTING ENVIORNMENT VARIABLES AND GLOBAL VARIABLES
+# ///////////////////////////////////////////////////////////////
 os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
+widgets = None
 
 
-
-
-
-
+# PATH HELPER
+# ///////////////////////////////////////////////////////////////
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
@@ -21,24 +23,20 @@ def resource_path(relative_path):
 
 
 
+# //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# ///                                                                                                                                                ///
+# ///                                                                   MAIN WINDOW                                                                  ///
+# ///                                                                                                                                                ///
+# //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-# SET AS GLOBAL WIDGETS
-# ///////////////////////////////////////////////////////////////
-widgets = None
 
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
 
-        # //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        # ///---------------------------------------------------------- INITIALIZE GLOBAL WIDGETS -----------------------------------------------------------///
-        # //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        # DEFINE BASE WIDGETS
+        # ///////////////////////////////////////////////////////////////
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -46,11 +44,15 @@ class MainWindow(QMainWindow):
         widgets = self.ui
 
 
+        # DEFINE SPECIFIC WIDGETS
+        # ///////////////////////////////////////////////////////////////
+
         DYNW = DYN_Widgets()
         DYNW._create_dynamic(widgets)
 
 
-
+        # 
+        # ///////////////////////////////////////////////////////////////
 
 
         self.setWindowTitle("Data Analysis Tool")
@@ -75,11 +77,8 @@ class MainWindow(QMainWindow):
         widgets.stackedWidget.setCurrentWidget(widgets.home)      
 
 
-        # ========================================================================================================================================================================
-        # ===                                                                                                                                                                  ===
-        # ===                                                                              DYNAMIC                                                                             ===
-        # ===                                                                                                                                                                  ===
-        # ========================================================================================================================================================================
+        # CREATING CONNECTIONS BETWEEN WIDGETS AND FUNCTIONS
+        # ///////////////////////////////////////////////////////////////
         
 
         con = connect()
@@ -88,21 +87,13 @@ class MainWindow(QMainWindow):
 
 
 
-
-
-
-
-
-
-
-
-
-
+    # SELECT WIDGETS
+    # ///////////////////////////////////////////////////////////////
 
     def buttonClick(self):
 
         # GET BUTTON CLICKED
-        btn = self.sender()
+        btn     = self.sender()
         btnName = btn.objectName()
 
         # SHOW HOME PAGE
@@ -137,23 +128,15 @@ class MainWindow(QMainWindow):
 
 
 
-
-
-
-
-
-
-
-        # PRINT BTN NAME
-        print(f'Button "{btnName}" pressed!')
-
     
     # RESIZE EVENTS
+    # ///////////////////////////////////////////////////////////////
     def resizeEvent(self, event):
-        # Update Size Grips
         BASE_Functions.resize_grips(self)
 
+
     # MOUSE CLICK EVENTS
+    # ///////////////////////////////////////////////////////////////
     def mousePressEvent(self, event):
         # SET DRAG POS WINDOW
         self.dragPos = event.globalPos()
@@ -163,6 +146,7 @@ class MainWindow(QMainWindow):
             print('Mouse click: LEFT CLICK')
         if event.buttons() == Qt.RightButton:
             print('Mouse click: RIGHT CLICK')
+
 
 
 if __name__ == "__main__":

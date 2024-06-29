@@ -144,6 +144,8 @@ class RST_Process():
 
         df = pd.DataFrame(ok)
 
+
+
         try:
             df = pd.DataFrame(ok, columns=['Contigence', 'Contigence_Number', 'SIGLA', 'A', 'B', 'C', 'D'])#, 'C', 'D', 'E', 'F'
 
@@ -163,7 +165,20 @@ class RST_Process():
                 df = df[['OP', 'Contigence', 'SIGLA', 'A']]
                 df = df[df['SIGLA'].isin(['CODE', 'STAB', 'DAMP', 'RCFC', 'NDRC', 'INRT', 'PGTM'])]
                 df = df.pivot_table(['A'], ['OP', 'Contigence'], 'SIGLA').reset_index(drop=False)
+
+
+                
             except:
-                df = None
-        
+                try:
+                    df = pd.DataFrame(ok, columns=['Contigence', 'Contigence_Number', 'SIGLA', 'A', 'B'])
+
+                    df['OP'] = name
+                
+                    df = df[['OP', 'Contigence', 'SIGLA', 'A', 'B']]
+                    df = df[df['SIGLA'].isin(['CODE', 'STAB', 'DAMP', 'RCFC', 'NDRC', 'INRT', 'PGTM'])]
+                    df = df.pivot_table(['A', 'B'], ['OP', 'Contigence'], 'SIGLA').reset_index(drop=False)
+                    
+                except:
+                    df = None
+            
         self.df = df
