@@ -50,6 +50,15 @@ class MainWindow(QMainWindow):
         DYNW = DYN_Widgets()
         DYNW._create_dynamic(widgets)
 
+        STAW = STA_Widgets()
+        STAW._create_static(widgets)
+
+        STDW = STD_Widgets()
+        STDW._create_static_dynamic(widgets)
+
+        NETW = NET_Widgets()
+        NETW._create_network(widgets)
+
 
         # 
         # ///////////////////////////////////////////////////////////////
@@ -81,8 +90,8 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         
 
-        con = connect()
-        con.dyn_conn(widgets, self)
+        # con = connect()
+        # con.dyn_conn(widgets, self)
 
 
 
@@ -104,7 +113,7 @@ class MainWindow(QMainWindow):
 
         # SHOW DYNAMIC PAGE
         if btnName == "btn_dynamic":
-            widgets.stackedWidget.setCurrentWidget(widgets.dvp)
+            widgets.stackedWidget.setCurrentWidget(widgets.DYNAMIC)
             BASE_Functions.resetStyle(self, btnName)
             btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
 
@@ -116,7 +125,7 @@ class MainWindow(QMainWindow):
         
         # SHOW DYNAMIC_STATIC PAGE
         if btnName == "btn_dynamic_static":
-            widgets.stackedWidget.setCurrentWidget(widgets.DYNAMIC_STATIC)
+            widgets.stackedWidget.setCurrentWidget(widgets.STADYN)
             BASE_Functions.resetStyle(self, btnName)
             btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
 
@@ -146,6 +155,8 @@ class MainWindow(QMainWindow):
             print('Mouse click: LEFT CLICK')
         if event.buttons() == Qt.RightButton:
             print('Mouse click: RIGHT CLICK')
+
+
 
 
 

@@ -43,8 +43,8 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
             
-        MainWindow.resize(1280, 720)
-        MainWindow.setMinimumSize(QSize(940, 560))
+        MainWindow.resize(1920, 1080)
+        MainWindow.setMinimumSize(QSize(1280, 720))
 
         self.styleSheet = QWidget(MainWindow)
         self.styleSheet.setObjectName(u"styleSheet")
@@ -62,20 +62,15 @@ class Ui_MainWindow(object):
         self.appLayout.addWidget(self.leftMenuBg)
 
 
-        # self.teste2 = QLabel(self.bgApp)
-        # self.teste2.setStyleSheet(u"background-color: rgb(0, 37, 43)")
-        # self.appLayout.addWidget(self.teste2)
-
-
         self._create_content_box()
         self._create_up_bar()
         self._create_page_container()
         self._create_home()
 
         # self._create_dynamic()
-        self._create_static()
-        self._create_dynamic_static()
-        self._create_network()
+        # self._create_static()
+        # self._create_dynamic_static()
+        # self._create_network()
         
         self._static_view()
 
@@ -134,16 +129,16 @@ class Ui_MainWindow(object):
         self.appMargins = QVBoxLayout(self.styleSheet)
         self.appMargins.setSpacing(0)
         self.appMargins.setObjectName(u"appMargins")
-        self.appMargins.setContentsMargins(10, 10, 10, 10)
+        # self.appMargins.setContentsMargins(10, 10, 10, 10)
 
         self.bgApp = QFrame(self.styleSheet)
         self.bgApp.setObjectName(u"bgApp")
-        self.bgApp.setStyleSheet(u"")
-        self.bgApp.setFrameShape(QFrame.NoFrame)
-        self.bgApp.setFrameShadow(QFrame.Raised)
+        # self.bgApp.setStyleSheet(u"")
+        # self.bgApp.setFrameShape(QFrame.NoFrame)
+        # self.bgApp.setFrameShadow(QFrame.Raised)
 
         self.appLayout = QHBoxLayout(self.bgApp)
-        self.appLayout.setSpacing(0)
+        # self.appLayout.setSpacing(0)
         self.appLayout.setObjectName(u"appLayout")
         self.appLayout.setContentsMargins(0, 0, 0, 0)
 
@@ -153,8 +148,8 @@ class Ui_MainWindow(object):
         self.leftMenuBg.setObjectName(u"leftMenuBg")
         self.leftMenuBg.setMinimumSize(QSize(60, 0))
         self.leftMenuBg.setMaximumSize(QSize(60, 16777215))
-        self.leftMenuBg.setFrameShape(QFrame.NoFrame)
-        self.leftMenuBg.setFrameShadow(QFrame.Raised)
+        # self.leftMenuBg.setFrameShape(QFrame.NoFrame)
+        # self.leftMenuBg.setFrameShadow(QFrame.Raised)
 
         self.leftMenuBg_vert_layout = QVBoxLayout(self.leftMenuBg)
         self.leftMenuBg_vert_layout.setSpacing(0)
@@ -211,8 +206,8 @@ class Ui_MainWindow(object):
         
         self.leftMenuFrame = QFrame(self.leftMenuBg)
         self.leftMenuFrame.setObjectName(u"leftMenuFrame")
-        self.leftMenuFrame.setFrameShape(QFrame.NoFrame)
-        self.leftMenuFrame.setFrameShadow(QFrame.Raised)
+        # self.leftMenuFrame.setFrameShape(QFrame.NoFrame)
+        # self.leftMenuFrame.setFrameShadow(QFrame.Raised)
         self.verticalMenuLayout = QVBoxLayout(self.leftMenuFrame)
         self.verticalMenuLayout.setSpacing(0)
         self.verticalMenuLayout.setObjectName(u"verticalMenuLayout")
@@ -355,8 +350,8 @@ class Ui_MainWindow(object):
 
         self.contentBox = QFrame(self.bgApp)
         self.contentBox.setObjectName(u"contentBox")
-        self.contentBox.setFrameShape(QFrame.NoFrame)
-        self.contentBox.setFrameShadow(QFrame.Raised)
+        # self.contentBox.setFrameShape(QFrame.NoFrame)
+        # self.contentBox.setFrameShadow(QFrame.Raised)
         self.verticalLayout_2 = QVBoxLayout(self.contentBox)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -366,16 +361,16 @@ class Ui_MainWindow(object):
 
         self.contentBottom = QFrame(self.contentBox)
         self.contentBottom.setObjectName(u"contentBottom")
-        self.contentBottom.setFrameShape(QFrame.NoFrame)
-        self.contentBottom.setFrameShadow(QFrame.Raised)
+        # self.contentBottom.setFrameShape(QFrame.NoFrame)
+        # self.contentBottom.setFrameShadow(QFrame.Raised)
         self.verticalLayout_6 = QVBoxLayout(self.contentBottom)
         self.verticalLayout_6.setSpacing(0)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.content = QFrame(self.contentBottom)
         self.content.setObjectName(u"content")
-        self.content.setFrameShape(QFrame.NoFrame)
-        self.content.setFrameShadow(QFrame.Raised)
+        # self.content.setFrameShape(QFrame.NoFrame)
+        # self.content.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_4 = QHBoxLayout(self.content)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -501,16 +496,16 @@ class Ui_MainWindow(object):
 
         self.pagesContainer = QFrame(self.content)
         self.pagesContainer.setObjectName(u"pagesContainer")
-        self.pagesContainer.setStyleSheet(u"")
-        self.pagesContainer.setFrameShape(QFrame.NoFrame)
-        self.pagesContainer.setFrameShadow(QFrame.Raised)
+        # self.pagesContainer.setStyleSheet(u"")
+        # self.pagesContainer.setFrameShape(QFrame.NoFrame)
+        # self.pagesContainer.setFrameShadow(QFrame.Raised)
         self.verticalLayout_15 = QVBoxLayout(self.pagesContainer)
         self.verticalLayout_15.setSpacing(0)
         self.verticalLayout_15.setObjectName(u"verticalLayout_15")
-        self.verticalLayout_15.setContentsMargins(10, 10, 10, 10)
+        self.verticalLayout_15.setContentsMargins(0, 0, 0, 0)
         self.stackedWidget = QStackedWidget(self.pagesContainer)
         self.stackedWidget.setObjectName(u"stackedWidget")
-        self.stackedWidget.setStyleSheet(u"background: transparent;")
+        # self.stackedWidget.setStyleSheet(u"background: transparent;")
 
     def _create_home(self):
 
@@ -547,9 +542,9 @@ class Ui_MainWindow(object):
         self.dvp.setStyleSheet(u"b")
 
         self.mainLayout_dvp = QHBoxLayout(self.dvp)
-        self.mainLayout_dvp.setSpacing(10)
+        # self.mainLayout_dvp.setSpacing(10)
         self.mainLayout_dvp.setObjectName(u"mainLayout_dvp")
-        self.mainLayout_dvp.setContentsMargins(10, 10, 10, 10)
+        # self.mainLayout_dvp.setContentsMargins(10, 10, 10, 10)
 
         # === ESQUERDA
 
@@ -560,9 +555,9 @@ class Ui_MainWindow(object):
         self.infos_dvp.setMinimumWidth(800)
 
         self.verticalLayout_dvp = QVBoxLayout(self.infos_dvp)
-        self.verticalLayout_dvp.setSpacing(10)
+        # self.verticalLayout_dvp.setSpacing(10)
         self.verticalLayout_dvp.setObjectName(u"verticalLayout_dvp")
-        self.verticalLayout_dvp.setContentsMargins(10, 10, 10, 10)
+        # self.verticalLayout_dvp.setContentsMargins(10, 10, 10, 10)
 
         # ROW 1
 
@@ -573,7 +568,7 @@ class Ui_MainWindow(object):
         self.row_1_dvp.setMaximumHeight(110)
 
         self.LG_row_1_dvp = QGridLayout(self.row_1_dvp)
-        self.LG_row_1_dvp.setSpacing(5)
+        # self.LG_row_1_dvp.setSpacing(5)
         self.LG_row_1_dvp.setObjectName(u"LG_row_1_dvp")
         self.LG_row_1_dvp.setContentsMargins(0, 0, 1, 1)
 
