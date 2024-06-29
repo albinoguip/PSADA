@@ -72,7 +72,7 @@ class Ui_MainWindow(object):
         self._create_page_container()
         self._create_home()
 
-        self._create_dynamic()
+        # self._create_dynamic()
         self._create_static()
         self._create_dynamic_static()
         self._create_network()

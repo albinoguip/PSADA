@@ -43,7 +43,7 @@ batchs = ['11', '12', '13', '14', '15', '16']
 
 for batch in batchs:    
 
-    PATH   = f'D:/BATCH/BATCH_{batch}/Conv/NEWTON/'
+    PATH   = f'D:/BATCH/BATCH_{batch}/RST/'
     AUX    = f'D:/BATCH/BATCH_{batch}/'
     MASTER = [PATH + f for f in os.listdir(PATH) if '.rst' in f.lower()]
     parts  = len(MASTER)//2000 + 1 if len(MASTER)%2000 > 0 else len(MASTER)//2000

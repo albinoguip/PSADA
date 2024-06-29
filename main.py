@@ -45,6 +45,14 @@ class MainWindow(QMainWindow):
         global widgets
         widgets = self.ui
 
+
+        DYNW = DYN_Widgets()
+        DYNW._create_dynamic(widgets)
+
+
+
+
+
         self.setWindowTitle("Data Analysis Tool")
         widgets.titleRightInfo.setText("Data Analysis Tool")
 
