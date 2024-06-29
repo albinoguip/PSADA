@@ -232,78 +232,97 @@ _, _ = DG.ChangeLoad(carga='D:/Modeling/BASE/CARGA.csv', min_load=0.30, max_load
 
 
 
-for idx in tqdm(range(0, 100_000)):
+# for idx in tqdm(range(0, 100_000)):
 
-    path = f'D:/BATCH/BATCH_18/'
+#     path = f'D:/BATCH/BATCH_18/'
 
-    os.makedirs(path, exist_ok=True)
+#     os.makedirs(path, exist_ok=True)
 
-    DG = ScenarioGenerator(net_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.ntw', dyn_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.dyn')
+#     DG = ScenarioGenerator(net_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.ntw', dyn_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.dyn')
 
-    _, _   = DG.ChangeLoad(carga='D:/Modeling/NETWORKS/24_BUS/24_CARGA.csv', min_load=0.30, max_load=0.6, PF_fixo=False, P_fixo=False)
+#     _, _   = DG.ChangeLoad(carga='D:/Modeling/NETWORKS/24_BUS/24_CARGA.csv', min_load=0.30, max_load=0.6, PF_fixo=False, P_fixo=False)
 
-    DG.Save(net_path=path+f'R{idx:06d}.ntw')
-
-
-
-for idx in tqdm(range(0, 100_000)):
-
-    path = f'D:/BATCH/BATCH_19/'
-
-    os.makedirs(path, exist_ok=True)
-
-    DG = ScenarioGenerator(net_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.ntw', dyn_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.dyn')
-
-    BUS_ID = DG.RemoveGen() 
-    _, _   = DG.ChangeLoad(carga='D:/Modeling/NETWORKS/24_BUS/24_CARGA.csv', min_load=0.30, max_load=0.98, PF_fixo=False, P_fixo=False)
-
-    DG.Save(net_path=path+f'R{idx:06d}.ntw')
+#     DG.Save(net_path=path+f'R{idx:06d}.ntw')
 
 
 
-for idx in tqdm(range(0, 100_000)):
+# for idx in tqdm(range(0, 100_000)):
 
-    path = f'D:/BATCH/BATCH_20/'
+#     path = f'D:/BATCH/BATCH_19/'
 
-    os.makedirs(path, exist_ok=True)
+#     os.makedirs(path, exist_ok=True)
 
-    DG = ScenarioGenerator(net_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.ntw', dyn_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.dyn')
+#     DG = ScenarioGenerator(net_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.ntw', dyn_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.dyn')
 
-    _, _   = DG.ChangeLoad(carga='D:/Modeling/NETWORKS/24_BUS/24_CARGA.csv', min_load=0.30, max_load=0.98, PF_fixo=False, P_fixo=False)
-    DG.RemoveLT(b_min=1, b_max=5, connections=None)
+#     BUS_ID = DG.RemoveGen() 
+#     _, _   = DG.ChangeLoad(carga='D:/Modeling/NETWORKS/24_BUS/24_CARGA.csv', min_load=0.30, max_load=0.98, PF_fixo=False, P_fixo=False)
 
-    DG.Save(net_path=path+f'R{idx:06d}.ntw')
-
-
-
-for idx in tqdm(range(0, 100_000)):
-
-    path = f'D:/BATCH/BATCH_21/'
-
-    os.makedirs(path, exist_ok=True)
-
-    DG = ScenarioGenerator(net_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.ntw', dyn_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.dyn')
-
-    BUS_ID = DG.RemoveGen() 
-    _, _   = DG.ChangeLoad(carga='D:/Modeling/NETWORKS/24_BUS/24_CARGA.csv', min_load=0.30, max_load=0.98, PF_fixo=False, P_fixo=False)
-    DG.RemoveLT(b_min=1, b_max=5, connections=None)
-
-    DG.Save(net_path=path+f'R{idx:06d}.ntw')
+#     DG.Save(net_path=path+f'R{idx:06d}.ntw')
 
 
 
-for idx in tqdm(range(0, 100_000)):
+# for idx in tqdm(range(0, 100_000)):
 
-    path = f'D:/BATCH/BATCH_22/'
+#     path = f'D:/BATCH/BATCH_20/'
 
-    os.makedirs(path, exist_ok=True)
+#     os.makedirs(path, exist_ok=True)
 
-    DG = ScenarioGenerator(net_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.ntw', dyn_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.dyn')
+#     DG = ScenarioGenerator(net_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.ntw', dyn_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.dyn')
 
-    BUS_ID = DG.RemoveGen() 
-    DG.RemoveLT(b_min=1, b_max=2, connections=None)
+#     _, _   = DG.ChangeLoad(carga='D:/Modeling/NETWORKS/24_BUS/24_CARGA.csv', min_load=0.30, max_load=0.98, PF_fixo=False, P_fixo=False)
+#     DG.RemoveLT(b_min=1, b_max=5, connections=None)
 
-    DG.Save(net_path=path+f'R{idx:06d}.ntw')
+#     DG.Save(net_path=path+f'R{idx:06d}.ntw')
+
+
+
+# for idx in tqdm(range(0, 100_000)):
+
+#     path = f'D:/BATCH/BATCH_21/'
+
+#     os.makedirs(path, exist_ok=True)
+
+#     DG = ScenarioGenerator(net_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.ntw', dyn_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.dyn')
+
+#     BUS_ID = DG.RemoveGen() 
+#     _, _   = DG.ChangeLoad(carga='D:/Modeling/NETWORKS/24_BUS/24_CARGA.csv', min_load=0.30, max_load=0.98, PF_fixo=False, P_fixo=False)
+#     DG.RemoveLT(b_min=1, b_max=5, connections=None)
+
+#     DG.Save(net_path=path+f'R{idx:06d}.ntw')
+
+
+
+# for idx in tqdm(range(0, 100_000)):
+
+#     path = f'D:/BATCH/BATCH_22/'
+
+#     os.makedirs(path, exist_ok=True)
+
+#     DG = ScenarioGenerator(net_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.ntw', dyn_path='D:/Modeling/NETWORKS/24_BUS/24_BUS.dyn')
+
+#     BUS_ID = DG.RemoveGen() 
+#     DG.RemoveLT(b_min=1, b_max=2, connections=None)
+
+#     DG.Save(net_path=path+f'R{idx:06d}.ntw')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -357,10 +376,14 @@ for idx in tqdm(range(0, 100_000)):
 
 
 
-# D:/BATCH
-# C:\Users\PC-67\Desktop\BATCH_16
+
+
+
+
+# D:/BATCH/
+# C:/Users/PC-67/Desktop/
 # batchs = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16']
-# batchs = ['15']
+# batchs = ['17', '18', '19', '20', '21', '22']
 
 # for i in batchs:
 
@@ -376,14 +399,19 @@ for idx in tqdm(range(0, 100_000)):
 
 #             actual = caso.split('_')[0]
 
-#             f.write(f'OPEN "C:/Users/PC-67/Desktop/Organon.prm"')
+#             f.write(f'OPEN "D:/Organon.prm"')
 #             f.write('\n')
-#             f.write(f'OPEN "C:/Users/PC-67/Desktop/BATCH_{i}/Conv/{actual}.ntw"')
+#             f.write(f'OPEN "D:/BATCH/BATCH_{i}/Conv/{actual}.ntw"')
 #             f.write('\n')
 #             f.write('NEWTON')
 #             f.write('\n')
-#             f.write(f'SAVE "C:/Users/PC-67/Desktop/BATCH_{i}/Conv/NEWTON/{actual}_NEWTON.ntw"')
+#             f.write(f'SAVE "D:/BATCH/BATCH_{i}/Conv/NEWTON/{actual}_NEWTON.ntw"')
 #             f.write('\n')
+
+
+
+
+
 
 
 

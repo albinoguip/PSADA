@@ -435,8 +435,8 @@ class NTW_Reader():
         # self.data_trans = self.data_trans.merge(self.series_capacitor_data.rename(columns={'BFROM_ID':'BFR_ID', 'BTO_ID':'BTO_ID'}), on=['BFR_ID', 'BTO_ID'], how='outer')
         # self.data_trans = self.data_trans.merge(self.dc_link_data.rename(columns={'R_RET_ID':'BFR_ID', 'I_INV_ID':'BTO_ID'})       , on=['BFR_ID', 'BTO_ID'], how='outer')
 
-        self.data_trans.loc[~self.data_trans['BSHT_T2'].isna(),   'TIPO'] = 'TF'
-        self.data_trans.loc[~self.data_trans['G_MAG'].isna(),     'TIPO'] = 'TM'
+        # self.data_trans.loc[~self.data_trans['BSHT_T2'].isna(),   'TIPO'] = 'TF'
+        # self.data_trans.loc[~self.data_trans['G_MAG'].isna(),     'TIPO'] = 'TM'
         # self.data_trans.loc[~self.data_trans['RATEA_MVA'].isna(), 'TIPO'] = 'SC'
         # self.data_trans.loc[~self.data_trans['R_BASE_KV'].isna(), 'TIPO'] = 'DC'
 

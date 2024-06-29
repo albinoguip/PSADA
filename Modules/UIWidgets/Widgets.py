@@ -5,7 +5,7 @@ from PySide6.QtCharts     import *
 from PySide6.QtPdfWidgets import *
 from PySide6.QtPdf        import *
 
-from Modules.Help_Widgets import *
+from Modules.UIWidgets.Help_Widgets import *
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT
 

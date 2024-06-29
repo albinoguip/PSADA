@@ -3,5 +3,6 @@ from PySide6.QtGui     import *
 from PySide6.QtWidgets import *
 
 # GUI FILE
-from . UIWidgets    import *
-from . UIFunctions  import *
+from . Endpoints       import *
+from . DYN_Functions   import *
+from . BASE_Functions  import *
