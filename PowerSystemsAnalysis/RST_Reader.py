@@ -138,21 +138,21 @@ class RST_Process():
                 ok.append(i)
 
             else:
-                ok.append(i[:5])
+                ok.append(i[:7])
             # print(len(i))
 
 
         df = pd.DataFrame(ok)
-        # print(df)
 
         try:
-            df = pd.DataFrame(ok, columns=['Contigence', 'Contigence_Number', 'SIGLA', 'A', 'B'])#, 'C', 'D', 'E', 'F'
+            df = pd.DataFrame(ok, columns=['Contigence', 'Contigence_Number', 'SIGLA', 'A', 'B', 'C', 'D'])#, 'C', 'D', 'E', 'F'
 
             df['OP'] = name
         
-            df = df[['OP', 'Contigence', 'SIGLA', 'A', 'B']]
+            df = df[['OP', 'Contigence', 'SIGLA', 'A', 'B', 'C', 'D']]
             df = df[df['SIGLA'].isin(['CODE', 'STAB', 'DAMP', 'RCFC', 'RCFG', 'NDRC', 'NDRB', 'INRT', 'PGTM'])]
-            df = df.pivot_table(['A', 'B'], ['OP', 'Contigence'], 'SIGLA').reset_index(drop=False)
+            df = df.pivot_table(['A', 'B', 'C', 'D'], ['OP', 'Contigence'], 'SIGLA', aggfunc="sum").reset_index(drop=False)
+
 
         except:
             try:

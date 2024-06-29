@@ -461,23 +461,30 @@ class NTW_Reader():
         # self.reserva_total   = self.total_PMAX_MW - self.total_PG_MW
         self.reserva_per_gen = self.gen_data['PMAX_MW'].astype('float') - self.gen_data['PG_MW'].astype('float')
 
-        self.total_PG_RENEW = self.gen_data[self.gen_data['TYPE'] == 4]['PG_MW'].astype('float').sum() 
-        self.total_PG_SYNC  = self.gen_data[(self.gen_data['BLOCKED'] == 0)]['PG_MW'].astype('float').sum() 
+        try:
+            self.total_PG_RENEW = self.gen_data[self.gen_data['TYPE'] == 4]['PG_MW'].astype('float').sum() 
+            self.total_PG_SYNC  = self.gen_data[(self.gen_data['BLOCKED'] == 0)]['PG_MW'].astype('float').sum() 
+            self.penetration    = self.total_PG_RENEW / self.total_PG_MW
+        except:
+            pass
         # print(self.total_PG_RENEW, self.total_PG_SYNC)
 
-        self.total_PMAX_MW_unblock  = self.gen_data[self.gen_data['BLOCKED'] == 0]['PMAX_MW'].astype('float').sum() 
-        self.total_PMAX_MW_block    = self.gen_data[self.gen_data['BLOCKED'] == 1]['PMAX_MW'].astype('float').sum() 
+        try:
+            self.total_PMAX_MW_unblock  = self.gen_data[self.gen_data['BLOCKED'] == 0]['PMAX_MW'].astype('float').sum() 
+            self.total_PMAX_MW_block    = self.gen_data[self.gen_data['BLOCKED'] == 1]['PMAX_MW'].astype('float').sum() 
 
-        self.total_PG_MW_unblock    = self.gen_data[self.gen_data['BLOCKED'] == 0]['PG_MW'].astype('float').sum() 
-        self.total_PG_MW_block      = self.gen_data[self.gen_data['BLOCKED'] == 1]['PG_MW'].astype('float').sum() 
+            self.total_PG_MW_unblock    = self.gen_data[self.gen_data['BLOCKED'] == 0]['PG_MW'].astype('float').sum() 
+            self.total_PG_MW_block      = self.gen_data[self.gen_data['BLOCKED'] == 1]['PG_MW'].astype('float').sum() 
         
-        self.total_headroom_unblock = self.total_PMAX_MW_unblock - self.total_PG_MW_unblock
+            self.total_headroom_unblock = self.total_PMAX_MW_unblock - self.total_PG_MW_unblock
+
+        except:
+            pass
         
         
-        self.total_headroom        = self.total_PMAX_MW - self.total_PG_MW
-        # print('UNBLOCKED:', self.total_PMAX_MW_unblock)
+        self.total_headroom = self.total_PMAX_MW - self.total_PG_MW
         
-        self.penetration = self.total_PG_RENEW / self.total_PG_MW
+        
         
         if show:
             

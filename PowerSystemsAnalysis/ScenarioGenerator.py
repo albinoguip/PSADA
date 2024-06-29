@@ -200,7 +200,6 @@ class ScenarioGenerator():
         self.net.load_data['PL_MW']   = self.net.load_data['PL_MW'].round(decimals=1)
         self.net.load_data['QL_MVAR'] = self.net.load_data['QL_MVAR'].round(decimals=1)
 
-        # print(self.net.load_data)
 
         return self.net.load_data['PL_MW'].values, self.net.load_data['BUS_ID'].values
 
