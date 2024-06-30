@@ -1,16 +1,18 @@
-import sys, os, platform
-
 # IMPORT / GUI AND MODULES AND WIDGETS
 # ///////////////////////////////////////////////////////////////
 from Modules import *
-# from widgets import *
+import sys, os, platform
+
+
+
+# SETTING ENVIORNMENT VARIABLES AND GLOBAL VARIABLES
+# ///////////////////////////////////////////////////////////////
 os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
+widgets = None
 
 
-
-
-
-
+# PATH HELPER
+# ///////////////////////////////////////////////////////////////
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
@@ -21,37 +23,60 @@ def resource_path(relative_path):
 
 
 
+# //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# ///                                                                                                                                                ///
+# ///                                                                   MAIN WINDOW                                                                  ///
+# ///                                                                                                                                                ///
+# //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-# SET AS GLOBAL WIDGETS
-# ///////////////////////////////////////////////////////////////
-widgets = None
 
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
 
-        # //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        # ///---------------------------------------------------------- INITIALIZE GLOBAL WIDGETS -----------------------------------------------------------///
-        # //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        # CLASS VARIABLES
+        # ///////////////////////////////////////////////////////////////
+
+        self.DYN_json_to_plot = {}  
+        self.DYN_sections     = [] 
+
+        print(self.DYN_json_to_plot)
+        
+        # DEFINE BASE WIDGETS
+        # ///////////////////////////////////////////////////////////////
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         global widgets
         widgets = self.ui
 
+
+        # DEFINE SPECIFIC WIDGETS
+        # ///////////////////////////////////////////////////////////////
+
+        DYNW = DYN_Widgets()
+        DYNW._create_dynamic(widgets)
+
+        STAW = STA_Widgets()
+        STAW._create_static(widgets)
+
+        STDW = STD_Widgets()
+        STDW._create_static_dynamic(widgets)
+
+        NETW = NET_Widgets()
+        NETW._create_network(widgets)
+
+
+        # 
+        # ///////////////////////////////////////////////////////////////
+
+
         self.setWindowTitle("Data Analysis Tool")
         widgets.titleRightInfo.setText("Data Analysis Tool")
-
-        UIFunctions.constructor(self) 
         
-        widgets.toggleButton.clicked.connect(lambda: UIFunctions.toggleMenu(self, True)) # TOGGLE MENU        
-        UIFunctions.uiDefinitions(self)                                                  # SET UI DEFINITIONS
+        widgets.toggleButton.clicked.connect(lambda: BASE_Functions.toggleMenu(self, True)) # TOGGLE MENU        
+        BASE_Functions.uiDefinitions(self)                                                  # SET UI DEFINITIONS
 
         widgets.btn_home.clicked.connect(self.buttonClick)     # HOME
         widgets.btn_dynamic.clicked.connect(self.buttonClick)  # DYNAMIC
@@ -62,98 +87,71 @@ class MainWindow(QMainWindow):
 
         self.show() 
 
-        UIFunctions.theme(self, resource_path('assets/albino_light_theme.qss'), True)
+        BASE_Functions.theme(self, resource_path('assets/albino_light_theme.qss'), True)
 
         widgets.stackedWidget.setCurrentWidget(widgets.home)      
 
 
-        # ========================================================================================================================================================================
-        # ===                                                                                                                                                                  ===
-        # ===                                                                              DYNAMIC                                                                             ===
-        # ===                                                                                                                                                                  ===
-        # ========================================================================================================================================================================
+        # CREATING CONNECTIONS BETWEEN WIDGETS AND FUNCTIONS
+        # ///////////////////////////////////////////////////////////////
         
 
-        widgets.dynamic_local_search_button.clicked.connect(lambda: UIFunctions.data_match_local_search_button_function(self))
-        widgets.dynamic_search_file_button.clicked.connect(lambda: UIFunctions.dvp_sf_button_function(self))
-        widgets.dynamic_read_file_button.clicked.connect(lambda: UIFunctions.dvp_read_file_button_function(self))
-
-        widgets.dynamic_vars_search.clicked.connect(lambda: UIFunctions.processed_open_button_function(self))
-        widgets.dynamic_instavel.clicked.connect(lambda: UIFunctions.instavel_button(self))
-        widgets.dynamic_estavel.clicked.connect(lambda: UIFunctions.estavel_button(self))
-        widgets.dynamic_per_cont.clicked.connect(lambda: UIFunctions.per_cont_button(self))
-        widgets.dynamic_per_group.clicked.connect(lambda: UIFunctions.per_group_button(self))
-        widgets.dynamic_plot_button.clicked.connect(lambda: UIFunctions.dynamic_plot_function(self))
+        con = connect()
+        con.dyn_conn(widgets, self)
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+    # SELECT WIDGETS
+    # ///////////////////////////////////////////////////////////////
 
     def buttonClick(self):
 
         # GET BUTTON CLICKED
-        btn = self.sender()
+        btn     = self.sender()
         btnName = btn.objectName()
 
         # SHOW HOME PAGE
         if btnName == "btn_home":
             widgets.stackedWidget.setCurrentWidget(widgets.home)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+            BASE_Functions.resetStyle(self, btnName)
+            btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
 
         # SHOW DYNAMIC PAGE
         if btnName == "btn_dynamic":
-            widgets.stackedWidget.setCurrentWidget(widgets.dvp)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+            widgets.stackedWidget.setCurrentWidget(widgets.DYNAMIC)
+            BASE_Functions.resetStyle(self, btnName)
+            btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
 
         # SHOW STATIC PAGE
         if btnName == "btn_static":
             widgets.stackedWidget.setCurrentWidget(widgets.STATIC)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+            BASE_Functions.resetStyle(self, btnName)
+            btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
         
         # SHOW DYNAMIC_STATIC PAGE
         if btnName == "btn_dynamic_static":
-            widgets.stackedWidget.setCurrentWidget(widgets.DYNAMIC_STATIC)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+            widgets.stackedWidget.setCurrentWidget(widgets.STADYN)
+            BASE_Functions.resetStyle(self, btnName)
+            btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
 
         # SHOW NETWORK PAGE
         if btnName == "btn_network":
             widgets.stackedWidget.setCurrentWidget(widgets.NETWORK)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+            BASE_Functions.resetStyle(self, btnName)
+            btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
 
 
-
-
-
-
-
-
-
-
-        # PRINT BTN NAME
-        print(f'Button "{btnName}" pressed!')
 
     
     # RESIZE EVENTS
+    # ///////////////////////////////////////////////////////////////
     def resizeEvent(self, event):
-        # Update Size Grips
-        UIFunctions.resize_grips(self)
+        BASE_Functions.resize_grips(self)
+
 
     # MOUSE CLICK EVENTS
+    # ///////////////////////////////////////////////////////////////
     def mousePressEvent(self, event):
         # SET DRAG POS WINDOW
         self.dragPos = event.globalPos()
@@ -163,6 +161,9 @@ class MainWindow(QMainWindow):
             print('Mouse click: LEFT CLICK')
         if event.buttons() == Qt.RightButton:
             print('Mouse click: RIGHT CLICK')
+
+
+
 
 
 if __name__ == "__main__":
