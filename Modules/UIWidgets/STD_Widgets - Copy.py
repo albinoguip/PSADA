@@ -45,7 +45,7 @@ class STD_Widgets(object):
         pass
 
     
-    def _create_stadyn(self, widgets):
+    def _create_static_dynamic(self, widgets):
 
         font1 = QFont()
         font1.setFamily(u"Times New Roman")
@@ -83,6 +83,7 @@ class STD_Widgets(object):
         widgets.row_1_STADYN.setFrameShape(QFrame.StyledPanel)
         widgets.row_1_STADYN.setFrameShadow(QFrame.Raised)
         widgets.row_1_STADYN.setMaximumHeight(110)
+        widgets.row_1_STADYN.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
         
 
         widgets.LG_row_1_STADYN = QGridLayout(widgets.row_1_STADYN)
@@ -91,92 +92,65 @@ class STD_Widgets(object):
         widgets.LG_row_1_STADYN.setContentsMargins(0, 0, 1, 1)
 
 
-        widgets.row_1_1_STADYN = QFrame(widgets.row_1_STADYN)
-        widgets.row_1_1_STADYN.setObjectName(u"row_1_1_STADYN")
-        widgets.row_1_1_STADYN.setFrameShape(QFrame.StyledPanel)
-        widgets.row_1_1_STADYN.setFrameShadow(QFrame.Raised)
-        widgets.row_1_1_STADYN.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
-
-        widgets.LG_row_1_1_STADYN = QGridLayout(widgets.row_1_1_STADYN)
-        widgets.LG_row_1_1_STADYN.setSpacing(5)
-        widgets.LG_row_1_1_STADYN.setObjectName(u"LG_row_1_1_STADYN")
-        widgets.LG_row_1_1_STADYN.setContentsMargins(0, 0, 1, 1)
-
-
-        widgets.row_1_2_STADYN = QFrame(widgets.row_1_STADYN)
-        widgets.row_1_2_STADYN.setObjectName(u"row_1_2_STADYN")
-        widgets.row_1_2_STADYN.setFrameShape(QFrame.StyledPanel)
-        widgets.row_1_2_STADYN.setFrameShadow(QFrame.Raised)
-        widgets.row_1_2_STADYN.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
-
-        widgets.LG_row_1_2_STADYN = QGridLayout(widgets.row_1_2_STADYN)
-        widgets.LG_row_1_2_STADYN.setSpacing(5)
-        widgets.LG_row_1_2_STADYN.setObjectName(u"LG_row_1_2_STADYN")
-        widgets.LG_row_1_2_STADYN.setContentsMargins(0, 0, 1, 1)
-
-
-
-        widgets.LG_row_1_STADYN.addWidget(widgets.row_1_1_STADYN, 0, 0, 1, 3)
-        widgets.LG_row_1_STADYN.addWidget(widgets.row_1_2_STADYN, 0, 3, 1, 1)
-
-
 
         # FIRST ROW
 
-        widgets.STADYN_search_button = QPushButton(widgets.row_1_1_STADYN)
+        widgets.STADYN_search_button = QPushButton(widgets.row_1_STADYN)
         widgets.STADYN_search_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_search_button.setText("Search")
-        widgets.LG_row_1_1_STADYN.addWidget(widgets.STADYN_search_button, 0, 0, 1, 2)
+        widgets.LG_row_1_STADYN.addWidget(widgets.STADYN_search_button, 0, 0, 1, 2)
 
-        widgets.STADYN_qline_files = QLineEdit(widgets.row_1_1_STADYN)
+        widgets.STADYN_qline_files = QLineEdit(widgets.row_1_STADYN)
         widgets.STADYN_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_1_1_STADYN.addWidget(widgets.STADYN_qline_files, 0, 2, 1, 8)
+        widgets.LG_row_1_STADYN.addWidget(widgets.STADYN_qline_files, 0, 2, 1, 8)
 
-        widgets.STADYN_read_file_button = QPushButton(widgets.row_1_1_STADYN)
+        widgets.STADYN_read_file_button = QPushButton(widgets.row_1_STADYN)
         widgets.STADYN_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_read_file_button.setText("Process")
-        widgets.LG_row_1_1_STADYN.addWidget(widgets.STADYN_read_file_button, 0, 10, 1, 2)
+        widgets.LG_row_1_STADYN.addWidget(widgets.STADYN_read_file_button, 0, 10, 1, 2)
 
         # SECOND ROW
 
-        widgets.STADYN_vars_search = QPushButton(widgets.row_1_1_STADYN)
+
+
+        widgets.STADYN_vars_search = QPushButton(widgets.row_1_STADYN)
         widgets.STADYN_vars_search.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_vars_search.setText("Processed")
-        widgets.LG_row_1_1_STADYN.addWidget(widgets.STADYN_vars_search, 1, 0, 1, 2)
+        widgets.LG_row_1_STADYN.addWidget(widgets.STADYN_vars_search, 1, 0, 1, 2)
 
-        widgets.STADYN_vars_qline = QLineEdit(widgets.row_1_1_STADYN)
+        widgets.STADYN_vars_qline = QLineEdit(widgets.row_1_STADYN)
         widgets.STADYN_vars_qline.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_1_1_STADYN.addWidget(widgets.STADYN_vars_qline, 1, 2, 1, 8)
+        widgets.LG_row_1_STADYN.addWidget(widgets.STADYN_vars_qline, 1, 2, 1, 8)
 
-        widgets.STADYN_read_vars_button = QPushButton(widgets.row_1_1_STADYN)
+        widgets.STADYN_read_vars_button = QPushButton(widgets.row_1_STADYN)
         widgets.STADYN_read_vars_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_read_vars_button.setText("Open")
-        widgets.LG_row_1_1_STADYN.addWidget(widgets.STADYN_read_vars_button, 1, 10, 1, 2)
+        widgets.LG_row_1_STADYN.addWidget(widgets.STADYN_read_vars_button, 1, 10, 1, 2)
 
 
         # SPECIAL BUTTONS
 
-        widgets.STADYN_instavel = QPushButton(widgets.row_1_2_STADYN)
+        widgets.STADYN_instavel = QPushButton(widgets.row_1_STADYN)
         widgets.STADYN_instavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_instavel.setText("Instável")
         widgets.STADYN_instavel.setMinimumWidth(20)
-        widgets.LG_row_1_2_STADYN.addWidget(widgets.STADYN_instavel, 0, 13, 1, 1)        
+        widgets.LG_row_1_STADYN.addWidget(widgets.STADYN_instavel, 0, 13, 1, 1)        
 
-        widgets.STADYN_estavel = QPushButton(widgets.row_1_2_STADYN)
+        widgets.STADYN_estavel = QPushButton(widgets.row_1_STADYN)
         widgets.STADYN_estavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_estavel.setText("Estável")
         widgets.STADYN_estavel.setMinimumWidth(130)
-        widgets.LG_row_1_2_STADYN.addWidget(widgets.STADYN_estavel, 0, 14, 1, 1)
+        widgets.LG_row_1_STADYN.addWidget(widgets.STADYN_estavel, 0, 14, 1, 1)
 
-        widgets.STADYN_per_cont = QPushButton(widgets.row_1_2_STADYN)
+        widgets.STADYN_per_cont = QPushButton(widgets.row_1_STADYN)
         widgets.STADYN_per_cont.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_per_cont.setText("Por Contingência")
-        widgets.LG_row_1_2_STADYN.addWidget(widgets.STADYN_per_cont, 1, 13, 1, 1)
+        widgets.LG_row_1_STADYN.addWidget(widgets.STADYN_per_cont, 1, 13, 1, 1)
 
-        widgets.STADYN_per_group = QPushButton(widgets.row_1_2_STADYN)
+        widgets.STADYN_per_group = QPushButton(widgets.row_1_STADYN)
         widgets.STADYN_per_group.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_per_group.setText("Por Grupo")
-        widgets.LG_row_1_2_STADYN.addWidget(widgets.STADYN_per_group, 1, 14, 1, 1)
+        widgets.LG_row_1_STADYN.addWidget(widgets.STADYN_per_group, 1, 14, 1, 1)
 
 
         widgets.verticalLayout_STADYN.addWidget(widgets.row_1_STADYN)
@@ -343,25 +317,21 @@ class STD_Widgets(object):
 
         widgets.STADYN_add_section = QLineEdit(widgets.row_4_1_STADYN)
         widgets.STADYN_add_section.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_4_1_STADYN.addWidget(widgets.STADYN_add_section, 0, 0, 1, 4)
+        widgets.LG_row_4_1_STADYN.addWidget(widgets.STADYN_add_section, 0, 0, 1, 3)
 
         widgets.STADYN_add_section_button = QPushButton(widgets.row_4_1_STADYN)
         widgets.STADYN_add_section_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_add_section_button.setText("Add Section")
-        widgets.LG_row_4_1_STADYN.addWidget(widgets.STADYN_add_section_button, 0, 4, 1, 4)
-
-        widgets.STADYN_sections_ava = QComboBox(widgets.row_4_1_STADYN)
-        widgets.STADYN_sections_ava.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_4_1_STADYN.addWidget(widgets.STADYN_sections_ava, 1, 0, 1, 2)
+        widgets.LG_row_4_1_STADYN.addWidget(widgets.STADYN_add_section_button, 0, 3, 1, 3)
 
         widgets.STADYN_add_plot = QLineEdit(widgets.row_4_1_STADYN)
         widgets.STADYN_add_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_4_1_STADYN.addWidget(widgets.STADYN_add_plot, 1, 2, 1, 2)
+        widgets.LG_row_4_1_STADYN.addWidget(widgets.STADYN_add_plot, 1, 0, 1, 3)
 
         widgets.STADYN_add_plot_button = QPushButton(widgets.row_4_1_STADYN)
         widgets.STADYN_add_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_add_plot_button.setText("Add Page")
-        widgets.LG_row_4_1_STADYN.addWidget(widgets.STADYN_add_plot_button, 1, 4, 1, 4)
+        widgets.LG_row_4_1_STADYN.addWidget(widgets.STADYN_add_plot_button, 1, 3, 1, 3)
 
 
         # SEVENTH ROW
@@ -378,19 +348,7 @@ class STD_Widgets(object):
         widgets.STADYN_add_to_json_button = QPushButton(widgets.row_4_2_STADYN)
         widgets.STADYN_add_to_json_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STADYN_add_to_json_button.setText("Add Plot to Page")
-        widgets.LG_row_4_2_STADYN.addWidget(widgets.STADYN_add_to_json_button, 1, 0, 1, 4)
-
-        widgets.STADYN_page_to_plot_button = QPushButton(widgets.row_4_2_STADYN)
-        widgets.STADYN_page_to_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.STADYN_page_to_plot_button.setText("Plot Page")
-        widgets.LG_row_4_2_STADYN.addWidget(widgets.STADYN_page_to_plot_button, 1, 4, 1, 4)
-
-        widgets.STADYN_save_json_button = QPushButton(widgets.row_4_2_STADYN)
-        widgets.STADYN_save_json_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.STADYN_save_json_button.setText("Save")
-        widgets.STADYN_save_json_button.setMinimumHeight(80)
-        widgets.LG_row_4_2_STADYN.addWidget(widgets.STADYN_save_json_button, 0, 8, 2, 1)
-
+        widgets.LG_row_4_2_STADYN.addWidget(widgets.STADYN_add_to_json_button, 1, 0, 1, 8)
 
         widgets.verticalLayout_STADYN.addWidget(widgets.row_4_STADYN)
 
@@ -439,24 +397,24 @@ class STD_Widgets(object):
 
         # FIRST ROW
 
-        widgets.STADYN_search_json_button = QPushButton(widgets.row_5_STADYN)
-        widgets.STADYN_search_json_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.STADYN_search_json_button.setText("Search")
-        widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_search_json_button, 0, 0, 1, 2)
+        widgets.STADYN_search_button = QPushButton(widgets.row_5_STADYN)
+        widgets.STADYN_search_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        widgets.STADYN_search_button.setText("Search")
+        widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_search_button, 0, 0, 1, 2)
 
-        widgets.STADYN_qline_json_files = QLineEdit(widgets.row_5_STADYN)
-        widgets.STADYN_qline_json_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_qline_json_files, 0, 2, 1, 8)
+        widgets.STADYN_qline_files = QLineEdit(widgets.row_5_STADYN)
+        widgets.STADYN_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_qline_files, 0, 2, 1, 8)
 
-        widgets.STADYN_read_json_button = QPushButton(widgets.row_5_STADYN)
-        widgets.STADYN_read_json_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.STADYN_read_json_button.setText("Open")
-        widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_read_json_button, 0, 10, 1, 2)
+        widgets.STADYN_read_file_button = QPushButton(widgets.row_5_STADYN)
+        widgets.STADYN_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        widgets.STADYN_read_file_button.setText("Process")
+        widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_read_file_button, 0, 10, 1, 2)
 
         # SECOND ROW
 
         widgets.STADYN_label_00 = QLabel(widgets.row_5_STADYN)
-        widgets.STADYN_label_00.setText("File")
+        widgets.STADYN_label_00.setText("Processed")
         widgets.STADYN_label_00.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_label_00, 1, 0, 1, 6)
 
@@ -466,7 +424,7 @@ class STD_Widgets(object):
 
 
         widgets.STADYN_label_01 = QLabel(widgets.row_5_STADYN)
-        widgets.STADYN_label_01.setText("Version")
+        widgets.STADYN_label_01.setText("Processed")
         widgets.STADYN_label_01.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_label_01, 1, 6, 1, 6)
 
@@ -478,7 +436,7 @@ class STD_Widgets(object):
         # THIRD ROW
 
         widgets.STADYN_label_10 = QLabel(widgets.row_5_STADYN)
-        widgets.STADYN_label_10.setText("Responsible")
+        widgets.STADYN_label_10.setText("Processed")
         widgets.STADYN_label_10.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_label_10, 3, 0, 1, 6)
 
@@ -488,7 +446,7 @@ class STD_Widgets(object):
 
 
         widgets.STADYN_label_11 = QLabel(widgets.row_5_STADYN)
-        widgets.STADYN_label_11.setText("Date")
+        widgets.STADYN_label_11.setText("Processed")
         widgets.STADYN_label_11.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_label_11, 3, 6, 1, 6)
 
@@ -499,7 +457,7 @@ class STD_Widgets(object):
         # THIRD ROW
 
         widgets.STADYN_label_20 = QLabel(widgets.row_5_STADYN)
-        widgets.STADYN_label_20.setText("")
+        widgets.STADYN_label_20.setText("Processed")
         widgets.STADYN_label_20.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_label_20, 5, 0, 1, 6)
 
@@ -508,8 +466,8 @@ class STD_Widgets(object):
         widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_qline_20, 6, 0, 1, 6)
 
 
-        widgets.STADYN_label_21 = QLabel(widgets.row_5_STADYN) 
-        widgets.STADYN_label_21.setText("")
+        widgets.STADYN_label_21 = QLabel(widgets.row_5_STADYN)
+        widgets.STADYN_label_21.setText("Processed")
         widgets.STADYN_label_21.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_label_21, 5, 6, 1, 6)
 
@@ -521,7 +479,7 @@ class STD_Widgets(object):
         # THIRD ROW
 
         widgets.STADYN_label_30 = QLabel(widgets.row_5_STADYN)
-        widgets.STADYN_label_30.setText("Comment")
+        widgets.STADYN_label_30.setText("Processed")
         widgets.STADYN_label_30.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_STADYN.addWidget(widgets.STADYN_label_30, 7, 0, 1, 12)
 
@@ -569,9 +527,9 @@ class STD_Widgets(object):
         widgets.pdfView_STADYN = QPdfView(widgets.pdf_STADYN)
         widgets.pdfView_STADYN.setObjectName(u"pdfView_STADYN")
 
-        widgets.STADYN_document = QPdfDocument(widgets.pdf_STADYN)
+        widgets.m_document = QPdfDocument(widgets.pdf_STADYN)
 
-        widgets.pdfView_STADYN.setDocument(widgets.STADYN_document)
+        widgets.pdfView_STADYN.setDocument(widgets.m_document)
 
 
         ## ============================
@@ -595,16 +553,17 @@ class STD_Widgets(object):
         widgets.actionZoom_In_STADYN.setText('In')
         widgets.actionZoom_In_STADYN.setStyleSheet(u"background-color: rgb(91, 95, 199)")
 
-        widgets.actionZoom_Out_STADYN = QPushButton(widgets.d_row_1_STADYN)
-        widgets.actionZoom_Out_STADYN.setText('Out')
-        widgets.actionZoom_Out_STADYN.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        widgets.actionZoom_Out = QPushButton(widgets.d_row_1_STADYN)
+        widgets.actionZoom_Out.setText('Out')
+        widgets.actionZoom_Out.setStyleSheet(u"background-color: rgb(91, 95, 199)")
 
-        widgets.m_zoomSelector_STADYN = ZoomSelector(widgets.d_row_1_STADYN)
-        widgets.m_zoomSelector_STADYN.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.m_zoomSelector_STADYN.zoom_mode_changed.connect(widgets.pdfView_STADYN.setZoomMode)
-        widgets.m_zoomSelector_STADYN.zoom_factor_changed.connect(widgets.pdfView_STADYN.setZoomFactor)
-        widgets.m_zoomSelector_STADYN.reset()
-        widgets.pdfView_STADYN.zoomFactorChanged.connect(widgets.m_zoomSelector_STADYN.set_zoom_factor)
+        widgets.m_zoomSelector = ZoomSelector(widgets.d_row_1_STADYN)
+        widgets.m_zoomSelector.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # widgets.m_zoomSelector.setMaximumWidth(150)
+        widgets.m_zoomSelector.zoom_mode_changed.connect(widgets.pdfView_STADYN.setZoomMode)
+        widgets.m_zoomSelector.zoom_factor_changed.connect(widgets.pdfView_STADYN.setZoomFactor)
+        widgets.m_zoomSelector.reset()
+        widgets.pdfView_STADYN.zoomFactorChanged.connect(widgets.m_zoomSelector.set_zoom_factor)
 
         widgets.actionPage_down_STADYN = QPushButton(widgets.d_row_1_STADYN)
         widgets.actionPage_down_STADYN.setText('-')
@@ -614,16 +573,17 @@ class STD_Widgets(object):
         widgets.actionPage_up_STADYN.setText('+')
         widgets.actionPage_up_STADYN.setStyleSheet(u"background-color: rgb(91, 95, 199)")
 
-        widgets.m_pageSelector_STADYN = QSpinBox(widgets.d_row_1_STADYN)
-        widgets.m_pageSelector_STADYN.valueChanged.connect(widgets.page_selected)
-        widgets.m_pageSelector_STADYN.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        widgets.m_pageSelector = QSpinBox(widgets.d_row_1_STADYN)
+        widgets.m_pageSelector.valueChanged.connect(widgets.page_selected)
+        widgets.m_pageSelector.setStyleSheet(u"background-color: rgb(218, 218, 233)")
         nav = widgets.pdfView_STADYN.pageNavigator()
-        nav.currentPageChanged.connect(widgets.m_pageSelector_STADYN.setValue)
+        nav.currentPageChanged.connect(widgets.m_pageSelector.setValue)
+        # nav.backAvailableChanged.connect(widgets.actionBack.setEnabled)
+        # nav.forwardAvailableChanged.connect(widgets.actionForward.setEnabled)
 
-    
-        widgets.actionSave_STADYN = QPushButton(widgets.d_row_1_STADYN)
-        widgets.actionSave_STADYN.setText('Save')
-        widgets.actionSave_STADYN.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        widgets.actionSave = QPushButton(widgets.d_row_1_STADYN)
+        widgets.actionSave.setText('Save')
+        widgets.actionSave.setStyleSheet(u"background-color: rgb(91, 95, 199)")
 
 
 
@@ -633,17 +593,17 @@ class STD_Widgets(object):
         widgets.mainToolBar.addSeparator()
         widgets.mainToolBar.addWidget(widgets.actionZoom_In_STADYN)
         widgets.mainToolBar.addSeparator()
-        widgets.mainToolBar.addWidget(widgets.m_zoomSelector_STADYN)
+        widgets.mainToolBar.addWidget(widgets.m_zoomSelector)
         widgets.mainToolBar.addSeparator()
-        widgets.mainToolBar.addWidget(widgets.actionZoom_Out_STADYN)
+        widgets.mainToolBar.addWidget(widgets.actionZoom_Out)
         widgets.mainToolBar.addSeparator()
         widgets.mainToolBar.addWidget(widgets.actionPage_down_STADYN)
         widgets.mainToolBar.addSeparator()
-        widgets.mainToolBar.addWidget(widgets.m_pageSelector_STADYN)
+        widgets.mainToolBar.addWidget(widgets.m_pageSelector)
         widgets.mainToolBar.addSeparator()
         widgets.mainToolBar.addWidget(widgets.actionPage_up_STADYN)
         widgets.mainToolBar.addSeparator()
-        widgets.mainToolBar.addWidget(widgets.actionSave_STADYN)
+        widgets.mainToolBar.addWidget(widgets.actionSave)
 
 
 
