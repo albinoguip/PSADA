@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
         STAW._create_static(widgets)
 
         STDW = STD_Widgets()
-        STDW._create_static_dynamic(widgets)
+        STDW._create_stadyn(widgets)
 
         NETW = NET_Widgets()
         NETW._create_network(widgets)
@@ -98,6 +98,9 @@ class MainWindow(QMainWindow):
 
         con = connect()
         con.dyn_conn(widgets, self)
+        con.net_conn(widgets, self)
+        con.std_conn(widgets, self)
+        con.sta_conn(widgets, self)
 
 
 

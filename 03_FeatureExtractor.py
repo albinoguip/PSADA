@@ -14,13 +14,20 @@ for batch in batchs:
 
     context = pd.read_csv(cont_path)
 
-    print(context)   
-
     os.makedirs(f'{out_path}NODE/', exist_ok=True)
     os.makedirs(f'{out_path}EDGE/', exist_ok=True)
 
+    ops   = [f.split('.')[0] for f in os.listdir(main_path)]
+    c_ops = context['OP'].unique()
+    both  = list(set(ops) & set (c_ops))
 
-    for op in tqdm(context['OP'].unique()):
+    print(f'BATCH: {batch}')
+    print(f'DSA: {len(ops)}')
+    print(f'RST: {len(c_ops)}')
+    print(f'BOTH: {len(both)}')
+
+
+    for op in tqdm(both):
 
 
         # NODES
