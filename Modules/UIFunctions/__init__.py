@@ -6,3 +6,5 @@ from PySide6.QtWidgets import *
 from . Endpoints       import *
 from . DYN_Functions   import *
 from . BASE_Functions  import *
+from . Plotter         import *
+from . PDF_Generator   import *

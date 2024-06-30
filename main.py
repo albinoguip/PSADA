@@ -34,6 +34,14 @@ class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
 
+
+        # CLASS VARIABLES
+        # ///////////////////////////////////////////////////////////////
+
+        self.DYN_json_to_plot = {}  
+        self.DYN_sections     = [] 
+
+        print(self.DYN_json_to_plot)
         
         # DEFINE BASE WIDGETS
         # ///////////////////////////////////////////////////////////////
@@ -66,8 +74,6 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("Data Analysis Tool")
         widgets.titleRightInfo.setText("Data Analysis Tool")
-
-        # BASE_Functions.constructor(self) 
         
         widgets.toggleButton.clicked.connect(lambda: BASE_Functions.toggleMenu(self, True)) # TOGGLE MENU        
         BASE_Functions.uiDefinitions(self)                                                  # SET UI DEFINITIONS
@@ -90,8 +96,8 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         
 
-        # con = connect()
-        # con.dyn_conn(widgets, self)
+        con = connect()
+        con.dyn_conn(widgets, self)
 
 
 
