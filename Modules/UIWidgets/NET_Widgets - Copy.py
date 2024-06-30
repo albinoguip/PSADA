@@ -83,6 +83,7 @@ class NET_Widgets(object):
         widgets.row_1_NETWORK.setFrameShape(QFrame.StyledPanel)
         widgets.row_1_NETWORK.setFrameShadow(QFrame.Raised)
         widgets.row_1_NETWORK.setMaximumHeight(110)
+        widgets.row_1_NETWORK.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
         
 
         widgets.LG_row_1_NETWORK = QGridLayout(widgets.row_1_NETWORK)
@@ -91,92 +92,65 @@ class NET_Widgets(object):
         widgets.LG_row_1_NETWORK.setContentsMargins(0, 0, 1, 1)
 
 
-        widgets.row_1_1_NETWORK = QFrame(widgets.row_1_NETWORK)
-        widgets.row_1_1_NETWORK.setObjectName(u"row_1_1_NETWORK")
-        widgets.row_1_1_NETWORK.setFrameShape(QFrame.StyledPanel)
-        widgets.row_1_1_NETWORK.setFrameShadow(QFrame.Raised)
-        widgets.row_1_1_NETWORK.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
-
-        widgets.LG_row_1_1_NETWORK = QGridLayout(widgets.row_1_1_NETWORK)
-        widgets.LG_row_1_1_NETWORK.setSpacing(5)
-        widgets.LG_row_1_1_NETWORK.setObjectName(u"LG_row_1_1_NETWORK")
-        widgets.LG_row_1_1_NETWORK.setContentsMargins(0, 0, 1, 1)
-
-
-        widgets.row_1_2_NETWORK = QFrame(widgets.row_1_NETWORK)
-        widgets.row_1_2_NETWORK.setObjectName(u"row_1_2_NETWORK")
-        widgets.row_1_2_NETWORK.setFrameShape(QFrame.StyledPanel)
-        widgets.row_1_2_NETWORK.setFrameShadow(QFrame.Raised)
-        widgets.row_1_2_NETWORK.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
-
-        widgets.LG_row_1_2_NETWORK = QGridLayout(widgets.row_1_2_NETWORK)
-        widgets.LG_row_1_2_NETWORK.setSpacing(5)
-        widgets.LG_row_1_2_NETWORK.setObjectName(u"LG_row_1_2_NETWORK")
-        widgets.LG_row_1_2_NETWORK.setContentsMargins(0, 0, 1, 1)
-
-
-
-        widgets.LG_row_1_NETWORK.addWidget(widgets.row_1_1_NETWORK, 0, 0, 1, 3)
-        widgets.LG_row_1_NETWORK.addWidget(widgets.row_1_2_NETWORK, 0, 3, 1, 1)
-
-
 
         # FIRST ROW
 
-        widgets.NETWORK_search_button = QPushButton(widgets.row_1_1_NETWORK)
+        widgets.NETWORK_search_button = QPushButton(widgets.row_1_NETWORK)
         widgets.NETWORK_search_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_search_button.setText("Search")
-        widgets.LG_row_1_1_NETWORK.addWidget(widgets.NETWORK_search_button, 0, 0, 1, 2)
+        widgets.LG_row_1_NETWORK.addWidget(widgets.NETWORK_search_button, 0, 0, 1, 2)
 
-        widgets.NETWORK_qline_files = QLineEdit(widgets.row_1_1_NETWORK)
+        widgets.NETWORK_qline_files = QLineEdit(widgets.row_1_NETWORK)
         widgets.NETWORK_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_1_1_NETWORK.addWidget(widgets.NETWORK_qline_files, 0, 2, 1, 8)
+        widgets.LG_row_1_NETWORK.addWidget(widgets.NETWORK_qline_files, 0, 2, 1, 8)
 
-        widgets.NETWORK_read_file_button = QPushButton(widgets.row_1_1_NETWORK)
+        widgets.NETWORK_read_file_button = QPushButton(widgets.row_1_NETWORK)
         widgets.NETWORK_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_read_file_button.setText("Process")
-        widgets.LG_row_1_1_NETWORK.addWidget(widgets.NETWORK_read_file_button, 0, 10, 1, 2)
+        widgets.LG_row_1_NETWORK.addWidget(widgets.NETWORK_read_file_button, 0, 10, 1, 2)
 
         # SECOND ROW
 
-        widgets.NETWORK_vars_search = QPushButton(widgets.row_1_1_NETWORK)
+
+
+        widgets.NETWORK_vars_search = QPushButton(widgets.row_1_NETWORK)
         widgets.NETWORK_vars_search.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_vars_search.setText("Processed")
-        widgets.LG_row_1_1_NETWORK.addWidget(widgets.NETWORK_vars_search, 1, 0, 1, 2)
+        widgets.LG_row_1_NETWORK.addWidget(widgets.NETWORK_vars_search, 1, 0, 1, 2)
 
-        widgets.NETWORK_vars_qline = QLineEdit(widgets.row_1_1_NETWORK)
+        widgets.NETWORK_vars_qline = QLineEdit(widgets.row_1_NETWORK)
         widgets.NETWORK_vars_qline.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_1_1_NETWORK.addWidget(widgets.NETWORK_vars_qline, 1, 2, 1, 8)
+        widgets.LG_row_1_NETWORK.addWidget(widgets.NETWORK_vars_qline, 1, 2, 1, 8)
 
-        widgets.NETWORK_read_vars_button = QPushButton(widgets.row_1_1_NETWORK)
+        widgets.NETWORK_read_vars_button = QPushButton(widgets.row_1_NETWORK)
         widgets.NETWORK_read_vars_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_read_vars_button.setText("Open")
-        widgets.LG_row_1_1_NETWORK.addWidget(widgets.NETWORK_read_vars_button, 1, 10, 1, 2)
+        widgets.LG_row_1_NETWORK.addWidget(widgets.NETWORK_read_vars_button, 1, 10, 1, 2)
 
 
         # SPECIAL BUTTONS
 
-        widgets.NETWORK_instavel = QPushButton(widgets.row_1_2_NETWORK)
+        widgets.NETWORK_instavel = QPushButton(widgets.row_1_NETWORK)
         widgets.NETWORK_instavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_instavel.setText("Instável")
         widgets.NETWORK_instavel.setMinimumWidth(20)
-        widgets.LG_row_1_2_NETWORK.addWidget(widgets.NETWORK_instavel, 0, 13, 1, 1)        
+        widgets.LG_row_1_NETWORK.addWidget(widgets.NETWORK_instavel, 0, 13, 1, 1)        
 
-        widgets.NETWORK_estavel = QPushButton(widgets.row_1_2_NETWORK)
+        widgets.NETWORK_estavel = QPushButton(widgets.row_1_NETWORK)
         widgets.NETWORK_estavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_estavel.setText("Estável")
         widgets.NETWORK_estavel.setMinimumWidth(130)
-        widgets.LG_row_1_2_NETWORK.addWidget(widgets.NETWORK_estavel, 0, 14, 1, 1)
+        widgets.LG_row_1_NETWORK.addWidget(widgets.NETWORK_estavel, 0, 14, 1, 1)
 
-        widgets.NETWORK_per_cont = QPushButton(widgets.row_1_2_NETWORK)
+        widgets.NETWORK_per_cont = QPushButton(widgets.row_1_NETWORK)
         widgets.NETWORK_per_cont.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_per_cont.setText("Por Contingência")
-        widgets.LG_row_1_2_NETWORK.addWidget(widgets.NETWORK_per_cont, 1, 13, 1, 1)
+        widgets.LG_row_1_NETWORK.addWidget(widgets.NETWORK_per_cont, 1, 13, 1, 1)
 
-        widgets.NETWORK_per_group = QPushButton(widgets.row_1_2_NETWORK)
+        widgets.NETWORK_per_group = QPushButton(widgets.row_1_NETWORK)
         widgets.NETWORK_per_group.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_per_group.setText("Por Grupo")
-        widgets.LG_row_1_2_NETWORK.addWidget(widgets.NETWORK_per_group, 1, 14, 1, 1)
+        widgets.LG_row_1_NETWORK.addWidget(widgets.NETWORK_per_group, 1, 14, 1, 1)
 
 
         widgets.verticalLayout_NETWORK.addWidget(widgets.row_1_NETWORK)
@@ -343,25 +317,21 @@ class NET_Widgets(object):
 
         widgets.NETWORK_add_section = QLineEdit(widgets.row_4_1_NETWORK)
         widgets.NETWORK_add_section.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_4_1_NETWORK.addWidget(widgets.NETWORK_add_section, 0, 0, 1, 4)
+        widgets.LG_row_4_1_NETWORK.addWidget(widgets.NETWORK_add_section, 0, 0, 1, 3)
 
         widgets.NETWORK_add_section_button = QPushButton(widgets.row_4_1_NETWORK)
         widgets.NETWORK_add_section_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_add_section_button.setText("Add Section")
-        widgets.LG_row_4_1_NETWORK.addWidget(widgets.NETWORK_add_section_button, 0, 4, 1, 4)
-
-        widgets.NETWORK_sections_ava = QComboBox(widgets.row_4_1_NETWORK)
-        widgets.NETWORK_sections_ava.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_4_1_NETWORK.addWidget(widgets.NETWORK_sections_ava, 1, 0, 1, 2)
+        widgets.LG_row_4_1_NETWORK.addWidget(widgets.NETWORK_add_section_button, 0, 3, 1, 3)
 
         widgets.NETWORK_add_plot = QLineEdit(widgets.row_4_1_NETWORK)
         widgets.NETWORK_add_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_4_1_NETWORK.addWidget(widgets.NETWORK_add_plot, 1, 2, 1, 2)
+        widgets.LG_row_4_1_NETWORK.addWidget(widgets.NETWORK_add_plot, 1, 0, 1, 3)
 
         widgets.NETWORK_add_plot_button = QPushButton(widgets.row_4_1_NETWORK)
         widgets.NETWORK_add_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_add_plot_button.setText("Add Page")
-        widgets.LG_row_4_1_NETWORK.addWidget(widgets.NETWORK_add_plot_button, 1, 4, 1, 4)
+        widgets.LG_row_4_1_NETWORK.addWidget(widgets.NETWORK_add_plot_button, 1, 3, 1, 3)
 
 
         # SEVENTH ROW
@@ -378,19 +348,7 @@ class NET_Widgets(object):
         widgets.NETWORK_add_to_json_button = QPushButton(widgets.row_4_2_NETWORK)
         widgets.NETWORK_add_to_json_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.NETWORK_add_to_json_button.setText("Add Plot to Page")
-        widgets.LG_row_4_2_NETWORK.addWidget(widgets.NETWORK_add_to_json_button, 1, 0, 1, 4)
-
-        widgets.NETWORK_page_to_plot_button = QPushButton(widgets.row_4_2_NETWORK)
-        widgets.NETWORK_page_to_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.NETWORK_page_to_plot_button.setText("Plot Page")
-        widgets.LG_row_4_2_NETWORK.addWidget(widgets.NETWORK_page_to_plot_button, 1, 4, 1, 4)
-
-        widgets.NETWORK_save_json_button = QPushButton(widgets.row_4_2_NETWORK)
-        widgets.NETWORK_save_json_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.NETWORK_save_json_button.setText("Save")
-        widgets.NETWORK_save_json_button.setMinimumHeight(80)
-        widgets.LG_row_4_2_NETWORK.addWidget(widgets.NETWORK_save_json_button, 0, 8, 2, 1)
-
+        widgets.LG_row_4_2_NETWORK.addWidget(widgets.NETWORK_add_to_json_button, 1, 0, 1, 8)
 
         widgets.verticalLayout_NETWORK.addWidget(widgets.row_4_NETWORK)
 
@@ -439,24 +397,24 @@ class NET_Widgets(object):
 
         # FIRST ROW
 
-        widgets.NETWORK_search_json_button = QPushButton(widgets.row_5_NETWORK)
-        widgets.NETWORK_search_json_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.NETWORK_search_json_button.setText("Search")
-        widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_search_json_button, 0, 0, 1, 2)
+        widgets.NETWORK_search_button = QPushButton(widgets.row_5_NETWORK)
+        widgets.NETWORK_search_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        widgets.NETWORK_search_button.setText("Search")
+        widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_search_button, 0, 0, 1, 2)
 
-        widgets.NETWORK_qline_json_files = QLineEdit(widgets.row_5_NETWORK)
-        widgets.NETWORK_qline_json_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_qline_json_files, 0, 2, 1, 8)
+        widgets.NETWORK_qline_files = QLineEdit(widgets.row_5_NETWORK)
+        widgets.NETWORK_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_qline_files, 0, 2, 1, 8)
 
-        widgets.NETWORK_read_json_button = QPushButton(widgets.row_5_NETWORK)
-        widgets.NETWORK_read_json_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.NETWORK_read_json_button.setText("Open")
-        widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_read_json_button, 0, 10, 1, 2)
+        widgets.NETWORK_read_file_button = QPushButton(widgets.row_5_NETWORK)
+        widgets.NETWORK_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        widgets.NETWORK_read_file_button.setText("Process")
+        widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_read_file_button, 0, 10, 1, 2)
 
         # SECOND ROW
 
         widgets.NETWORK_label_00 = QLabel(widgets.row_5_NETWORK)
-        widgets.NETWORK_label_00.setText("File")
+        widgets.NETWORK_label_00.setText("Processed")
         widgets.NETWORK_label_00.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_label_00, 1, 0, 1, 6)
 
@@ -466,7 +424,7 @@ class NET_Widgets(object):
 
 
         widgets.NETWORK_label_01 = QLabel(widgets.row_5_NETWORK)
-        widgets.NETWORK_label_01.setText("Version")
+        widgets.NETWORK_label_01.setText("Processed")
         widgets.NETWORK_label_01.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_label_01, 1, 6, 1, 6)
 
@@ -478,7 +436,7 @@ class NET_Widgets(object):
         # THIRD ROW
 
         widgets.NETWORK_label_10 = QLabel(widgets.row_5_NETWORK)
-        widgets.NETWORK_label_10.setText("Responsible")
+        widgets.NETWORK_label_10.setText("Processed")
         widgets.NETWORK_label_10.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_label_10, 3, 0, 1, 6)
 
@@ -488,7 +446,7 @@ class NET_Widgets(object):
 
 
         widgets.NETWORK_label_11 = QLabel(widgets.row_5_NETWORK)
-        widgets.NETWORK_label_11.setText("Date")
+        widgets.NETWORK_label_11.setText("Processed")
         widgets.NETWORK_label_11.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_label_11, 3, 6, 1, 6)
 
@@ -499,7 +457,7 @@ class NET_Widgets(object):
         # THIRD ROW
 
         widgets.NETWORK_label_20 = QLabel(widgets.row_5_NETWORK)
-        widgets.NETWORK_label_20.setText("")
+        widgets.NETWORK_label_20.setText("Processed")
         widgets.NETWORK_label_20.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_label_20, 5, 0, 1, 6)
 
@@ -508,8 +466,8 @@ class NET_Widgets(object):
         widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_qline_20, 6, 0, 1, 6)
 
 
-        widgets.NETWORK_label_21 = QLabel(widgets.row_5_NETWORK) 
-        widgets.NETWORK_label_21.setText("")
+        widgets.NETWORK_label_21 = QLabel(widgets.row_5_NETWORK)
+        widgets.NETWORK_label_21.setText("Processed")
         widgets.NETWORK_label_21.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_label_21, 5, 6, 1, 6)
 
@@ -521,7 +479,7 @@ class NET_Widgets(object):
         # THIRD ROW
 
         widgets.NETWORK_label_30 = QLabel(widgets.row_5_NETWORK)
-        widgets.NETWORK_label_30.setText("Comment")
+        widgets.NETWORK_label_30.setText("Processed")
         widgets.NETWORK_label_30.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
         widgets.LG_row_5_NETWORK.addWidget(widgets.NETWORK_label_30, 7, 0, 1, 12)
 
@@ -569,9 +527,9 @@ class NET_Widgets(object):
         widgets.pdfView_NETWORK = QPdfView(widgets.pdf_NETWORK)
         widgets.pdfView_NETWORK.setObjectName(u"pdfView_NETWORK")
 
-        widgets.NETWORK_document = QPdfDocument(widgets.pdf_NETWORK)
+        widgets.m_document = QPdfDocument(widgets.pdf_NETWORK)
 
-        widgets.pdfView_NETWORK.setDocument(widgets.NETWORK_document)
+        widgets.pdfView_NETWORK.setDocument(widgets.m_document)
 
 
         ## ============================
@@ -595,16 +553,17 @@ class NET_Widgets(object):
         widgets.actionZoom_In_NETWORK.setText('In')
         widgets.actionZoom_In_NETWORK.setStyleSheet(u"background-color: rgb(91, 95, 199)")
 
-        widgets.actionZoom_Out_NETWORK = QPushButton(widgets.d_row_1_NETWORK)
-        widgets.actionZoom_Out_NETWORK.setText('Out')
-        widgets.actionZoom_Out_NETWORK.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        widgets.actionZoom_Out = QPushButton(widgets.d_row_1_NETWORK)
+        widgets.actionZoom_Out.setText('Out')
+        widgets.actionZoom_Out.setStyleSheet(u"background-color: rgb(91, 95, 199)")
 
-        widgets.m_zoomSelector_NETWORK = ZoomSelector(widgets.d_row_1_NETWORK)
-        widgets.m_zoomSelector_NETWORK.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.m_zoomSelector_NETWORK.zoom_mode_changed.connect(widgets.pdfView_NETWORK.setZoomMode)
-        widgets.m_zoomSelector_NETWORK.zoom_factor_changed.connect(widgets.pdfView_NETWORK.setZoomFactor)
-        widgets.m_zoomSelector_NETWORK.reset()
-        widgets.pdfView_NETWORK.zoomFactorChanged.connect(widgets.m_zoomSelector_NETWORK.set_zoom_factor)
+        widgets.m_zoomSelector = ZoomSelector(widgets.d_row_1_NETWORK)
+        widgets.m_zoomSelector.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # widgets.m_zoomSelector.setMaximumWidth(150)
+        widgets.m_zoomSelector.zoom_mode_changed.connect(widgets.pdfView_NETWORK.setZoomMode)
+        widgets.m_zoomSelector.zoom_factor_changed.connect(widgets.pdfView_NETWORK.setZoomFactor)
+        widgets.m_zoomSelector.reset()
+        widgets.pdfView_NETWORK.zoomFactorChanged.connect(widgets.m_zoomSelector.set_zoom_factor)
 
         widgets.actionPage_down_NETWORK = QPushButton(widgets.d_row_1_NETWORK)
         widgets.actionPage_down_NETWORK.setText('-')
@@ -614,16 +573,17 @@ class NET_Widgets(object):
         widgets.actionPage_up_NETWORK.setText('+')
         widgets.actionPage_up_NETWORK.setStyleSheet(u"background-color: rgb(91, 95, 199)")
 
-        widgets.m_pageSelector_NETWORK = QSpinBox(widgets.d_row_1_NETWORK)
-        widgets.m_pageSelector_NETWORK.valueChanged.connect(widgets.page_selected)
-        widgets.m_pageSelector_NETWORK.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        widgets.m_pageSelector = QSpinBox(widgets.d_row_1_NETWORK)
+        widgets.m_pageSelector.valueChanged.connect(widgets.page_selected)
+        widgets.m_pageSelector.setStyleSheet(u"background-color: rgb(218, 218, 233)")
         nav = widgets.pdfView_NETWORK.pageNavigator()
-        nav.currentPageChanged.connect(widgets.m_pageSelector_NETWORK.setValue)
+        nav.currentPageChanged.connect(widgets.m_pageSelector.setValue)
+        # nav.backAvailableChanged.connect(widgets.actionBack.setEnabled)
+        # nav.forwardAvailableChanged.connect(widgets.actionForward.setEnabled)
 
-    
-        widgets.actionSave_NETWORK = QPushButton(widgets.d_row_1_NETWORK)
-        widgets.actionSave_NETWORK.setText('Save')
-        widgets.actionSave_NETWORK.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        widgets.actionSave = QPushButton(widgets.d_row_1_NETWORK)
+        widgets.actionSave.setText('Save')
+        widgets.actionSave.setStyleSheet(u"background-color: rgb(91, 95, 199)")
 
 
 
@@ -633,17 +593,17 @@ class NET_Widgets(object):
         widgets.mainToolBar.addSeparator()
         widgets.mainToolBar.addWidget(widgets.actionZoom_In_NETWORK)
         widgets.mainToolBar.addSeparator()
-        widgets.mainToolBar.addWidget(widgets.m_zoomSelector_NETWORK)
+        widgets.mainToolBar.addWidget(widgets.m_zoomSelector)
         widgets.mainToolBar.addSeparator()
-        widgets.mainToolBar.addWidget(widgets.actionZoom_Out_NETWORK)
+        widgets.mainToolBar.addWidget(widgets.actionZoom_Out)
         widgets.mainToolBar.addSeparator()
         widgets.mainToolBar.addWidget(widgets.actionPage_down_NETWORK)
         widgets.mainToolBar.addSeparator()
-        widgets.mainToolBar.addWidget(widgets.m_pageSelector_NETWORK)
+        widgets.mainToolBar.addWidget(widgets.m_pageSelector)
         widgets.mainToolBar.addSeparator()
         widgets.mainToolBar.addWidget(widgets.actionPage_up_NETWORK)
         widgets.mainToolBar.addSeparator()
-        widgets.mainToolBar.addWidget(widgets.actionSave_NETWORK)
+        widgets.mainToolBar.addWidget(widgets.actionSave)
 
 
 
