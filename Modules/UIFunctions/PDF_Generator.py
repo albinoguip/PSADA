@@ -60,7 +60,11 @@ class Plotter():
 
 
         elif plot['plot'] == 'Line':
-            self.line(temp, plot)   
+            self.line(temp, plot) 
+
+
+        elif plot['plot'] == 'Violin':
+            self.violin(temp, plot)   
 
 
         # Features
@@ -214,6 +218,21 @@ class Plotter():
             x, y = data[plot['x']], data[plot['y']]
 
             plt.plot(x, y)
+
+
+    def violin(self, data, plot):
+
+        x, y = data[plot['x']], data[plot['y']]
+
+        var_list, labels = [], []
+        for idx, x_unique in enumerate(sorted(x.unique())):
+
+            est = data[data[plot['x']] == x_unique]
+
+            var_list.append(est[~est[plot['y']].isna()][plot['y']].values)
+            labels.append(x_unique)
+
+        plt.violinplot(var_list, showmeans=True, showmedians=True)
 
 
 

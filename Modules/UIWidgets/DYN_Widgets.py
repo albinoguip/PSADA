@@ -200,33 +200,64 @@ class DYN_Widgets(object):
 
         # THIRD ROW
 
+        widgets.DYNAMIC_plot_label = QLabel(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_plot_label.setText("Plot")
+        widgets.DYNAMIC_plot_label.setMaximumWidth(40)
+        widgets.DYNAMIC_plot_label.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_plot_label, 0, 0, 1, 1)
+        widgets.DYNAMIC_plot = QComboBox(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_plot, 0, 1, 1, 2)
 
+
+        widgets.DYNAMIC_x_label = QLabel(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_x_label.setText("X")
+        widgets.DYNAMIC_x_label.setMaximumWidth(40)
+        widgets.DYNAMIC_x_label.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_x_label, 0, 3, 1, 1)
         widgets.DYNAMIC_x = QComboBox(widgets.row_2_DYNAMIC)
         widgets.DYNAMIC_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_x, 0, 0, 1, 3)
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_x, 0, 4, 1, 2)
 
+
+        widgets.DYNAMIC_y_label = QLabel(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_y_label.setText("Y")
+        widgets.DYNAMIC_y_label.setMaximumWidth(40)
+        widgets.DYNAMIC_y_label.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_y_label, 0, 6, 1, 1)
         widgets.DYNAMIC_y = QComboBox(widgets.row_2_DYNAMIC)
         widgets.DYNAMIC_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_y, 0, 3, 1, 3)
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_y, 0, 7, 1, 2)
 
-        widgets.DYNAMIC_c = QComboBox(widgets.row_2_DYNAMIC)
-        widgets.DYNAMIC_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_c, 0, 6, 1, 3)
+        
 
         # FOURTH ROW
 
-        widgets.DYNAMIC_plot = QComboBox(widgets.row_2_DYNAMIC)
-        widgets.DYNAMIC_plot.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_plot, 1, 0, 1, 3)
+        widgets.DYNAMIC_c_label = QLabel(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_c_label.setText("Color")
+        widgets.DYNAMIC_c_label.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_c_label, 1, 0, 1, 1)
+        widgets.DYNAMIC_c = QComboBox(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_c, 1, 1, 1, 2)        
 
+
+        widgets.DYNAMIC_round_label = QLabel(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_round_label.setText("Round")
+        widgets.DYNAMIC_round_label.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_round_label, 1, 3, 1, 1)
         widgets.DYNAMIC_round = QComboBox(widgets.row_2_DYNAMIC)
         widgets.DYNAMIC_round.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_round, 1, 3, 1, 3)
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_round, 1, 4, 1, 2)
 
 
+        widgets.DYNAMIC_stats_label = QLabel(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_stats_label.setText("Functions")
+        widgets.DYNAMIC_stats_label.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_stats_label, 1, 6, 1, 1)
         widgets.DYNAMIC_stats = QComboBox(widgets.row_2_DYNAMIC)
         widgets.DYNAMIC_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_stats, 1, 6, 1, 3)
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_stats, 1, 7, 1, 2)
 
         # PLOT BUTTON
 
@@ -238,17 +269,34 @@ class DYN_Widgets(object):
 
         # FIFTH ROW
 
+        widgets.DYNAMIC_variable_label = QLabel(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_variable_label.setText("Col")
+        widgets.DYNAMIC_variable_label.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_variable_label, 2, 0, 1, 1)
         widgets.DYNAMIC_combo_variable = ExtendedComboBox(widgets.row_2_DYNAMIC)
         widgets.DYNAMIC_combo_variable.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_combo_variable, 2, 0, 1, 3)
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_combo_variable, 2, 1, 1, 2)
 
+
+        widgets.DYNAMIC_signal_label = QLabel(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_signal_label.setText("Oper")
+        widgets.DYNAMIC_signal_label.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_signal_label, 2, 3, 1, 1)
         widgets.DYNAMIC_combo_sinal = QComboBox(widgets.row_2_DYNAMIC)
         widgets.DYNAMIC_combo_sinal.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_combo_sinal, 2, 3, 1, 3)
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_combo_sinal, 2, 4, 1, 2)
 
+
+        widgets.DYNAMIC_value_label = QLabel(widgets.row_2_DYNAMIC)
+        widgets.DYNAMIC_value_label.setText("Value")
+        widgets.DYNAMIC_value_label.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_value_label, 2, 6, 1, 1)
         widgets.DYNAMIC_label_value = QLineEdit(widgets.row_2_DYNAMIC)
         widgets.DYNAMIC_label_value.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_label_value, 2, 6, 1, 3)
+        widgets.LG_row_2_DYNAMIC.addWidget(widgets.DYNAMIC_label_value, 2, 7, 1, 2)
+
+
+
 
         widgets.DYNAMIC_button_apply_filter = QPushButton(widgets.row_2_DYNAMIC)
         widgets.DYNAMIC_button_apply_filter.setStyleSheet(u"background-color: rgb(91, 95, 199)")

@@ -18,24 +18,12 @@ class GUI_Plotter():
         self.ui.DYNAMIC_sc.axes.cla()
         self.ui.DYNAMIC_sc.fig.clf()
 
-        self.ui.DYNAMIC_sc.axes = self.ui.DYNAMIC_sc.fig.add_subplot(111)
-
-        
+        self.ui.DYNAMIC_sc.axes = self.ui.DYNAMIC_sc.fig.add_subplot(111)       
 
         temp = self.data.copy()
 
 
-        # Change the Data to Plot
-
-        if self.plot['filter'] is not None:
-            temp = self.filter_data(temp, self.plot)
-
-        if self.plot['round'] is not None and self.plot['round'] != '':
-            temp[self.plot['x']] = temp[self.plot['x']].round(int(self.plot['round']))    
-
-        if self.plot['stat'] is not None and self.plot['stat'] != '':
-            temp = self.select_group_by(temp, self.plot)
-
+        
 
         # Plot the data
 
@@ -48,30 +36,17 @@ class GUI_Plotter():
 
 
         elif self.plot['plot'] == 'Violin':
-            self.violin(temp, self.plot, self.ui)   
+            labels = self.violin(temp, self.plot, self.ui)   
+
+        elif self.plot['plot'] == 'HeatMap':
+            labels = self.heatmap(temp, self.plot, self.ui)   
 
 
         # Features
 
         self.ui.DYNAMIC_sc.axes.set_xlabel(self.plot['x_label'] if self.plot['x_label'] is not None else self.plot['x'])
-        self.ui.DYNAMIC_sc.axes.set_ylabel(self.plot['y_label'] if self.plot['y_label'] is not None else self.plot['y'])
+        self.ui.DYNAMIC_sc.axes.set_ylabel(self.plot['y_label'] if self.plot['y_label'] is not None else self.plot['y'])        
 
-        
-        unique_y = temp[self.plot['y']].unique()
-        unique_x = temp[self.plot['x']].unique()
-
-        try:
-            if np.array_equal(temp[self.plot['y']], temp[self.plot['y']].astype(int)) and len(unique_y) <= 30:            
-                self.ui.DYNAMIC_sc.axes.set_yticks([i for i in unique_y], [i for i in unique_y])       
-        except:
-            pass       
-
-
-        try:
-            if np.array_equal(temp[self.plot['x']], temp[self.plot['x']].astype(int)) and len(unique_x) <= 30:            
-                self.ui.DYNAMIC_sc.axes.set_xticks([i for i in unique_x], [i for i in unique_x])       
-        except:
-            pass         
 
         
         y, x, c = self.plot['y'], self.plot['x'], self.plot['c']
@@ -85,26 +60,36 @@ class GUI_Plotter():
         self.ui.DYNAMIC_sc.draw()
 
 
-    def select_group_by(self, data, plot):
+
+
+
+    def select_group_by(self, data, plot, x, y, c):
 
         if plot['stat'] == 'Mean':
-            if plot['c'] is not None and self.plot['c'] != '':
-                return data.groupby([plot['x'], plot['c']], as_index=False)[plot['y']].mean()
+            if c is not None and c != '':
+                return data.groupby([x, c], as_index=False)[y].mean()
             else:
-                return data.groupby([plot['x']], as_index=False)[plot['y']].mean()
+                return data.groupby([x], as_index=False)[y].mean()
             
 
         if plot['stat'] == 'Std':
-            if plot['c'] is not None and self.plot['c'] != '':
-                return data.groupby([plot['x'], plot['c']], as_index=False)[plot['y']].std()
+            if c is not None and c != '':
+                return data.groupby([x, c], as_index=False)[y].std()
             else:
-                return data.groupby([plot['x']], as_index=False)[plot['y']].std()
+                return data.groupby([x], as_index=False)[y].std()
             
         if plot['stat'] == 'Sum':
-            if plot['c'] is not None and self.plot['c'] != '':
-                return data.groupby([plot['x'], plot['c']], as_index=False)[plot['y']].sum()
+            if c is not None and c != '':
+                return data.groupby([x, c], as_index=False)[y].sum()
             else:
-                return data.groupby([plot['x']], as_index=False)[plot['y']].sum()
+                return data.groupby([x], as_index=False)[y].sum()
+            
+
+        if plot['stat'] == 'Count':
+            if c is not None and c != '':
+                return data.groupby([x, c], as_index=False)[y].count()
+            else:
+                return data.groupby([x], as_index=False)[y].count()
 
 
 
@@ -141,10 +126,25 @@ class GUI_Plotter():
         return data
 
 
-
-
+    ### SCATTER
+    #####################################################################################################################
 
     def scatter(self, data, plot, ui):
+
+
+        # Change the Data to Plot
+
+        if self.plot['filter'] is not None:
+            data = self.filter_data(data, self.plot)
+
+        if self.plot['round'] is not None and self.plot['round'] != '':
+            data[self.plot['x']] = data[self.plot['x']].round(int(self.plot['round']))    
+
+        if self.plot['stat'] is not None and self.plot['stat'] != '':
+            data = self.select_group_by(data, self.plot, plot['x'], plot['y'], plot['c'])
+
+
+        # Create Plot
 
         scat   = data.copy()
         colors = ['royalblue', 'lightgreen', 'tan', 'thistle', 'red']
@@ -179,8 +179,45 @@ class GUI_Plotter():
             ui.DYNAMIC_sc.axes.scatter(x, y, c=c)
 
 
+        # Adjusting Labels
+
+        unique_y = data[self.plot['y']].unique()
+        unique_x = data[self.plot['x']].unique()
+
+        try:
+            if np.array_equal(data[self.plot['y']], data[self.plot['y']].astype(int)) and len(unique_y) <= 30:            
+                self.ui.DYNAMIC_sc.axes.set_yticks([i for i in unique_y], [i for i in unique_y])       
+        except:
+            pass  
+
+        try:
+            if np.array_equal(data[self.plot['x']], data[self.plot['x']].astype(int)) and len(unique_x) <= 30:            
+                self.ui.DYNAMIC_sc.axes.set_xticks([i for i in unique_x], [i for i in unique_x])       
+        except:
+            pass    
+
+
+
+
+
+    ### LINE
+    #####################################################################################################################
 
     def line(self, data, plot, ui):
+
+        # Change the Data to Plot
+
+        if self.plot['filter'] is not None:
+            data = self.filter_data(data, self.plot)
+
+        if self.plot['round'] is not None and self.plot['round'] != '':
+            data[self.plot['x']] = data[self.plot['x']].round(int(self.plot['round']))    
+
+        if self.plot['stat'] is not None and self.plot['stat'] != '':
+            data = self.select_group_by(data, self.plot, plot['x'], plot['y'], plot['c'])
+
+
+        # Create Plot
 
         if plot['c'] is not None and self.plot['c'] != '':
             for c in data[plot['c']].unique():
@@ -197,9 +234,45 @@ class GUI_Plotter():
             ui.DYNAMIC_sc.axes.plot(x, y)
 
 
+        # Adjusting Labels
+
+        unique_y = data[self.plot['y']].unique()
+        unique_x = data[self.plot['x']].unique()
+
+        try:
+            if np.array_equal(data[self.plot['y']], data[self.plot['y']].astype(int)) and len(unique_y) <= 30:            
+                self.ui.DYNAMIC_sc.axes.set_yticks([i for i in unique_y], [i for i in unique_y])       
+        except:
+            pass  
+
+        try:
+            if np.array_equal(data[self.plot['x']], data[self.plot['x']].astype(int)) and len(unique_x) <= 30:            
+                self.ui.DYNAMIC_sc.axes.set_xticks([i for i in unique_x], [i for i in unique_x])       
+        except:
+            pass    
+
+
+
+
+
+    ### VIOLIN
+    #####################################################################################################################
 
     def violin(self, data, plot, ui):
 
+        # Change the Data to Plot
+
+        if self.plot['filter'] is not None:
+            data = self.filter_data(data, self.plot)
+
+        if self.plot['round'] is not None and self.plot['round'] != '':
+            data[self.plot['x']] = data[self.plot['x']].round(int(self.plot['round']))    
+
+        if self.plot['stat'] is not None and self.plot['stat'] != '':
+            data = self.select_group_by(data, self.plot, plot['x'], plot['y'], plot['c'])
+
+
+        # Create Plot
         # Has Not_NaN Built-in
 
         x, y = data[plot['x']], data[plot['y']]
@@ -213,6 +286,81 @@ class GUI_Plotter():
             labels.append(x_unique)
 
         ui.DYNAMIC_sc.axes.violinplot(var_list, showmeans=True, showmedians=True)
+
+
+        # Adjusting Labels
+
+        self.ui.DYNAMIC_sc.axes.set_xticks([i for i in range(1, len(labels)+1)], labels, rotation=45) 
+    
+
+
+
+
+    ### HEATMAP
+    #####################################################################################################################
+
+    def heatmap(self, data, plot, ui):
+
+
+        # Change the Data to Plot
+
+        if self.plot['filter'] is not None:
+            data = self.filter_data(data, self.plot)
+
+        if self.plot['round'] is not None and self.plot['round'] != '':
+            data[self.plot['x']] = data[self.plot['x']].round(int(self.plot['round']))    
+
+        if self.plot['stat'] is not None and self.plot['stat'] != '':
+            data = self.select_group_by(data, self.plot, plot['x'], plot['c'], plot['y'])
+
+        print(data)
+        # Create Plot
+
+
+        scat   = data[[plot['x'], plot['y'], plot['c']]].copy()
+        colors = ['royalblue', 'lightgreen', 'tan', 'thistle', 'red']
+
+        scat[plot['x']] = scat[plot['x']].astype('str')
+        scat[plot['y']] = scat[plot['y']].astype('str')
+        
+
+        x, y, c = scat[plot['x']], scat[plot['y']], scat[plot['c']]
+
+        # x = [str(ix) + 'c' for ix in x]
+        # y = [str(iy) + 'c' for iy in y]
+
+        try:
+            inter, stringer = np.array_equal(c, c.astype(int)), False
+        except:
+            inter, stringer = False, True
+
+
+        if len(c.unique()) == 1:
+            points  = ui.DYNAMIC_sc.axes.scatter(x, y, marker='s')
+
+
+        elif (inter or stringer) and len(c.unique()) <= 20: 
+        
+            cmap    = LinearSegmentedColormap.from_list('my_list', colors[:len(c.unique())], N=len(c.unique()))      
+            points  = ui.DYNAMIC_sc.axes.scatter(x, y, c=c, cmap=cmap, marker='s')
+
+            ui.DYNAMIC_sc.fig.colorbar(points, ticks=[c.unique()[i] for i in range(0, len(c.unique()))])     
+
+        else:
+            cmap    = LinearSegmentedColormap.from_list('my_list', colors[:10], N=10)      
+            points  = ui.DYNAMIC_sc.axes.scatter(x, y, c=c, cmap=cmap, marker='s')
+
+            ui.DYNAMIC_sc.fig.colorbar(points, ticks=[i*(c.max()/10) for i in range(0, 11)])  
+
+        # Adjusting Labels
+
+        unique_y = scat[self.plot['y']].unique()
+        self.ui.DYNAMIC_sc.axes.set_yticks([i for i in range(len(unique_y))], [i for i in unique_y]) 
+
+        unique_x = scat[self.plot['x']].unique()
+        self.ui.DYNAMIC_sc.axes.set_xticks([i for i in range(len(unique_x))], [i for i in unique_x], rotation=90)    
+
+        self.ui.DYNAMIC_sc.axes.grid()
 
 
 
