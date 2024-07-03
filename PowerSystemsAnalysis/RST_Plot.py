@@ -805,7 +805,7 @@ class RST_Plot_estavel(RST_Plot):
         _rocofs, _labels, _colors = [], [], []
         rocofs , labels ,  colors = [], [], []
 
-        # est_raw['Contigence_Number_int'] = est_raw['Contigence_Number'].astype('int')
+        # est_raw['Contigence_Number_int'] = est_raw['Contigence_Number'].astype('int') 
 
         # t = (est_raw['SIGLA'] == 'RCFC') & (est_raw['Contigence_Number'] != '10')
 

@@ -9,6 +9,14 @@ import os, sys, tempfile, re, json
 from fpdf import FPDF
 
 
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 
 
 class Plotter():
@@ -52,7 +60,11 @@ class Plotter():
 
 
         elif plot['plot'] == 'Line':
-            self.line(temp, plot)   
+            self.line(temp, plot) 
+
+
+        elif plot['plot'] == 'Violin':
+            self.violin(temp, plot)   
 
 
         # Features
@@ -208,6 +220,21 @@ class Plotter():
             plt.plot(x, y)
 
 
+    def violin(self, data, plot):
+
+        x, y = data[plot['x']], data[plot['y']]
+
+        var_list, labels = [], []
+        for idx, x_unique in enumerate(sorted(x.unique())):
+
+            est = data[data[plot['x']] == x_unique]
+
+            var_list.append(est[~est[plot['y']].isna()][plot['y']].values)
+            labels.append(x_unique)
+
+        plt.violinplot(var_list, showmeans=True, showmedians=True)
+
+
 
 
 
@@ -222,7 +249,7 @@ class PDFGenerator():
     
     def _head(self, color, font):
         self.pdf.add_page()
-        self.pdf.image('header_expands.png', x=0, y=0, w=508)
+        self.pdf.image(resource_path('assets/header_expands.png'), x=0, y=0, w=508)
         self.pdf.set_font('Times', 'B', font)
         self.pdf.set_text_color(color)
 
@@ -244,7 +271,7 @@ class PDFGenerator():
 
         self.pdf.add_page()
         self.pdf.set_font('Times', 'B', 40)
-        self.pdf.image('header_expands.png', x=0, y=0, w=508)
+        self.pdf.image(resource_path('assets/header_expands.png'), x=0, y=0, w=508)
         self.pdf.cell(0, 110, 'REPORT:', align='C')
         self.pdf.ln(10)
         self.pdf.set_font('Times', 'B', 36)

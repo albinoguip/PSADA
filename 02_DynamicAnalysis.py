@@ -39,20 +39,21 @@ pd.set_option('mode.chained_assignment', None)
 ''' EXTRACT: RST's INFO'''
 ### ==================================================================================================================================== ###
 
-batchs = ['14', '15', '16']
+batchs = ['01', '02', '03', '04', '05', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16'] #'06',
+batchs = ['06']
 
 for batch in batchs:    
 
     PATH   = f'D:/BATCH/BATCH_{batch}/RST/'
     AUX    = f'D:/BATCH/BATCH_{batch}/'
     MASTER = [PATH + f for f in os.listdir(PATH) if '.rst' in f.lower()]
-    parts  = len(MASTER)//2000 + 1 if len(MASTER)%2000 > 0 else len(MASTER)//2000
+    parts  = len(MASTER)//1000 + 1 if len(MASTER)%1000 > 0 else len(MASTER)//1000
 
     print(f'\n\n --------------------------------------------------------------------------------------------------------------- {batch} {parts} --------------------------------------------------------------------------------------------------------------- \n\n')
 
     for cont in range(0, parts):
         
-        FILES = MASTER[2000*(cont):2000*(cont+1)]
+        FILES = MASTER[1000*(cont):1000*(cont+1)]
         vars  = pd.DataFrame()
 
         print(len(FILES), FILES[-1])
