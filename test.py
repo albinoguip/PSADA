@@ -1,12 +1,9 @@
-from PowerSystemsAnalysis import *
-import networkx as nx
+import os
+import shutil
 
+batches = ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '14']
 
-path = 'C:/Users/Scarlet/Desktop/rev2_Remaneja Sto Antonio e Jirau/vars.csv'
-RST = RST_Generic(report_path = path,
-                  eol         = None,
-                  sol         = None,
-                  save_path   = None,
-                  code_filtro = None)
+for batch in batches:
 
-print(RST._get_variables())
+    if os.path.exists(f'D:/BATCH/BATCH_{batch}/DATABASE/GNN/'):
+        shutil.rmtree(f'D:/BATCH/BATCH_{batch}/DATABASE/GNN/')

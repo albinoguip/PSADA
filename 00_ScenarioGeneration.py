@@ -541,7 +541,7 @@ for batch in batchs:
 path_script = f'D:/BATCH/RST_automation.txt'
 with open(path_script, 'w') as f:    
 
-    for i in range(20_000):
+    for i in range(5_000):
         for j in range(len(ALL_BATCHS)):       
            
 

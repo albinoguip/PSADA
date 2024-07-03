@@ -104,13 +104,18 @@ class RST_Reader():
 
         try:
             net_info = pd.DataFrame(valores, columns=vars[0])
+
+            net_info = net_info.loc[:, ~net_info.columns.duplicated()].copy()
+
+            reserva  = net_info.iloc[int(len(net_info)/2):][['ISLD', 'SLCK', 'TBUS']].rename(columns={'SLCK':'TRSV', 'TBUS':'HRSV'})
+            net_info = net_info.iloc[:int(len(net_info)/2)].merge(reserva, on='ISLD', how='left')
+
+
         except:
             print('SEGUNDO', self.path)
-            
-        net_info = net_info.loc[:, ~net_info.columns.duplicated()].copy()
-
-        reserva  = net_info.iloc[int(len(net_info)/2):][['ISLD', 'SLCK', 'TBUS']].rename(columns={'SLCK':'TRSV', 'TBUS':'HRSV'})
-        net_info = net_info.iloc[:int(len(net_info)/2)].merge(reserva, on='ISLD', how='left')
+            dict_report = 'NOT'
+            net_info    = None
+        
     
         return dict_report, net_info
     

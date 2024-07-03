@@ -1,10 +1,11 @@
-from PowerSystemsAnalysis import *
+03_FeatureExtractorfrom PowerSystemsAnalysis import *
 import pandas as pd
 
 
 
  
-batchs = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16']
+batchs = ['07', '08', '09', '10', '11', '12', '13', '14', '15', '16'] #'01', '02', '03', '04', '05', '06', 
+batchs = ['06']
 
 for batch in batchs:
 
