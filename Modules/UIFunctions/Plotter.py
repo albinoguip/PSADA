@@ -44,7 +44,11 @@ class GUI_Plotter():
 
 
         elif self.plot['plot'] == 'Line':
-            self.line(temp, self.plot, self.ui)   
+            self.line(temp, self.plot, self.ui)  
+
+
+        elif self.plot['plot'] == 'Violin':
+            self.violin(temp, self.plot, self.ui)   
 
 
         # Features
@@ -54,10 +58,18 @@ class GUI_Plotter():
 
         
         unique_y = temp[self.plot['y']].unique()
+        unique_x = temp[self.plot['x']].unique()
 
         try:
             if np.array_equal(temp[self.plot['y']], temp[self.plot['y']].astype(int)) and len(unique_y) <= 30:            
                 self.ui.DYNAMIC_sc.axes.set_yticks([i for i in unique_y], [i for i in unique_y])       
+        except:
+            pass       
+
+
+        try:
+            if np.array_equal(temp[self.plot['x']], temp[self.plot['x']].astype(int)) and len(unique_x) <= 30:            
+                self.ui.DYNAMIC_sc.axes.set_xticks([i for i in unique_x], [i for i in unique_x])       
         except:
             pass         
 
@@ -183,6 +195,24 @@ class GUI_Plotter():
             x, y = data[plot['x']], data[plot['y']]
 
             ui.DYNAMIC_sc.axes.plot(x, y)
+
+
+
+    def violin(self, data, plot, ui):
+
+        # Has Not_NaN Built-in
+
+        x, y = data[plot['x']], data[plot['y']]
+
+        var_list, labels = [], []
+        for idx, x_unique in enumerate(sorted(x.unique())):
+
+            est = data[data[plot['x']] == x_unique]
+
+            var_list.append(est[~est[plot['y']].isna()][plot['y']].values)
+            labels.append(x_unique)
+
+        ui.DYNAMIC_sc.axes.violinplot(var_list, showmeans=True, showmedians=True)
 
 
 

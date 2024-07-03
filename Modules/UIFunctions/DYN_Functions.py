@@ -160,7 +160,7 @@ class DYN_Functions(MainWindow):
         self.ui.DYNAMIC_y.addItems(self.rst_generic._get_variables())
         self.ui.DYNAMIC_c.addItems(c_options)
 
-        self.ui.DYNAMIC_plot.addItems(['Scatter', 'Line', 'Histogram'])
+        self.ui.DYNAMIC_plot.addItems(['Scatter', 'Line', 'Histogram', 'Violin'])
         self.ui.DYNAMIC_round.addItems(r_options)
         self.ui.DYNAMIC_stats.addItems([None, 'Mean', 'Sum', 'Std'])
 
