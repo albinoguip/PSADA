@@ -1,0 +1,1 @@
+pyinstaller -F --add-data "assets/albino_light_theme.qss;." --add-data "assets/header.png;." --add-data "assets;assets" --paths "assets;assets" --paths "Backend;." --paths "PowerSystemsAnalysis;." --collect-all "Backend" --collect-all "PowerSystemsAnalysis" main.py
