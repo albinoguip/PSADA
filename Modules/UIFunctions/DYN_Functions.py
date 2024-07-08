@@ -160,12 +160,12 @@ class DYN_Functions(MainWindow):
         self.ui.DYNAMIC_y.addItems(self.rst_generic._get_variables())
         self.ui.DYNAMIC_c.addItems(c_options)
 
-        self.ui.DYNAMIC_plot.addItems(['Scatter', 'Line', 'Histogram', 'Violin', 'HeatMap'])
+        self.ui.DYNAMIC_plot.addItems(['Scatter', 'Line', 'Bar', 'Violin', 'HeatMap'])
         self.ui.DYNAMIC_round.addItems(r_options)
         self.ui.DYNAMIC_stats.addItems([None, 'Mean', 'Sum', 'Std', 'Count'])
 
         self.ui.DYNAMIC_combo_variable.addItems(self.rst_generic._get_variables())
-        self.ui.DYNAMIC_combo_sinal.addItems(['>', '>=', '<', '<=', '==', 'List', 'not_NaN', 'NaN'])
+        self.ui.DYNAMIC_combo_sinal.addItems(['>', '>=', '<', '<=', '==', '!=', 'List', 'not_NaN', 'NaN'])
         
 
 

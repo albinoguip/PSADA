@@ -41,17 +41,7 @@ class Plotter():
         elif leng == 3:
             fig = plt.figure(figsize=(8, 6), dpi=200)
 
-        # Change the Data to Plot
-
-        if plot['filter'] is not None:
-            temp = self.filter_data(temp, plot)
-
-        if plot['round'] is not None and plot['round'] != '':
-            temp[plot['x']] = temp[plot['x']].round(int(plot['round']))    
-
-        if plot['stat'] is not None and plot['stat'] != '':
-            temp = self.select_group_by(temp, plot)
-
+        
 
         # Plot the data
 
@@ -66,20 +56,14 @@ class Plotter():
         elif plot['plot'] == 'Violin':
             self.violin(temp, plot)   
 
+        elif plot['plot'] == 'HeatMap':
+            self.heatmap(temp, plot)  
 
-        # Features
+        elif plot['plot'] == 'Bar':
+            self.barplot(temp, plot)  
 
-        plt.xlabel(plot['x_label'] if plot['x_label'] is not None else plot['x'])
-        plt.ylabel(plot['y_label'] if plot['y_label'] is not None else plot['y'])
 
         
-        unique_y = temp[plot['y']].unique()
-
-        try:
-            if np.array_equal(temp[plot['y']], temp[plot['y']].astype(int)) and len(unique_y) <= 30:              
-                plt.yticks([i for i in unique_y], [i for i in unique_y])       
-        except:
-            pass
 
 
         y, x, c = plot['y'], plot['x'], plot['c']
@@ -109,26 +93,34 @@ class Plotter():
 
 
 
-    def select_group_by(self, data, plot):
+    def select_group_by(self, data, plot, x, y, c):
 
         if plot['stat'] == 'Mean':
-            if plot['c'] is not None and plot['c'] != '':
-                return data.groupby([plot['x'], plot['c']], as_index=False)[plot['y']].mean()
+            if c is not None and c != '':
+                return data.groupby([x, c], as_index=False)[y].mean()
             else:
-                return data.groupby([plot['x']], as_index=False)[plot['y']].mean()
+                return data.groupby([x], as_index=False)[y].mean()
             
 
         if plot['stat'] == 'Std':
-            if plot['c'] is not None and plot['c'] != '':
-                return data.groupby([plot['x'], plot['c']], as_index=False)[plot['y']].std()
+            if c is not None and c != '':
+                return data.groupby([x, c], as_index=False)[y].std()
             else:
-                return data.groupby([plot['x']], as_index=False)[plot['y']].std()
+                return data.groupby([x], as_index=False)[y].std()
             
         if plot['stat'] == 'Sum':
-            if plot['c'] is not None and plot['c'] != '':
-                return data.groupby([plot['x'], plot['c']], as_index=False)[plot['y']].sum()
+            if c is not None and c != '':
+                return data.groupby([x, c], as_index=False)[y].sum()
             else:
-                return data.groupby([plot['x']], as_index=False)[plot['y']].sum()
+                return data.groupby([x], as_index=False)[y].sum()
+            
+            
+        if plot['stat'] == 'Count':
+            if c is not None and c != '':
+                return data.groupby([x, c], as_index=False)[y].count()
+            else:
+                return data.groupby([x], as_index=False)[y].count()
+
 
 
 
@@ -150,6 +142,9 @@ class Plotter():
             elif signal == '<=':
                 data = data[data[var] <= threshold]
 
+            elif signal == '!=':
+                data = data[data[var] != threshold]
+
             elif signal == '==':
                 data = data[data[var] == threshold]
 
@@ -170,7 +165,23 @@ class Plotter():
 
     def scatter(self, data, plot):
 
-        scat   = data.copy()
+        temp = data.copy()
+
+        # Change the Data to Plot
+
+        if plot['filter'] is not None:
+            temp = self.filter_data(temp, plot)
+
+        if plot['round'] is not None and plot['round'] != '':
+            temp[plot['x']] = temp[plot['x']].round(int(plot['round']))    
+
+        if plot['stat'] is not None and plot['stat'] != '':
+            temp = self.select_group_by(temp, plot, plot['x'], plot['y'], plot['c'])
+
+
+        # Create Plot
+
+        scat   = temp.copy()
         colors = ['royalblue', 'lightgreen', 'tan', 'thistle', 'red']
 
         if plot['c'] is not None and plot['c'] != '':
@@ -202,37 +213,227 @@ class Plotter():
             plt.scatter(x, y, c=c)
 
 
+        # Adjusting Labels
+
+        unique_y = scat[plot['y']].unique()
+        unique_x = scat[plot['x']].unique()
+
+        try:
+            if np.array_equal(scat[plot['y']], scat[plot['y']].astype(int)) and len(unique_y) <= 30:            
+                plt.yticks([i for i in unique_y], [i for i in unique_y])       
+        except:
+            pass  
+
+        try:
+            if np.array_equal(scat[plot['x']], scat[plot['x']].astype(int)) and len(unique_x) <= 30:            
+                plt.xticks([i for i in unique_x], [i for i in unique_x])       
+        except:
+            pass    
+
+
+    ### LINE
+    #####################################################################################################################
 
     def line(self, data, plot):
 
-        if plot['c'] is not None and plot['c'] != '':
-            for c in data[plot['c']].unique():
 
-                f    = data[plot['c']] == c
-                x, y = data[f][plot['x']], data[f][plot['y']]
+        temp = data.copy()
+
+        # Change the Data to Plot
+
+        if plot['filter'] is not None:
+            temp = self.filter_data(temp, plot)
+
+        if plot['round'] is not None and plot['round'] != '':
+            temp[plot['x']] = temp[plot['x']].round(int(plot['round']))    
+
+        if plot['stat'] is not None and plot['stat'] != '':
+            temp = self.select_group_by(temp, plot, plot['x'], plot['y'], plot['c'])
+
+
+        # Create Plot
+        
+        if plot['c'] is not None and plot['c'] != '':
+            for c in temp[plot['c']].unique():
+
+                f    = temp[plot['c']] == c
+                x, y = temp[f][plot['x']], temp[f][plot['y']]
 
                 plt.plot(x, y, label=c)
 
         else:
 
-            x, y = data[plot['x']], data[plot['y']]
+            x, y = temp[plot['x']], temp[plot['y']]
 
             plt.plot(x, y)
 
 
+        # Adjusting Labels
+
+        unique_y = temp[plot['y']].unique()
+        unique_x = temp[plot['x']].unique()
+
+        try:
+            if np.array_equal(temp[plot['y']], temp[plot['y']].astype(int)) and len(unique_y) <= 30:            
+                plt.yticks([i for i in unique_y], [i for i in unique_y])       
+        except:
+            pass  
+
+        try:
+            if np.array_equal(temp[plot['x']], temp[plot['x']].astype(int)) and len(unique_x) <= 30:            
+                plt.xticks([i for i in unique_x], [i for i in unique_x])       
+        except:
+            pass    
+
+
+    ### VIOLIN
+    #####################################################################################################################
+
+
     def violin(self, data, plot):
 
-        x, y = data[plot['x']], data[plot['y']]
+        temp = data.copy()
+
+        # Change the Data to Plot
+
+        if plot['filter'] is not None:
+            temp = self.filter_data(temp, plot)
+
+        if plot['round'] is not None and plot['round'] != '':
+            temp[plot['x']] = temp[plot['x']].round(int(plot['round']))    
+
+        if plot['stat'] is not None and plot['stat'] != '':
+            temp = self.select_group_by(temp, plot, plot['x'], plot['y'], plot['c'])
+
+
+        # Create Plot
+        # Has Not_NaN Built-in
+
+        x, y = temp[plot['x']], temp[plot['y']]
 
         var_list, labels = [], []
         for idx, x_unique in enumerate(sorted(x.unique())):
 
-            est = data[data[plot['x']] == x_unique]
+            est = temp[temp[plot['x']] == x_unique]
 
             var_list.append(est[~est[plot['y']].isna()][plot['y']].values)
             labels.append(x_unique)
 
         plt.violinplot(var_list, showmeans=True, showmedians=True)
+
+        # Adjusting Labels
+
+        plt.xticks([i for i in range(1, len(labels)+1)], labels, rotation=45) 
+
+
+
+    ### HEATMAP
+    #####################################################################################################################
+
+    def heatmap(self, data, plot):
+
+        temp = data.copy()
+
+        # Change the Data to Plot
+
+        if plot['filter'] is not None:
+            temp = self.filter_data(temp, plot)
+
+        if plot['round'] is not None and plot['round'] != '':
+            temp[plot['x']] = temp[plot['x']].round(int(plot['round']))    
+
+        if plot['stat'] is not None and plot['stat'] != '':
+            temp = self.select_group_by(temp, plot, plot['x'], plot['c'], plot['y'])
+
+
+        # Create Plot
+
+        scat   = temp[[plot['x'], plot['y'], plot['c']]].copy()
+        colors = ['royalblue', 'lightgreen', 'tan', 'thistle', 'red']
+
+        scat[plot['x']] = scat[plot['x']].astype('str')
+        scat[plot['y']] = scat[plot['y']].astype('str')
+        
+
+        x, y, c = scat[plot['x']], scat[plot['y']], scat[plot['c']]
+
+        # x = [str(ix) + 'c' for ix in x]
+        # y = [str(iy) + 'c' for iy in y]
+
+        try:
+            inter, stringer = np.array_equal(c, c.astype(int)), False
+        except:
+            inter, stringer = False, True
+
+
+        if len(c.unique()) == 1:
+            points  = plt.scatter(x, y, marker='s')
+
+
+        elif (inter or stringer) and len(c.unique()) <= 20: 
+        
+            cmap    = LinearSegmentedColormap.from_list('my_list', colors[:len(c.unique())], N=len(c.unique()))      
+            points  = plt.scatter(x, y, c=c, cmap=cmap, marker='s')
+
+            plt.colorbar(points, ticks=[c.unique()[i] for i in range(0, len(c.unique()))])     
+
+        else:
+            cmap    = LinearSegmentedColormap.from_list('my_list', colors[:10], N=10)      
+            points  = plt.scatter(x, y, c=c, cmap=cmap, marker='s')
+
+            plt.colorbar(points, ticks=[i*(c.max()/10) for i in range(0, 11)])  
+
+        # Adjusting Labels
+
+        unique_y = scat[plot['y']].unique()
+        plt.yticks([i for i in range(len(unique_y))], [i for i in unique_y]) 
+
+        unique_x = scat[plot['x']].unique()
+        plt.xticks([i for i in range(len(unique_x))], [i for i in unique_x], rotation=90)    
+
+
+    ### BARPLOT
+    #####################################################################################################################
+
+    def barplot(self, data, plot):
+
+        temp = data.copy()
+
+
+        # Change the Data to Plot
+
+        if plot['filter'] is not None:
+            temp = self.filter_data(temp, plot)
+
+        if plot['round'] is not None and plot['round'] != '':
+            temp[plot['x']] = temp[plot['x']].round(int(plot['round']))    
+
+        if plot['stat'] is not None and plot['stat'] != '':
+            temp = self.select_group_by(temp, plot, plot['x'], plot['y'], None)
+
+        # Create Plot
+
+
+        scat   = temp[[plot['x'], plot['y']]].copy()
+        colors = ['royalblue', 'lightgreen', 'tan', 'thistle', 'red']
+
+        scat[plot['x']] = scat[plot['x']].astype('str')        
+
+        x, y = scat[plot['x']], scat[plot['y']]
+
+
+        plt.bar(x, y)
+
+        # Adjusting Labels
+
+        unique_x = scat[plot['x']].unique()
+        if len(unique_x) > 10:
+            plt.xticks([i for i in range(len(unique_x))], [i for i in unique_x], rotation=90)    
+        else:
+            plt.xticks([i for i in range(len(unique_x))], [i for i in unique_x])
+
+
+
 
 
 

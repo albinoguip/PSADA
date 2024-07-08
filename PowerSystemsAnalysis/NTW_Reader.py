@@ -111,6 +111,7 @@ class NTW_Reader():
             if 'END OF DCLINK DATA' in line: self.l_dcl = idx - 1
 
 
+
     # BUS =====================================================================================================================================================
 
     def _get_bus_data(self):      
@@ -268,30 +269,26 @@ class NTW_Reader():
         # columns = self.lines[self.s-1].strip().replace('/', ' ').replace('(', ' ').replace(')', ' ').replace('\'', ' ').replace(',', ' ').split()
         data_raw, data = [], []
 
-        head = [self.lines[i].strip() for i in range(self.f_trs-1, self.l_trs + 1) if '/' in self.lines[i].strip()]
+        head = [self.lines[i].strip() for i in range(self.f_trs-1, self.l_trs + 1)]# if '/' in self.lines[i].strip()]
 
+
+        ############ ARRUMAR ESSA MERDA
 
         for line in head:
-            trs_info = line.strip().replace('/', ' ').replace('\'', ' ').replace(' ', '').split(',')
+            trs_info = line.strip().replace('/', ' ').replace('\'', ' ').replace(' ', '').replace('(', '').replace(')', '').split(',')
             data.append(trs_info)
-
-            # print(trs_info)
-
-        # for i in range(len(data_raw)//4):
-        #     prov = data_raw[i*4]
-
-        #     # for d in data_raw[i*2+1]:
-        #     #     prov.append(d)
-
-        #     data.append(prov)
 
         try:
             try:
                 hard_col = ['BUS1', 'BUS2', 'BUS3', 'CI', 'G_MAG', 'B_MAG', 'WI1', 'WI2', 'WI3', 'WI_V', 'WI_A', 'ARE', 'OWN', 'NAME', 'BUS4',  'NAME2']
                 self.transformer_data = pd.DataFrame(data, columns=hard_col)
             except:
-                hard_col = ['BUS1', 'BUS2', 'BUS3', 'CI', 'G_MAG', 'B_MAG', 'WI1', 'WI2', 'WI3', 'WI_V', 'WI_A', 'ARE', 'OWN', 'NAME']
-                self.transformer_data = pd.DataFrame(data, columns=hard_col)
+                try:
+                    hard_col = ['BUS1', 'BUS2', 'BUS3', 'CI', 'G_MAG', 'B_MAG', 'WI1', 'WI2', 'WI3', 'WI_V', 'WI_A', 'ARE', 'OWN', 'NAME']
+                    self.transformer_data = pd.DataFrame(data, columns=hard_col)
+                except:
+                    self.transformer_data = pd.DataFrame(data[1:], columns=data[0])
+
 
         except:
             self.transformer_data = pd.DataFrame(data)
@@ -406,9 +403,18 @@ class NTW_Reader():
         a = self.transformer_data.copy()
         b = self.transformer_data.copy()
         # c = self.transformer_data.copy()
+        try:
+            a.loc[:, 'BTO_ID'] = a['BUS2']
+        except:
+            pass
 
-        a.loc[:, 'BTO_ID'] = a['BUS2']
-        b.loc[:, 'BTO_ID'] = b['BUS3']
+        try:
+            b.loc[:, 'BTO_ID'] = b['BUS3']
+        except:
+            pass
+
+
+
         # c.loc[:, 'BTO_ID'] = c['BUS4'] Q
 
         # a = a.rename(columns={'BUS2':'BTO_ID'})
@@ -432,6 +438,7 @@ class NTW_Reader():
 
         self.data_trans = self.transformer_data.rename(columns={'BUS1':'BFR_ID', 'BUS2':'BTO_ID'})
         self.data_trans = self.data_trans.merge(self.transmission_data                                                             , on=['BFR_ID', 'BTO_ID'], how='outer')
+        # print(self.transmission_data)
         # self.data_trans = self.data_trans.merge(self.series_capacitor_data.rename(columns={'BFROM_ID':'BFR_ID', 'BTO_ID':'BTO_ID'}), on=['BFR_ID', 'BTO_ID'], how='outer')
         # self.data_trans = self.data_trans.merge(self.dc_link_data.rename(columns={'R_RET_ID':'BFR_ID', 'I_INV_ID':'BTO_ID'})       , on=['BFR_ID', 'BTO_ID'], how='outer')
 
