@@ -13,7 +13,8 @@ class AnalyzeStaticCases:
         self.Options = Options
         
         # user_specified_dir = input("Please enter the directory path where you want to save the files: ")
-        user_specified_dir = "RESULTS"
+        user_specified_dir = "C:/Users/David/OneDrive/Documents/FERV_documentos/"
+        user_specified_dir = os.path.join(user_specified_dir, "RESULTS") 
         os.makedirs(user_specified_dir, exist_ok=True)
         notebook_dir = os.path.abspath(user_specified_dir)
         os.makedirs(notebook_dir, exist_ok=True)
@@ -21,7 +22,6 @@ class AnalyzeStaticCases:
         os.makedirs(folder_path, exist_ok=True)
         folder_path = os.path.join(folder_path, 'StaticAnalysis')
         os.makedirs(folder_path, exist_ok=True)
-        # user_question = input("Do you want to read? (1). All cases or (2). Just One Case, Please input the corresponding number:\n")
         user_question = str(self.Options['OneCase'])
         readjustONEcase = True if user_question.strip().replace("(","").replace(")","")  == '2' else False
         self.readjustONEcase = readjustONEcase
@@ -97,11 +97,11 @@ class AnalyzeStaticCases:
                     if pathcsv1:
                         self.cases.get_dataframes_csv()
                     else:
-                        self.get_data_extract()
+                        self.cases.get_data_extract()
                 else:
                     self.cases.get_data_extract()
             else:
-                self.generate_script()
+                self.cases.generate_script()
                 sys.exit()
 
             if self.Options['ConvergenceData']:
@@ -119,7 +119,7 @@ class AnalyzeStaticCases:
                     #************************ Merge com o DATA FRAME COMPLETO ***************************
                     columns = ['BUS_ID', 'BUS_NAME', 'VBASEKV', 'TP', 'ARE', 'MODV_PU', 'ANGV_DEG', 'BASE_MVA', 'PG_MW', 'QG_MVAR', 'PMAX_MW', 'PMIN_MW', 'QMX_MVAR','QMN_MVAR', 'Ger_Units','Ger_Active_Units', 'PL_MW', 'QL_MVAR', 'TC', 'VMAX_PU', 'VMIN_PU', 'BCO_ID', 'B0_MVAR', 'ST', 'SHUNT_INST_IND', 'SHUNT_INST_CAP', 'Dia','Hora']
                     self.processdata.Df_VF_SF = self.cases.Df_Cases[columns].merge(df1[['BUS_ID','Gen_Type','U_FED','REG', 'Latitude','Longitude']], on='BUS_ID', how='left')
-                    self.processdata.Df_VF_SF.drop(self.Df_VF_SF[self.Df_VF_SF['REG'] == np.nan].index)
+                    self.processdata.Df_VF_SF.drop(self.processdata.Df_VF_SF[self.processdata.Df_VF_SF['REG'] == np.nan].index)
                 else:
                     print("Associating the buses to the states and regions")
                     self.processdata.get_processdata(self.cases.Df_Cases)
@@ -144,38 +144,38 @@ class AnalyzeStaticCases:
 
 
         ## ***************** (O código seguinte obtem as informações das linhas AC e DC e reserva por maquina) *****************
-        if self.Options['LinhasData']:
-            print("Starting line and interconnections data generation ...")
-            if self.Options['linhascsv'] and self.Options['LinhasData']:
-                self.PWF16_concatenados = dd.read_csv(self.path_folder + '/LinhasInfo.csv', sep=',').compute()
-                self.PWF16_concatenados['Dia'] = self.PWF16_concatenados['Dia'].astype(str).str.zfill(2)
-                self.cases.get_Intercambios(df=self.PWF16_concatenados)
+        
+        print("Starting line and interconnections data generation ...")
+        if self.Options['linhascsv'] and self.Options['LinhasData']:
+            self.PWF16_concatenados = dd.read_csv(self.path_folder + '/LinhasInfo.csv', sep=',').compute()
+            self.PWF16_concatenados['Dia'] = self.PWF16_concatenados['Dia'].astype(str).str.zfill(2)
+            self.cases.get_Intercambios(df=self.PWF16_concatenados)
+            self.DF_Intercambios = self.cases.DF_Intercambios
+
+        if self.Options['HVDCcsv'] and self.Options['HVDCData']:
+            self.DCLinks_concatenados = dd.read_csv(self.path_folder + '/HVDCInfo.csv', sep=',').compute()
+            self.DCLinks_concatenados['Dia'] = self.DCLinks_concatenados['Dia'].astype(str).str.zfill(2)
+
+        if self.Options['reservacsv'] and self.Options['ReservaData']:
+            self.SGN01_concatenados = dd.read_csv(self.path_folder + '/ReservaInfo.csv', sep=',').compute()
+            self.SGN01_concatenados['Dia'] = self.SGN01_concatenados['Dia'].astype(str).str.zfill(2)
+
+        if not (self.Options['linhascsv'] and self.Options['reservacsv'] and self.Options['HVDCcsv']):
+            self.cases.get_Networkinfo(linhas=not self.Options['linhascsv'], Reserva=not self.Options['reservacsv'], Intercambios=not self.Options['HVDCcsv'], hour = self.hour)
+
+            if not self.Options['linhascsv'] and self.Options['LinhasData']:
+                self.PWF16_concatenados = self.cases.linesInfo
                 self.DF_Intercambios = self.cases.DF_Intercambios
 
-            if self.Options['HVDCcsv'] and self.Options['HVDCData']:
-                self.DCLinks_concatenados = dd.read_csv(self.path_folder + '/HVDCInfo.csv', sep=',').compute()
-                self.DCLinks_concatenados['Dia'] = self.DCLinks_concatenados['Dia'].astype(str).str.zfill(2)
+            if not self.Options['reservacsv'] and self.Options['ReservaData']:
+                try:
+                    self.SGN01_concatenados = self.cases.ReserveInfo
+                except Exception as e:
+                    print(f"Error obtaining Reserve: {e}")
+                    pass
 
-            if self.Options['reservacsv'] and self.Options['ReservaData']:
-                self.SGN01_concatenados = dd.read_csv(self.path_folder + '/ReservaInfo.csv', sep=',').compute()
-                self.SGN01_concatenados['Dia'] = self.SGN01_concatenados['Dia'].astype(str).str.zfill(2)
-
-            if not (self.Options['linhascsv'] and self.Options['reservacsv'] and self.Options['HVDCcsv']):
-                self.cases.get_Networkinfo(linhas=not self.Options['linhascsv'], Reserva=not self.Options['reservacsv'], Intercambios=not self.Options['HVDCcsv'], hour = self.hour)
-
-                if not self.Options['linhascsv'] and self.Options['LinhasData']:
-                    self.PWF16_concatenados = self.cases.linesInfo
-                    self.DF_Intercambios = self.cases.DF_Intercambios
-
-                if not self.Options['reservacsv'] and self.Options['ReservaData']:
-                    try:
-                        self.SGN01_concatenados = self.cases.ReserveInfo
-                    except Exception as e:
-                        print(f"Error obtaining Reserve: {e}")
-                        pass
-
-                if not self.Options['HVDCcsv'] and self.Options['HVDCData']:
-                    self.DCLinks_concatenados = self.cases.HVDCInfo
+            if not self.Options['HVDCcsv'] and self.Options['HVDCData']:
+                self.DCLinks_concatenados = self.cases.HVDCInfo
 
     # =============================================================================================================================
     #                                                LEITURA LINHAS E RESERVA
@@ -231,52 +231,66 @@ class AnalyzeStaticCases:
 
             self.PWF16_Filt_linhas, self.PWF16_Filt_TRAFO = Main_linha_addREG(self.PWF16_concatenados)
             
-            if self.Options['IntercambiosData']:
+        if self.Options['HVDCData']:
 
-                ## ========================================== ELOS SEPARADOS POR BIPOLOS: ==========================================
-                # pole_mapping = {1: 'Bipolo1', 2: 'Bipolo1', 3: 'Bipolo2', 4: 'Bipolo2'}
-                # dfelo1 = DCLinks_concatenados[DCLinks_concatenados['Bus #'] == 85].groupby(by=['Dia', 'Hora', ' Pole #']).agg({' P(MW)': sum, ' Q(Mvar)': sum})
-                # dfelo1['Nome Elo'] = 'Elo_FOZ-IBIUNA'
-                # dfelo1['Bipole'] = dfelo1.index.get_level_values(' Pole #').map(pole_mapping)
-                # dfelo2 = DCLinks_concatenados[DCLinks_concatenados['Bus #'] == 7055].groupby(by=['Dia', 'Hora', ' Pole #']).agg({' P(MW)': sum, ' Q(Mvar)': sum})
-                # dfelo2['Nome Elo'] = 'Elo_PVEL-ARARQ'
-                # dfelo2['Bipole'] = dfelo2.index.get_level_values(' Pole #').map(pole_mapping)
-                # dfelo3 = DCLinks_concatenados[DCLinks_concatenados['Bus #'] == 7059].groupby(by=['Dia', 'Hora', ' Pole #']).agg({' P(MW)': sum, ' Q(Mvar)': sum})
-                # dfelo3['Nome Elo'] = 'Elo_CPVBTB-PVEL'
-                # dfelo3['Bipole'] = dfelo3.index.get_level_values(' Pole #').map(pole_mapping)
-                # dfelo4 = DCLinks_concatenados[(DCLinks_concatenados['Bus #'] == 8100)].groupby(by=['Dia', 'Hora', ' Pole #']).agg({' P(MW)': sum, ' Q(Mvar)': sum})
-                # dfelo4['Nome Elo'] = 'Elo_XINGU-SE'
-                # dfelo4['Bipole'] = dfelo4.index.get_level_values(' Pole #').map(pole_mapping)
-                # dfelo1.reset_index().groupby(['Dia', 'Hora', 'Bipole']).agg({' P(MW)': sum, 'Nome Elo': 'first'}).to_csv('HVDC_FOZ_IBIUNA.csv')
-                # dfelo2.reset_index().groupby(['Dia', 'Hora', 'Bipole']).agg({' P(MW)': sum, 'Nome Elo': 'first'}).to_csv('HVDC_PVEL-ARARQ.csv')
+            # ========================================== ELOS SEPARADOS POR BIPOLOS: ==========================================
+            pole_mapping = {1: 'Bipolo1', 2: 'Bipolo1', 3: 'Bipolo2', 4: 'Bipolo2'}
+            dfelo1 = self.DCLinks_concatenados[self.DCLinks_concatenados['Bus #'] == 85].groupby(by=['Dia', 'Hora', ' Pole #']).agg({' P(MW)': sum, ' Q(Mvar)': sum})
+            dfelo1['Nome Elo'] = 'Elo_FOZ-IBIUNA'
+            dfelo1['Bipole'] = dfelo1.index.get_level_values(' Pole #').map(pole_mapping)
+            dfelo2 = self.DCLinks_concatenados[self.DCLinks_concatenados['Bus #'] == 7055].groupby(by=['Dia', 'Hora', ' Pole #']).agg({' P(MW)': sum, ' Q(Mvar)': sum})
+            dfelo2['Nome Elo'] = 'Elo_PVEL-ARARQ'
+            dfelo2['Bipole'] = dfelo2.index.get_level_values(' Pole #').map(pole_mapping)
+            dfelo3 = self.DCLinks_concatenados[self.DCLinks_concatenados['Bus #'] == 7059].groupby(by=['Dia', 'Hora', ' Pole #']).agg({' P(MW)': sum, ' Q(Mvar)': sum})
+            dfelo3['Nome Elo'] = 'Elo_CPVBTB-PVEL'
+            dfelo3['Bipole'] = dfelo3.index.get_level_values(' Pole #').map(pole_mapping)
+            dfelo4 = self.DCLinks_concatenados[(self.DCLinks_concatenados['Bus #'] == 8100) & (self.DCLinks_concatenados[' Pole #'].isin([1,2]))].groupby(by=['Dia', 'Hora', ' Pole #']).agg({' P(MW)': sum, ' Q(Mvar)': sum})
+            dfelo4['Nome Elo'] = 'Elo_XINGU-EST'
+            dfelo4['Bipole'] = dfelo4.index.get_level_values(' Pole #').map(pole_mapping)
+            dfelo5 = self.DCLinks_concatenados[(self.DCLinks_concatenados['Bus #'] == 8100) & (self.DCLinks_concatenados[' Pole #'].isin([3,4]))].groupby(by=['Dia', 'Hora', ' Pole #']).agg({' P(MW)': sum, ' Q(Mvar)': sum})
+            dfelo5['Nome Elo'] = 'Elo_XINGU-T_RIO'
+            dfelo5['Bipole'] = dfelo5.index.get_level_values(' Pole #').map(pole_mapping)
 
-                ## ========================================== ELOS SEM SEPARAÇÃO POR POLOS: ==========================================
-                print('Filtering lines of Interconnections and Plotting:...')
-                dfelo1 = self.DCLinks_concatenados[self.DCLinks_concatenados['Bus #'] == 85].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
-                dfelo1['Nome Elo'] = 'Elo_FOZ-IBIUNA'
-                dfelo2 = self.DCLinks_concatenados[self.DCLinks_concatenados['Bus #'] == 7055].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
-                dfelo2['Nome Elo'] = 'Elo_PVEL-ARARQ'
-                dfelo3 = self.DCLinks_concatenados[self.DCLinks_concatenados['Bus #'] == 7059].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
-                dfelo3['Nome Elo'] = 'Elo_CPVBTB-PVEL'
-                dfelo4 = self.DCLinks_concatenados[(self.DCLinks_concatenados['Bus #'] == 8100)].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
-                dfelo4['Nome Elo'] = 'Elo_XINGU-SE'
+            dfelo1 = dfelo1.reset_index().groupby(['Dia', 'Hora', 'Bipole']).agg({' P(MW)': sum, 'Nome Elo': 'first'})
+            dfelo2 = dfelo2.reset_index().groupby(['Dia', 'Hora', 'Bipole']).agg({' P(MW)': sum, 'Nome Elo': 'first'})
+            dfelo3 = dfelo3.reset_index().groupby(['Dia', 'Hora', 'Bipole']).agg({' P(MW)': sum, 'Nome Elo': 'first'})
+            dfelo4 = dfelo4.reset_index().groupby(['Dia', 'Hora', 'Bipole']).agg({' P(MW)': sum, 'Nome Elo': 'first'})
+            dfelo5 = dfelo5.reset_index().groupby(['Dia', 'Hora', 'Bipole']).agg({' P(MW)': sum, 'Nome Elo': 'first'})
 
-                # dfelo5 = self.DCLinks_concatenados[(self.DCLinks_concatenados['Bus #'] == 8100) & (self.DCLinks_concatenados[' Pole #'].isin([1,2]))].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
-                # dfelo5['Nome Elo'] = 'Elo_XINGU-ESTREI'
+            df_HVDC = pd.concat([dfelo1, dfelo2, dfelo3, dfelo4, dfelo5], axis=0).reset_index().set_index(['Dia', 'Hora','Nome Elo', 'Bipole'])
+            df_HVDC = self.processdata.add_key(df_HVDC.reset_index())
+            df_HVDC.to_csv(self.cenario + '/Data/Fluxo em Ramos/DF_HVDC_bipoles.csv', index = False)
 
-                # dfelo6 = DCLinks_concatenados[(DCLinks_concatenados['Bus #'] == 8100) & (DCLinks_concatenados[' Pole #'].isin([3,4]))].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
-                # dfelo6['Nome Elo'] = 'Elo_XINGU-T.RIO'
+            # dfelo1.reset_index().groupby(['Dia', 'Hora', 'Bipole']).agg({' P(MW)': sum, 'Nome Elo': 'first'}).to_csv('HVDC_FOZ_IBIUNA.csv')
+            # dfelo2.reset_index().groupby(['Dia', 'Hora', 'Bipole']).agg({' P(MW)': sum, 'Nome Elo': 'first'}).to_csv('HVDC_PVEL-ARARQ.csv')
 
-                # Merge all dataframes
-                df_HVDC = pd.concat([dfelo1, dfelo2, dfelo3, dfelo4], axis=0, keys=['Elo_FOZ-IBIUNA', 'Elo_PVEL-ARARQ', 'Elo_CPVBTB-PVEL' ,'Elo_XINGU-SE'])
-                self.df_HVDC = df_HVDC
-                
-                # if self.Options['PlotIntercambios'] == True and not self.readjustONEcase:
-                #     self.plots_static.plot_Intercambio (self.DF_Intercambios, df_HVDC , '(MW)', 'Exportação (N-S, NE-SE) e  Elo Xingu-SE', ['Fluxo_N-S', 'Fluxo_NE-SE'], ['Elo_XINGU-SE'], )
-                #     self.plots_static.plot_Intercambio (self.DF_Intercambios, df_HVDC , '(MW)', 'Exportação N-S e  Elo Xingu-SE', ['Fluxo_N-S'], ['Elo_XINGU-SE'], )
-                #     self.plots_static.plot_Intercambio (self.DF_Intercambios, df_HVDC , '(MW)', 'Comparativo Exportação NE-N e Elo Xingu-SE', ['Fluxo_NE-N'], ['Elo_XINGU-SE'], Xlimites=None)
-                #     self.plots_static.plot_Intercambio (self.DF_Intercambios, df_HVDC , '(MW)', 'Comparativo Exportação NE-SE e Elo FOZ-IBIUNA', ['Fluxo_NE-SE'], ['Elo_FOZ-IBIUNA'], Xlimites=None)
-                #     self.plots_static.plot_Intercambio (self.DF_Intercambios, df_HVDC , '(MW)', 'Comparativo Exportação SUL-SECO e Elo FOZ-IBIUNA', ['Fluxo_SUL-SECO'], ['Elo_FOZ-IBIUNA'], Xlimites=None)
+            # ## ========================================== ELOS SEM SEPARAÇÃO POR POLOS: ==========================================
+            # print('Filtering lines of Interconnections and Plotting:...')
+            # dfelo1 = self.DCLinks_concatenados[self.DCLinks_concatenados['Bus #'] == 85].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
+            # dfelo1['Nome Elo'] = 'Elo_FOZ-IBIUNA'
+            # dfelo2 = self.DCLinks_concatenados[self.DCLinks_concatenados['Bus #'] == 7055].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
+            # dfelo2['Nome Elo'] = 'Elo_PVEL-ARARQ'
+            # dfelo3 = self.DCLinks_concatenados[self.DCLinks_concatenados['Bus #'] == 7059].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
+            # dfelo3['Nome Elo'] = 'Elo_CPVBTB-PVEL'
+            # dfelo4 = self.DCLinks_concatenados[(self.DCLinks_concatenados['Bus #'] == 8100)].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
+            # dfelo4['Nome Elo'] = 'Elo_XINGU-SE'
+
+            # dfelo5 = self.DCLinks_concatenados[(self.DCLinks_concatenados['Bus #'] == 8100) & (self.DCLinks_concatenados[' Pole #'].isin([1,2]))].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
+            # dfelo5['Nome Elo'] = 'Elo_XINGU-ESTREI'
+
+            # dfelo6 = DCLinks_concatenados[(DCLinks_concatenados['Bus #'] == 8100) & (DCLinks_concatenados[' Pole #'].isin([3,4]))].groupby(by=['Dia', 'Hora']).agg({' P(MW)': 'sum', ' Q(Mvar)': 'sum'})
+            # dfelo6['Nome Elo'] = 'Elo_XINGU-T.RIO'
+
+            ## Merge all dataframes
+            # df_HVDC = pd.concat([dfelo1, dfelo2, dfelo3, dfelo4], axis=0, keys=['Elo_FOZ-IBIUNA', 'Elo_PVEL-ARARQ', 'Elo_CPVBTB-PVEL' ,'Elo_XINGU-SE'])
+            # self.df_HVDC = df_HVDC
+            
+            # if self.Options['PlotIntercambios'] == True and not self.readjustONEcase:
+            #     self.plots_static.plot_Intercambio (self.DF_Intercambios, df_HVDC , '(MW)', 'Exportação (N-S, NE-SE) e  Elo Xingu-SE', ['Fluxo_N-S', 'Fluxo_NE-SE'], ['Elo_XINGU-SE'], )
+            #     self.plots_static.plot_Intercambio (self.DF_Intercambios, df_HVDC , '(MW)', 'Exportação N-S e  Elo Xingu-SE', ['Fluxo_N-S'], ['Elo_XINGU-SE'], )
+            #     self.plots_static.plot_Intercambio (self.DF_Intercambios, df_HVDC , '(MW)', 'Comparativo Exportação NE-N e Elo Xingu-SE', ['Fluxo_NE-N'], ['Elo_XINGU-SE'], Xlimites=None)
+            #     self.plots_static.plot_Intercambio (self.DF_Intercambios, df_HVDC , '(MW)', 'Comparativo Exportação NE-SE e Elo FOZ-IBIUNA', ['Fluxo_NE-SE'], ['Elo_FOZ-IBIUNA'], Xlimites=None)
+            #     self.plots_static.plot_Intercambio (self.DF_Intercambios, df_HVDC , '(MW)', 'Comparativo Exportação SUL-SECO e Elo FOZ-IBIUNA', ['Fluxo_SUL-SECO'], ['Elo_FOZ-IBIUNA'], Xlimites=None)
 
     #=============================================================================================================================
     #                                                    RESERVA REGIONAL
@@ -630,7 +644,6 @@ class AnalyzeStaticCases:
 
             if self.Options['resumoIndice']:
                 
-                print('Saving DPI Information files:')
                 df_busPQ_mod['BUS_ID'] = df_busPQ_mod['BUS_ID'].astype(int)
                 df_busPV_mod['BUS_ID'] = df_busPV_mod['BUS_ID'].astype(int)
                 self.df_busPQ_mod = df_busPQ_mod
@@ -673,11 +686,14 @@ class AnalyzeStaticCases:
                 self.PWF16_Filt_linhas[['key','From#','To#','From Name','To Name','% L1', 'L1(MVA)', 'Mvar:Losses','Dia', 'Hora','REG', 'VBASEKV','MVA', 'MW:From-To', 'MW:To-From','Power Factor:From-To','Power Factor:To-From']].to_csv(self.cenario+'/Data/Fluxo em Ramos/Df_Linhas.csv', index=None)
                 self.PWF16_Filt_TRAFO[['key','From#','To#','From Name','To Name','% L1', 'L1(MVA)', 'Mvar:Losses','Dia', 'Hora','REG', 'VBASEKV','MVA', 'MW:From-To', 'MW:To-From','Power Factor:From-To','Power Factor:To-From']].to_csv(self.cenario+'/Data/Fluxo em Ramos/Df_Trafo.csv', index=None)
                 
-                if self.Options['IntercambiosData']:
-                    self.DF_Intercambios = self.processdata.add_key(self.DF_Intercambios)
-                    self.df_HVDC = self.processdata.add_key(self.df_HVDC)
-                    self.DF_Intercambios.to_csv(self.cenario + '/Data/Fluxo em Ramos/DF_Intercambios.csv', index = False)
-                    self.df_HVDC.to_csv(self.cenario + '/Data/Fluxo em Ramos/DF_HVDC.csv', index = False)
+            if self.Options['IntercambiosData']:
+                self.DF_Intercambios = self.processdata.add_key(self.DF_Intercambios.reset_index())
+                self.DF_Intercambios.rename(columns={'level_0':'Intercambio AC'}, inplace=True)
+                self.DF_Intercambios.to_csv(self.cenario + '/Data/Fluxo em Ramos/DF_Intercambios.csv', index = False)
+
+            # if self.Options['HVDCData']:
+                # self.df_HVDC = self.processdata.add_key(self.df_HVDC)
+                # self.df_HVDC.to_csv(self.cenario + '/Data/Fluxo em Ramos/DF_HVDC.csv', index = False)
 
             if self.Options['ReservaData'] and not self.Options['OnlyPWF_datagen']:
 
