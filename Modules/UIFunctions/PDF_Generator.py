@@ -20,12 +20,10 @@ def resource_path(relative_path):
 
 
 class Plotter():
-    def __init__(self, data, path):
+    def __init__(self, data, plot):
 
         self.data = data
-
-        with open(path) as f:
-            self.plot = json.load(f)
+        self.plot = plot
 
 
     def plot_from_json(self, data, plot, leng):  

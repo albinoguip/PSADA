@@ -32,6 +32,12 @@ class connect():
         widgets.DYNAMIC_save_json_button.clicked.connect(lambda: DYN_Functions.DYNAMIC_save_json_button_FUNCTION(app))
 
 
+        widgets.DYNAMIC_instavel.clicked.connect(lambda: DYN_Functions.instavel_button(app))
+        widgets.DYNAMIC_estavel.clicked.connect(lambda: DYN_Functions.estavel_button(app))
+        widgets.DYNAMIC_per_cont.clicked.connect(lambda: DYN_Functions.per_cont_button(app))
+        widgets.DYNAMIC_per_group.clicked.connect(lambda: DYN_Functions.per_group_button(app))
+
+
         widgets.DYNAMIC_search_json_button.clicked.connect(lambda: DYN_Functions.DYNAMIC_search_json_button_FUNCTION(app))
         widgets.DYNAMIC_read_json_button.clicked.connect(lambda: DYN_Functions.DYNAMIC_read_json_button_FUNCTION(app))
 

@@ -8,6 +8,7 @@ from Modules.UIWidgets.Help_Widgets import *
 
 from Modules.UIFunctions.Plotter       import *
 from Modules.UIFunctions.PDF_Generator import *
+from Modules.UIFunctions.DYN_Plots     import *
 
 import shutil, json
 
@@ -390,16 +391,18 @@ class DYN_Functions(MainWindow):
 
     def run_DYNAMIC_FUNCTION(self): 
         
-        base_path = self.ui.DYNAMIC_qline_json_files.text().split('/')
+        base_path = self.ui.DYNAMIC_vars_qline.text().split('/')
         save_path = '/'.join(base_path[:-1]) + '/Report.pdf'
 
         data_p = self.ui.DYNAMIC_vars_qline.text()
         path   = self.ui.DYNAMIC_qline_json_files.text()
 
+        
+
         data = pd.read_csv(data_p)
 
 
-        PP = Plotter(data, path)
+        PP = Plotter(data, self.DYN_json_to_plot)
 
         data_plot = {}
 
@@ -491,87 +494,125 @@ class DYN_Functions(MainWindow):
 
 
 
-
+ 
     def instavel_button(self): 
 
-        save_path = '/'.join(self.file_vars.split('/')[:-1]) + '/IMAGENS/INSTAVEL/'
 
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
+        self.DYN_json_to_plot = INSTAVEL
+        self.DYN_sections     = list(self.DYN_json_to_plot.keys())
 
-        RP = RST_Plot_instavel(report_path = self.file_vars,
-                                save_path   = save_path)
 
-        RP.plot_inst_days_hours(show=False)
-        RP.plot_inst_contigence_bus(show=False)
-        RP.plot_inst_contigence_op(show=False)
-        RP.plot_inst_histogram_contingence(show=False)
-        RP.plot_inst_histogram_operation_points(show=False)
-        RP.plot_inst_histogram_day(show=False)
-        RP.plot_inst_histogram_hour(show=False)
-        RP.plot_inst_histogram_CODE(show=False)
-        RP.plot_code_histogram_CODE(show=False)
+        for i in range(self.ui.DYNAMIC_sections_ava.count()):
+            self.ui.DYNAMIC_sections_ava.removeItem(0)
+            self.ui.DYNAMIC_select_section.removeItem(0)
 
-        for code in [2, 3, 4]:
+        self.ui.DYNAMIC_sections_ava.addItems(self.DYN_sections)
+        self.ui.DYNAMIC_select_section.addItems(self.DYN_sections)
 
-            save_path = '/'.join(self.file_vars.split('/')[:-1]) + f'/IMAGENS/INSTAVEL/CODE_{code}/'
 
-            if not os.path.exists(save_path):
-                os.makedirs(save_path)
 
-            RP = RST_Plot_instavel(report_path  = self.file_vars,
-                                    save_path   = save_path,
-                                    code_filtro = [code])
+        for i in range(self.ui.DYNAMIC_select_plot.count()):
+            self.ui.DYNAMIC_select_plot.removeItem(0)
 
-            RP.plot_inst_days_hours(show=False)
-            RP.plot_inst_contigence_bus(show=False)
-            RP.plot_inst_contigence_op(show=False)
-            RP.plot_inst_histogram_contingence(show=False)
-            RP.plot_inst_histogram_operation_points(show=False)
-            RP.plot_inst_histogram_day(show=False)
-            RP.plot_inst_histogram_hour(show=False)
-            RP.plot_inst_histogram_CODE(show=False)
-            RP.plot_code_histogram_CODE(show=False)
+        self.ui.DYNAMIC_select_plot.addItems(list(self.DYN_json_to_plot[self.ui.DYNAMIC_select_section.currentText()].keys()))
+
+        # save_path = '/'.join(self.ui.DYNAMIC_vars_qline.text().split('/')[:-1]) + '/IMAGENS/INSTAVEL/'
+
+        # if not os.path.exists(save_path):
+        #     os.makedirs(save_path)
+
+        # RP = RST_Plot_instavel(report_path = self.ui.DYNAMIC_vars_qline.text(),
+        #                         save_path  = save_path)
+
+        # RP.plot_inst_days_hours(show=False)
+        # RP.plot_inst_contigence_bus(show=False)
+        # RP.plot_inst_contigence_op(show=False)
+        # RP.plot_inst_histogram_contingence(show=False)
+        # RP.plot_inst_histogram_operation_points(show=False)
+        # RP.plot_inst_histogram_day(show=False)
+        # RP.plot_inst_histogram_hour(show=False)
+        # RP.plot_inst_histogram_CODE(show=False)
+        # RP.plot_code_histogram_CODE(show=False)
+
+        # for code in [2, 3, 4]:
+
+        #     save_path = '/'.join(self.ui.DYNAMIC_vars_qline.text().split('/')[:-1]) + f'/IMAGENS/INSTAVEL/CODE_{code}/'
+
+        #     if not os.path.exists(save_path):
+        #         os.makedirs(save_path)
+
+        #     RP = RST_Plot_instavel(report_path  = self.ui.DYNAMIC_vars_qline.text(),
+        #                             save_path   = save_path,
+        #                             code_filtro = [code])
+
+        #     RP.plot_inst_days_hours(show=False)
+        #     RP.plot_inst_contigence_bus(show=False)
+        #     RP.plot_inst_contigence_op(show=False)
+        #     RP.plot_inst_histogram_contingence(show=False)
+        #     RP.plot_inst_histogram_operation_points(show=False)
+        #     RP.plot_inst_histogram_day(show=False)
+        #     RP.plot_inst_histogram_hour(show=False)
+        #     RP.plot_inst_histogram_CODE(show=False)
+        #     RP.plot_code_histogram_CODE(show=False)
 
 
     def estavel_button(self): 
 
 
-
-        tipos = {'CC e Abertura de Linha'                       : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], #1, 8, 9
-                'Perda de Geração'                             : [11, 12, 13, 14, 15],
-                'Bloqueio de Polo'                             : [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
-                'Falha de comutação nos elos HVDC'             : [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 46, 47],
-                'Perda dupla de linha'                         : [44, 45],
-                'Curto na LT CC seguido do bloqueio do bipolo' : [48, 49],
-                'Bloqueio (ESOF) do bipolo com FCB'            : [50, 51],}
+        self.DYN_json_to_plot = ESTAVEL
+        self.DYN_sections     = list(self.DYN_json_to_plot.keys())
 
 
-        cc = tipos['CC e Abertura de Linha']
-        pg = tipos['Perda de Geração']
-        bp = tipos['Bloqueio de Polo']
-        fc = tipos['Falha de comutação nos elos HVDC']
-        dl = tipos['Perda dupla de linha']
-        cb = tipos['Curto na LT CC seguido do bloqueio do bipolo']
-        es = tipos['Bloqueio (ESOF) do bipolo com FCB']
+        for i in range(self.ui.DYNAMIC_sections_ava.count()):
+            self.ui.DYNAMIC_sections_ava.removeItem(0)
+            self.ui.DYNAMIC_select_section.removeItem(0)
 
-        conts = [cc, pg, bp, fc, dl, cb, es]
+        self.ui.DYNAMIC_sections_ava.addItems(self.DYN_sections)
+        self.ui.DYNAMIC_select_section.addItems(self.DYN_sections)
 
 
 
-        save_path = '/'.join(self.file_vars.split('/')[:-1]) + '/IMAGENS/ESTAVEL/'
+        for i in range(self.ui.DYNAMIC_select_plot.count()):
+            self.ui.DYNAMIC_select_plot.removeItem(0)
 
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
+        self.ui.DYNAMIC_select_plot.addItems(list(self.DYN_json_to_plot[self.ui.DYNAMIC_select_section.currentText()].keys()))
 
-        RP = RST_Plot_estavel(report_path = self.file_vars,
-                               save_path  = save_path)
 
-        RP.plot_est_violin_rocof()
-        RP.plot_est_violin_nadir()
 
-        RP.plot_est_duplo_hist_RCFC_NDRC()
-        RP.plot_est_duplo_hist_NDRC_NDRC()
+        # tipos = {'CC e Abertura de Linha'                       : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], #1, 8, 9
+        #         'Perda de Geração'                             : [11, 12, 13, 14, 15],
+        #         'Bloqueio de Polo'                             : [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+        #         'Falha de comutação nos elos HVDC'             : [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 46, 47],
+        #         'Perda dupla de linha'                         : [44, 45],
+        #         'Curto na LT CC seguido do bloqueio do bipolo' : [48, 49],
+        #         'Bloqueio (ESOF) do bipolo com FCB'            : [50, 51],}
+
+
+        # cc = tipos['CC e Abertura de Linha']
+        # pg = tipos['Perda de Geração']
+        # bp = tipos['Bloqueio de Polo']
+        # fc = tipos['Falha de comutação nos elos HVDC']
+        # dl = tipos['Perda dupla de linha']
+        # cb = tipos['Curto na LT CC seguido do bloqueio do bipolo']
+        # es = tipos['Bloqueio (ESOF) do bipolo com FCB']
+
+        # conts = [cc, pg, bp, fc, dl, cb, es]
+
+
+
+        # save_path = '/'.join(self.ui.DYNAMIC_vars_qline.text().split('/')[:-1]) + '/IMAGENS/ESTAVEL/'
+
+        # if not os.path.exists(save_path):
+        #     os.makedirs(save_path)
+
+        # RP = RST_Plot_estavel(report_path = self.ui.DYNAMIC_vars_qline.text(),
+        #                        save_path  = save_path)
+
+        # RP.plot_est_violin_rocof()
+        # RP.plot_est_violin_nadir()
+
+        # RP.plot_est_duplo_hist_RCFC_NDRC()
+        # RP.plot_est_duplo_hist_NDRC_NDRC()
 
 
 
@@ -579,7 +620,7 @@ class DYN_Functions(MainWindow):
 
 
 
-        tipos = {'CC e Abertura de Linha'                       : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], #1, 8, 9
+        tipos = {'CC e Abertura de Linha'                      : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], #1, 8, 9
                 'Perda de Geração'                             : [11, 12, 13, 14, 15],
                 'Bloqueio de Polo'                             : [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
                 'Falha de comutação nos elos HVDC'             : [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 46, 47],

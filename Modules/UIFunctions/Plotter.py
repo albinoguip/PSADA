@@ -319,9 +319,7 @@ class GUI_Plotter():
         if self.plot['stat'] is not None and self.plot['stat'] != '':
             data = self.select_group_by(data, self.plot, plot['x'], plot['c'], plot['y'])
 
-        print(data)
         # Create Plot
-
 
         scat   = data[[plot['x'], plot['y'], plot['c']]].copy()
         colors = ['royalblue', 'lightgreen', 'tan', 'thistle', 'red']
@@ -331,10 +329,7 @@ class GUI_Plotter():
         
 
         x, y, c = scat[plot['x']], scat[plot['y']], scat[plot['c']]
-
-        # x = [str(ix) + 'c' for ix in x]
-        # y = [str(iy) + 'c' for iy in y]
-
+        
         try:
             inter, stringer = np.array_equal(c, c.astype(int)), False
         except:
