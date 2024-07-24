@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from multiprocessing import Pool
 import dask.dataframe as dd
-from NTW_Reader import NTW_Reader
+from StaticAnalysis.NTW_Reader import NTW_Reader
 from scipy.spatial.distance import cdist
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
 
@@ -265,17 +265,17 @@ class ReadScenarios:
         else:
             PWF16_concatenados = df
 
-        linhas_expNE = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_EXPNE.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
-        linhas_expNE_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_EXPNE_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
-        linhas_FNS = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FNS.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
-        linhas_FNESE = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FNESE.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
-        linhas_FNESE_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FNESE_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
-        linhas_FNEN = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FNEN.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
-        linhas_FNEN_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FNEN_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
-        linhas_FSULSECO = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FSULSECO.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
-        linhas_FSULSECO_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_FSULSECO_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
-        linhas_RSUL = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_RSUL.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
-        linhas_RSUL_flip = pd.read_csv('Static-Analysis/RECURSOS/LINHAS/buses_RSUL_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_expNE = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_EXPNE.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_expNE_flip = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_EXPNE_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FNS = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_FNS.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FNESE = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_FNESE.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FNESE_flip = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_FNESE_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FNEN = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_FNEN.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FNEN_flip = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_FNEN_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FSULSECO = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_FSULSECO.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_FSULSECO_flip = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_FSULSECO_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_RSUL = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_RSUL.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
+        linhas_RSUL_flip = pd.read_csv('StaticAnalysis/RECURSOS/LINHAS/buses_RSUL_flip.csv',sep=';', skipinitialspace=True).set_index(['De', 'Para'])
         
         mask = PWF16_concatenados[['From#', 'To#']].apply(tuple, axis=1)
 
@@ -433,7 +433,7 @@ class ProcessData():
             'latitude': 'Latitude',
             'longitude': 'Longitude'
         }
-        file = os.path.abspath('Static-Analysis/RECURSOS/LATITUDE_LONGITUDE_SIN_ATUALIZADO.xlsx')
+        file = os.path.abspath('StaticAnalysis/RECURSOS/LATITUDE_LONGITUDE_SIN_ATUALIZADO.xlsx')
         BarraGeo = pd.read_excel(file, sheet_name='Planilha1', header=0)
         BarraGeo.rename(columns=column_rename_mapping, inplace=True)
 
@@ -506,7 +506,7 @@ class ProcessData():
     def get_splitdata_PV_PQ(self, df):
 
         # Read DBAR.csv into DataFrame
-        file = os.path.abspath('Static-Analysis\RECURSOS\DBAR.csv')
+        file = os.path.abspath('StaticAnalysis\RECURSOS\DBAR.csv')
         df_buscode = pd.read_csv(file, sep=';')
 
         # complexo madeira buses

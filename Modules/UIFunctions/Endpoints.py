@@ -81,13 +81,27 @@ class connect():
 
     def sta_conn(self, widgets, app):
 
+        widgets.STATIC_onlypwf.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        widgets.STATIC_extract_from_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        widgets.STATIC_bus_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        widgets.STATIC_line_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        widgets.STATIC_hvdc_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        widgets.STATIC_reserva_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        widgets.STATIC_intercambio_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        widgets.STATIC_compute_dpi.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        widgets.STATIC_linhas_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        widgets.STATIC_reserva_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        widgets.STATIC_hvdc_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+
         widgets.STATIC_search_button.clicked.connect(lambda: STA_Functions.STATIC_search_button_FUNCTION(app))
-        widgets.STATIC_read_file_button.clicked.connect(lambda: STA_Functions.STATIC_read_file_button_FUNCTION(app))
+        widgets.STATIC_read_file_button.clicked.connect(lambda: STA_Functions.STATIC_process_button_FUNCTION(app))
+        widgets.STATIC_genscript_button.clicked.connect(lambda: STA_Functions.STATIC_genscript_button_FUNCTION(app))
 
         widgets.STATIC_vars_search.clicked.connect(lambda: STA_Functions.STATIC_vars_search_FUNCTION(app))
         widgets.STATIC_read_vars_button.clicked.connect(lambda: STA_Functions.STATIC_read_vars_button_FUNCTION(app))
 
         widgets.STATIC_plot_button.clicked.connect(lambda: STA_Functions.STATIC_plot_button_FUNCTION(app))
+        # widgets.STATIC_type_button.clicked.connect(lambda: STA_Functions.STATIC_read_vars_button_FUNCTION(app))
         # widgets.STATIC_button_apply_filter.clicked.connect(lambda: STA_Functions.STATIC_button_apply_filter_FUNCTION(app))
         # widgets.STATIC_button_remove_filter.clicked.connect(lambda: STA_Functions.STATIC_plot_button_FUNCTION(app))
 

@@ -1,4 +1,4 @@
-from LineAnalysis import *
+from StaticAnalysis.LineAnalysis import *
 
 scenario = 'V2A2F2_REV2_2026'
 main_path = f"C:/Users/Gabriel/Desktop/PSADA/extract_data/{scenario}/StaticAnalysis/"

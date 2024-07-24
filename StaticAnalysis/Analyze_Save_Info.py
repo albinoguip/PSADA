@@ -1,9 +1,9 @@
 import os
 import sys
-from computeDPI import *
-from Maps import *
-from Handle_Plots_Static import *
-from Read_Process_Cases import *
+from StaticAnalysis.computeDPI import *
+from StaticAnalysis.Maps import *
+from StaticAnalysis.Handle_Plots_Static import *
+from StaticAnalysis.Read_Process_Cases import *
 
 class AnalyzeStaticCases:
 
@@ -114,7 +114,7 @@ class AnalyzeStaticCases:
                 self.processdata.get_processdata_region()
             else:
                 if self.Options['busdata']:
-                    file = os.path.abspath("Static-Analysis/RECURSOS/GeoINFO_BusesSIN.csv")
+                    file = os.path.abspath("StaticAnalysis/RECURSOS/GeoINFO_BusesSIN.csv")
                     df1 = pd.read_csv(file)
                     #************************ Merge com o DATA FRAME COMPLETO ***************************
                     columns = ['BUS_ID', 'BUS_NAME', 'VBASEKV', 'TP', 'ARE', 'MODV_PU', 'ANGV_DEG', 'BASE_MVA', 'PG_MW', 'QG_MVAR', 'PMAX_MW', 'PMIN_MW', 'QMX_MVAR','QMN_MVAR', 'Ger_Units','Ger_Active_Units', 'PL_MW', 'QL_MVAR', 'TC', 'VMAX_PU', 'VMIN_PU', 'BCO_ID', 'B0_MVAR', 'ST', 'SHUNT_INST_IND', 'SHUNT_INST_CAP', 'Dia','Hora']
@@ -197,7 +197,8 @@ class AnalyzeStaticCases:
                 
             def fromsaveddatainfo():
 
-                file = os.path.abspath("Static-Analysis/RECURSOS/GeoINFO_BusesSIN.csv")
+                file = os.path.abspath("StaticAnalysis/RECURSOS/GeoINFO_BusesSIN.csv")
+                # file = os.path.abspath("Static-Analysis/RECURSOS/GeoINFO_BusesSIN.csv")
                 df1 = pd.read_csv(file)
                 df1.drop(df1[df1['REG'] == np.nan].index)
 

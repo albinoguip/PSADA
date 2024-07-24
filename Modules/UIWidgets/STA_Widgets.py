@@ -83,6 +83,7 @@ class STA_Widgets(object):
         widgets.row_0_STATIC.setObjectName(u"row_0_STATIC")
         widgets.row_0_STATIC.setFrameShape(QFrame.StyledPanel)
         widgets.row_0_STATIC.setFrameShadow(QFrame.Raised)
+        widgets.row_0_STATIC.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
         widgets.row_0_STATIC.setMaximumHeight(200)
 
         widgets.LG_row_0_STATIC = QGridLayout(widgets.row_0_STATIC)
@@ -90,111 +91,93 @@ class STA_Widgets(object):
         widgets.LG_row_0_STATIC.setObjectName(u"LG_row_0_STATIC")
         widgets.LG_row_0_STATIC.setContentsMargins(0, 0, 1, 1)
 
-        widgets.row_0_1_STATIC = QFrame(widgets.row_0_STATIC)
-        widgets.row_0_1_STATIC.setObjectName(u"row_0_1_STATIC")
-        widgets.row_0_1_STATIC.setFrameShape(QFrame.StyledPanel)
-        widgets.row_0_1_STATIC.setFrameShadow(QFrame.Raised)
-        widgets.row_0_1_STATIC.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
+        # widgets.row_0_1_STATIC = QFrame(widgets.row_0_STATIC)
+        # widgets.row_0_1_STATIC.setObjectName(u"row_0_1_STATIC")
+        # widgets.row_0_1_STATIC.setFrameShape(QFrame.StyledPanel)
+        # widgets.row_0_1_STATIC.setFrameShadow(QFrame.Raised)
+        # widgets.row_0_1_STATIC.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
 
-        widgets.LG_row_0_1_STATIC = QGridLayout(widgets.row_0_1_STATIC)
-        widgets.LG_row_0_1_STATIC.setSpacing(5)
-        widgets.LG_row_0_1_STATIC.setObjectName(u"LG_row_1_1_STATIC")
-        widgets.LG_row_0_1_STATIC.setContentsMargins(0, 0, 1, 1)
+        # widgets.LG_row_0_1_STATIC = QGridLayout(widgets.row_0_1_STATIC)
+        # widgets.LG_row_0_1_STATIC.setSpacing(5)
+        # widgets.LG_row_0_1_STATIC.setObjectName(u"LG_row_1_1_STATIC")
+        # widgets.LG_row_0_1_STATIC.setContentsMargins(0, 0, 1, 1)
 
-        widgets.LG_row_0_STATIC.addWidget(widgets.row_0_1_STATIC, 0, 0, 1, 3)
+        # widgets.LG_row_0_STATIC.addWidget(widgets.row_0_1_STATIC, 0, 0, 1, 3)
 
         #Norma
         widgets.STATIC_norm_label = QLabel("Norm:")
         widgets.STATIC_norm_label.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STATIC_norm_combobox = QComboBox()
-        widgets.STATIC_norm_combobox.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        widgets.STATIC_norm_combobox.setStyleSheet(u"background-color: rgb(218, 218, 233)")
         widgets.STATIC_norm_combobox.addItems(["None", "1", "2", "3"])  # Exemplo de normas
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_norm_label, 0, 0, 1, 2)
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_norm_combobox, 0, 2, 1, 4)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_norm_label, 0, 0, 1, 2)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_norm_combobox, 0, 2, 1, 4)
 
         # OneCase (ComboBox)
         widgets.STATIC_onecase_label = QLabel("OneCase:")
         widgets.STATIC_onecase_label.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STATIC_onecase_combobox = QComboBox()
-        widgets.STATIC_onecase_combobox.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.STATIC_onecase_combobox.addItems(["All cases", "Just One Case"])
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_onecase_label, 1, 0, 1, 2)
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_onecase_combobox, 1, 2, 1, 4)
-
-        # SavePath (LineEdit)
-        widgets.STATIC_savepath_label = QLabel("SavePath:")
-        widgets.STATIC_savepath_label.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.STATIC_savepath_lineedit = QLineEdit()
-        widgets.STATIC_savepath_lineedit.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.STATIC_savepath_lineedit.setText("C:/Users/Gabriel/Desktop/PSADA/extract_data/")
-        widgets.STATIC_search_button_label = QPushButton(widgets.row_0_1_STATIC)
-        widgets.STATIC_search_button_label.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.STATIC_search_button_label.setText("Search")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_savepath_label, 2, 0, 1, 1)
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_search_button_label, 2, 1, 1, 1)
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_savepath_lineedit, 2, 2, 1, 4)
-
-        #Generate Script
-        widgets.STATIC_gen_script = QCheckBox('Generate Script')
-        widgets.STATIC_gen_script.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_gen_script, 3, 0, 1, 1)
+        widgets.STATIC_onecase_combobox.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        widgets.STATIC_onecase_combobox.addItems(["1", "2"])
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_onecase_label, 1, 0, 1, 2)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_onecase_combobox, 1, 2, 1, 4)
 
         #OnlyPWF_datagen
         widgets.STATIC_onlypwf = QCheckBox('Only PWF Datagen')
         widgets.STATIC_onlypwf.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_onlypwf, 3, 1, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_onlypwf, 2, 0, 1, 2)
 
         #Extract from CSV
         widgets.STATIC_extract_from_csv = QCheckBox('Extract from CSV')
         widgets.STATIC_extract_from_csv.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_extract_from_csv, 3, 2, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_extract_from_csv, 2, 2, 1, 1)
 
 
         #Bus Data
         widgets.STATIC_bus_data = QCheckBox('Bus Data')
         widgets.STATIC_bus_data.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_bus_data, 3, 3, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_bus_data, 2, 3, 1, 1)
 
 
         #Linhas data
         widgets.STATIC_line_data = QCheckBox('Linha Data')
         widgets.STATIC_line_data.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_line_data, 3, 4, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_line_data, 2, 4, 1, 1)
 
         #HVDCData
         widgets.STATIC_hvdc_data = QCheckBox('HVDC Data')
         widgets.STATIC_hvdc_data.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_hvdc_data, 3, 5, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_hvdc_data, 2, 5, 1, 1)
 
         #ReservaData
         widgets.STATIC_reserva_data = QCheckBox('Reserva Data')
         widgets.STATIC_reserva_data.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_reserva_data, 4, 0, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_reserva_data, 3, 0, 1, 1)
 
         #IntercambiosData
         widgets.STATIC_intercambio_data = QCheckBox('Intercambios Data')
         widgets.STATIC_intercambio_data.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_intercambio_data, 4, 1, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_intercambio_data, 3, 1, 1, 1)
 
         #ComputeDPI
         widgets.STATIC_compute_dpi = QCheckBox('Compute DPI')
         widgets.STATIC_compute_dpi.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_compute_dpi, 4, 2, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_compute_dpi, 3, 2, 1, 1)
 
         #linhascsv
         widgets.STATIC_linhas_csv = QCheckBox('Linhas CSV')
         widgets.STATIC_linhas_csv.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_linhas_csv, 4, 3, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_linhas_csv, 3, 3, 1, 1)
 
         #reservacsv
         widgets.STATIC_reserva_csv = QCheckBox('Reserva CSV')
         widgets.STATIC_reserva_csv.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_reserva_csv, 4, 4, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_reserva_csv, 3, 4, 1, 1)
 
         #HVDCcsv
         widgets.STATIC_hvdc_csv = QCheckBox('HVDC CSV')
         widgets.STATIC_hvdc_csv.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.LG_row_0_1_STATIC.addWidget(widgets.STATIC_hvdc_csv, 4, 5, 1, 1)
+        widgets.LG_row_0_STATIC.addWidget(widgets.STATIC_hvdc_csv, 3, 5, 1, 1)
 
         widgets.verticalLayout_STATIC.addWidget(widgets.row_0_STATIC)
 
@@ -254,10 +237,16 @@ class STA_Widgets(object):
         widgets.STATIC_qline_files.setStyleSheet(u"background-color: rgb(218, 218, 233)")
         widgets.LG_row_1_1_STATIC.addWidget(widgets.STATIC_qline_files, 0, 2, 1, 8)
 
+        widgets.STATIC_genscript_button = QPushButton(widgets.row_1_1_STATIC)
+        widgets.STATIC_genscript_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        widgets.STATIC_genscript_button.setText("Generate Script")
+        widgets.LG_row_1_1_STATIC.addWidget(widgets.STATIC_genscript_button, 0, 10, 1, 1)
+
         widgets.STATIC_read_file_button = QPushButton(widgets.row_1_1_STATIC)
         widgets.STATIC_read_file_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STATIC_read_file_button.setText("Process")
-        widgets.LG_row_1_1_STATIC.addWidget(widgets.STATIC_read_file_button, 0, 10, 1, 2)
+        widgets.LG_row_1_1_STATIC.addWidget(widgets.STATIC_read_file_button, 0, 11, 1, 1)
+        
 
         # SECOND ROW
 
@@ -319,12 +308,38 @@ class STA_Widgets(object):
         widgets.row_2_STATIC.setFrameShape(QFrame.StyledPanel)
         widgets.row_2_STATIC.setFrameShadow(QFrame.Raised)
         widgets.row_2_STATIC.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
-        widgets.row_2_STATIC.setMaximumHeight(80)
+        widgets.row_2_STATIC.setMaximumHeight(120)
 
         widgets.LG_row_2_STATIC = QGridLayout(widgets.row_2_STATIC)
         widgets.LG_row_2_STATIC.setSpacing(5)
         widgets.LG_row_2_STATIC.setObjectName(u"LG_row_2_STATIC")
         widgets.LG_row_2_STATIC.setContentsMargins(0, 0, 1, 1)
+
+        widgets.row_2_1_STATIC = QFrame(widgets.row_2_STATIC)
+        widgets.row_2_1_STATIC.setObjectName(u"row_2_1_STATIC")
+        widgets.row_2_1_STATIC.setFrameShape(QFrame.StyledPanel)
+        widgets.row_2_1_STATIC.setFrameShadow(QFrame.Raised)
+        widgets.row_2_1_STATIC.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
+
+        widgets.LG_row_2_1_STATIC = QGridLayout(widgets.row_2_1_STATIC)
+        widgets.LG_row_2_1_STATIC.setSpacing(5)
+        widgets.LG_row_2_1_STATIC.setObjectName(u"LG_row_2_1_STATIC")
+        widgets.LG_row_2_1_STATIC.setContentsMargins(0, 0, 1, 1)
+
+        widgets.row_2_2_STATIC = QFrame(widgets.row_2_STATIC)
+        widgets.row_2_2_STATIC.setObjectName(u"row_2_2_STATIC")
+        widgets.row_2_2_STATIC.setFrameShape(QFrame.StyledPanel)
+        widgets.row_2_2_STATIC.setFrameShadow(QFrame.Raised)
+        widgets.row_2_2_STATIC.setStyleSheet("QFrame {border-width: 1; border-style: solid; border-color: rgb(100, 100, 100); padding: 5px}")
+
+        widgets.LG_row_2_2_STATIC = QGridLayout(widgets.row_2_2_STATIC)
+        widgets.LG_row_2_2_STATIC.setSpacing(5)
+        widgets.LG_row_2_2_STATIC.setObjectName(u"LG_row_2_2_STATIC")
+        widgets.LG_row_2_2_STATIC.setContentsMargins(0, 0, 1, 1)
+
+        widgets.LG_row_2_STATIC.addWidget(widgets.row_2_1_STATIC, 0, 0, 1, 1)
+        widgets.LG_row_2_STATIC.addWidget(widgets.row_2_2_STATIC, 1, 0, 1, 1)
+
 
 
         # THIRD ROW
@@ -332,18 +347,18 @@ class STA_Widgets(object):
 
         widgets.STATIC_x = QComboBox(widgets.row_2_STATIC)
         widgets.STATIC_x.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.STATIC_x.setMinimumHeight(50)
-        widgets.LG_row_2_STATIC.addWidget(widgets.STATIC_x, 0, 0, 1, 3)
+        # widgets.STATIC_x.setMinimumHeight(50)
+        widgets.LG_row_2_1_STATIC.addWidget(widgets.STATIC_x, 0, 0, 1, 3)
 
         widgets.STATIC_y = QComboBox(widgets.row_2_STATIC)
         widgets.STATIC_y.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.STATIC_y.setMinimumHeight(50)
-        widgets.LG_row_2_STATIC.addWidget(widgets.STATIC_y, 0, 3, 1, 3)
+        # widgets.STATIC_y.setMinimumHeight(50)
+        widgets.LG_row_2_1_STATIC.addWidget(widgets.STATIC_y, 0, 3, 1, 3)
 
         widgets.STATIC_c = QComboBox(widgets.row_2_STATIC)
         widgets.STATIC_c.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.STATIC_c.setMinimumHeight(50)
-        widgets.LG_row_2_STATIC.addWidget(widgets.STATIC_c, 0, 6, 1, 3)
+        # widgets.STATIC_c.setMinimumHeight(50)
+        widgets.LG_row_2_1_STATIC.addWidget(widgets.STATIC_c, 0, 6, 1, 3)
 
         # FOURTH ROW
 
@@ -365,8 +380,18 @@ class STA_Widgets(object):
         widgets.STATIC_plot_button = QPushButton(widgets.row_2_STATIC)
         widgets.STATIC_plot_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STATIC_plot_button.setText("Plot")
-        widgets.STATIC_plot_button.setMinimumHeight(50)
-        widgets.LG_row_2_STATIC.addWidget(widgets.STATIC_plot_button, 0, 9, 1, 4)
+        # widgets.STATIC_plot_button.setMinimumHeight(50)
+        widgets.LG_row_2_1_STATIC.addWidget(widgets.STATIC_plot_button, 0, 9, 1, 4)
+
+        #Tipo de gráfico
+        widgets.STATIC_type_button = QComboBox(widgets.row_2_STATIC)
+        widgets.STATIC_type_button.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # widgets.STATIC_type_button.setMinimumHeight(50)
+        widgets.LG_row_2_2_STATIC.addWidget(widgets.STATIC_type_button, 0, 0, 1, 6.5)
+
+        widgets.STATIC_stats = QComboBox(widgets.row_2_STATIC)
+        widgets.STATIC_stats.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        widgets.LG_row_2_2_STATIC.addWidget(widgets.STATIC_stats, 0, 6.5, 1, 6.5)
 
         # FIFTH ROW
 
@@ -415,6 +440,7 @@ class STA_Widgets(object):
 
         widgets.STATIC_sc = MplCanvas(self, width=12, height=12, dpi=100)        
         widgets.STATIC_sc.axes.plot([0,1,2,3,4], [10,1,20,3,40])
+        widgets.STATIC_sc.axes.grid(True)
 
         widgets.toolbar = NavigationToolbar2QT(widgets.STATIC_sc)
 

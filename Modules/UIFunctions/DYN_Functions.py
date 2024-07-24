@@ -16,6 +16,7 @@ from win32com.shell import shell, shellcon
 
 
 from PowerSystemsAnalysis import *
+from StaticAnalysis import *
 
 import os, glob, shutil, json
 

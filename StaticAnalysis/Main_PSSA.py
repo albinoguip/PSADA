@@ -1,45 +1,64 @@
 import time
 import sys
-from Analyze_Save_Info import AnalyzeStaticCases
+import os
+
+from Analyze_Save_Info import *
+
+
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    print(base_path, relative_path)
+
+    return os.path.join(base_path, relative_path)
+
+
+
+
 
 if __name__ == '__main__':
 
     start_time = time.time()
 
     # ************************************************************************************************
-    #                                       OPÇÕES DE EJECUÇÃO
+    #                                       OPÇÕES DE EJECUÇÃO                                       *
     # ************************************************************************************************
+
     Options_ReadProcess= {
                             'Norm': 2,          # Write None for using infinite norm in voltage analysis
                             'OneCase': 1,       # (1) for All cases or (2) for Just One Case analysis
-                            'SavePath': "C:/Users/Gabriel/Desktop/PSADA/extract_data/",
+                            'SavePath': "C:/Users/Gabriel/Desktop/PSADA/V2A2F2_REV2_2026/",
         # ---------------------------------------------------
                             'generatescript' : False,  # Put TRUE just for generate the script for simulation and saving the flows in Organon
                             'OnlyPWF_datagen': False,   # Put TRUE just for generate the data for Interconnection and Line Flow Analysis
                             'extract_fromcsv' :False,   # Put TRUE just in the first simulation, once the ProcessedDataBase.csv is generated it is not necessary
-                            'savedata':True,            # To save the data of the electric variables in the folders
+                            'savedata':False,            # To save the data of the electric variables in the folders
                             'busdata' : True,           # Let like TRUE
         # ---------------------------------------------------
-                            'ConvergenceData' : True,   # To analyze just the converged cases   
-                            'LinhasData': True,
-                            'HVDCData':True,
-                            'ReservaData':True,
-                            'IntercambiosData':True,
-                            'ComputeDPI': True,
-                            'resumoIndice': True,
+                            'ConvergenceData' : False,   # To analyze just the converged cases   
+                            'LinhasData': False,
+                            'HVDCData':False,
+                            'ReservaData':False,
+                            'IntercambiosData':False,
+                            'ComputeDPI': False,
+                            'resumoIndice': False,
         # ---------------------------------------------------
                             'linhascsv':False,          # Put TRUE once is generated the LinhasInfo file
                             'reservacsv':False,         # Put TRUE once is generated the ReserveInfo file
                             'HVDCcsv': False,            # Put TRUE once is generated the HVDCinfo file
         # ---------------------------------------------------
-                            'PlotGeralPotencia': True,
-                            'MapasPlots': True,
-                            'Plot_Tensao_Geral': True,
-                            'plotDPI': True,
-                            'Plot_Boxplot_DPI': True,
-                            'PlotIntercambios': True
+                            'PlotGeralPotencia': False,
+                            'MapasPlots': False,
+                            'Plot_Tensao_Geral': False,
+                            'plotDPI': False,
+                            'Plot_Boxplot_DPI': False,
+                            'PlotIntercambios': False
                         }
-    
+    # print("Deu certo", Options_ReadProcess['generatescript'])
+
     # ************************************************************************************************
     #                                              PATHS
     # ************************************************************************************************
@@ -64,7 +83,7 @@ if __name__ == '__main__':
     # path_folder_6 = 'D:/0 FERV/0 Dados PYTHON/CASOS 2026/V2A2F_/REV_2/V2A2F3_REV02_2026/'
     # path_folder_7 = 'D:/0 FERV/0 Dados PYTHON/CASOS 2026/V2A2F_/REV_2/V2A2F4_REV02_2026/'
     # path_folder_8 = 'D:/0 FERV/0 Dados PYTHON/CASOS 2026/V2A2F_/REV_2/V2A2F5_REV02_2026/'
-    
+
     # =============================         CASOS 2026 V3A3F       ===========================================
     # path_folder_1 = 'D:/0 FERV/0 Dados PYTHON/CASOS 2026/V3A3F_/REV_0/V3A3F2_REV0_2026/'
     # path_folder_2 = 'D:/0 FERV/0 Dados PYTHON/CASOS 2026/V3A3F_/REV_0/V3A3F3_REV0_2026/'

@@ -16,11 +16,13 @@ from win32com.shell import shell, shellcon
  
 
 from PowerSystemsAnalysis import *
+from StaticAnalysis import *
 
 import os, glob, shutil, json
 
 from tqdm import tqdm
 import pandas as pd
+import time
 
 
 
@@ -62,143 +64,158 @@ class STA_Functions(MainWindow):
 
 
 
-    def STATIC_read_file_button_FUNCTION(self):
+    def STATIC_checkbox_FUNCTION(self):
+        
+        
+        options = {
+                            'Norm': self.ui.STATIC_norm_combobox.currentText(),          # Write None for using infinite norm in voltage analysis
+                            'OneCase': self.ui.STATIC_onecase_combobox.currentText(),       # (1) for All cases or (2) for Just One Case analysis
+                            'SavePath': self.ui.STATIC_qline_files.text(),
+        # ---------------------------------------------------
+                            'generatescript' : False,  # Put TRUE just for generate the script for simulation and saving the flows in Organon
+                            'OnlyPWF_datagen': self.ui.STATIC_onlypwf.isChecked(),   # Put TRUE just for generate the data for Interconnection and Line Flow Analysis
+                            'extract_fromcsv' :self.ui.STATIC_extract_from_csv.isChecked(),   # Put TRUE just in the first simulation, once the ProcessedDataBase.csv is generated it is not necessary
+                            'savedata': True,            # To save the data of the electric variables in the folders
+                            'busdata' : self.ui.STATIC_bus_data.isChecked(),           # Let like TRUE
+        # ---------------------------------------------------
+                            'ConvergenceData' : True,   # To analyze just the converged cases   
+                            'LinhasData': self.ui.STATIC_line_data.isChecked(),
+                            'HVDCData': self.ui.STATIC_hvdc_data.isChecked(),
+                            'ReservaData': self.ui.STATIC_reserva_data.isChecked(),
+                            'IntercambiosData': self.ui.STATIC_intercambio_data.isChecked(),
+                            'ComputeDPI': self.ui.STATIC_compute_dpi.isChecked(),
+                            'resumoIndice': True,
+        # ---------------------------------------------------
+                            'linhascsv': self.ui.STATIC_linhas_csv.isChecked(),          # Put TRUE once is generated the LinhasInfo file
+                            'reservacsv': self.ui.STATIC_reserva_csv.isChecked(),         # Put TRUE once is generated the ReserveInfo file
+                            'HVDCcsv': self.ui.STATIC_hvdc_csv.isChecked(),          # Put TRUE once is generated the HVDCinfo file
+        # ---------------------------------------------------
+                            'PlotGeralPotencia': False,
+                            'MapasPlots': False,
+                            'Plot_Tensao_Geral': False,
+                            'plotDPI': False,
+                            'Plot_Boxplot_DPI': False,
+                            'PlotIntercambios': False
+                        }
+        
 
-        PATH    = self.ui.STATIC_qline_files.text()
-        POUT    = '/'.join(self.ui.STATIC_qline_files.text().split('/')[:-2]) + '/OUT/'
+        return options
+  
+        
 
-        if not os.path.exists(POUT):
-            os.makedirs(POUT)
+    def STATIC_genscript_button_FUNCTION(self): 
 
-        RSTS = os.listdir(PATH)
-        RSTS = [rst for rst in RSTS if '.rst' in rst]
+        path_folder = self.ui.STATIC_qline_files.text()
+        
+        path_folders = [path_folder]
 
-        for rst in RSTS:
-            new_name =  'D_' + rst.replace('Dia_', '').split('_')[0] + '_H_' + rst.split('_')[-1].split('.')[0] + '.rst'
-            shutil.copyfile(PATH + rst, POUT + '/' + new_name)
+        for path_teste in path_folders:
 
+            Read_Process_Cases.ReadScenarios.generate_script(self, path=path_teste)
 
+        # print("Tiempo de ejecución:", execution_time, "segundos")
 
-        PATH = POUT 
-        RSTS = glob.glob(PATH + "*.rst")
-        vars = pd.DataFrame()
+    
+    def STATIC_process_button_FUNCTION(self): 
 
+        start_time = time.time()
 
-        for RST in tqdm(RSTS):
+        Options_Readprocess = STA_Functions.STATIC_checkbox_FUNCTION(self=self)
+        
+        print('DEU CERTO, ver abaixo')
+        print(Options_Readprocess)
 
-            RR = RST_Reader(RST)
-            a, net_info = RR.generate_json()
+        path_folders = [Options_Readprocess['SavePath']]
 
-            rede = np.expand_dims(np.array(net_info).ravel(), axis=(0))
-            columns = []
-            for isl in net_info['ISLD']:
-                for col in net_info.columns:
-                    columns.append(col + '_I' + isl)
-            net_info = pd.DataFrame(rede, columns=columns)
+        for path_folder in path_folders:
 
-            name          = RST.split('\\')[-1].split('.')[0]
-            RP            = RST_Process(a, name=name)
+            cenarios = Analyze_Save_Info.AnalyzeStaticCases(path=path_folder, Options = Options_Readprocess)
+            cenarios.extraction_process()
+            cenarios.LinhaAnalise()
+            cenarios.ReservaAnalise()
+            cenarios.ActiveReactivePower()
+            cenarios.Plot_Tensao_Geral()
+            cenarios.MapasPlots()
+            cenarios.ComputeDPI()
+            cenarios.save_csv()
 
-            if RP.df is not None:
-
-                RP.df.columns = [col[0] if col[1] == '' else col[0] + '_' + col[1] for col in RP.df.columns]
-
-                RP.df['Dia']        = name.split('_')[1]
-                RP.df['Contigence'] = [int(a.split('_')[-1]) for a in RP.df['Contigence']]
-                RP.df['Hora']       = [a.split('_')[-1] for a in RP.df['OP']]
-                RP.df['OP']         = 'D_' + RP.df['Dia'] + '_H_' + RP.df['Hora']
-                RP.df['Dia']        = RP.df['Dia'].astype('int')
-                RP.df['A_CODE']     = RP.df['A_CODE'].astype('int')
-
-                RP.df = RP.df.sort_values(by=['Dia', 'Hora', 'Contigence']).reset_index(drop=True)
-                
-                net_info['OP'] = RP.df['OP'].values[0]
-
-                RP.df = RP.df.merge(net_info, on='OP', how='left')
-                vars  = pd.concat([vars, RP.df]).reset_index(drop=True)
-
-        vars.to_csv(PATH.replace('OUT/', '') + 'vars.csv', index=False)
-
-        self.ui.STATIC_vars_qline.setText(PATH.replace('OUT/', '') + 'vars.csv')    
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print("Tiempo de ejecución:", execution_time, "segundos")
 
 
-
-
-
-
-
-
+    
     def STATIC_vars_search_FUNCTION(self): 
 
 
         self.file_vars, _ = QFileDialog.getOpenFileNames(self, "Open File", "/home", "Excel (*.csv);;All files(*.*)")
         self.file_vars    = self.file_vars[0]
 
-        self.ui.STATIC_vars_qline.setText(self.file_vars)     
-
-
+        self.ui.STATIC_vars_qline.setText(self.file_vars)    
+ 
 
 
     def STATIC_read_vars_button_FUNCTION(self): 
 
+        self.ui.STATIC_type_button.clear()
+        self.ui.STATIC_stats.clear()
+
+        self.ui.STATIC_x.clear()
+        self.ui.STATIC_y.clear()
+        self.ui.STATIC_c.clear()
+
         file_vars = self.ui.STATIC_vars_qline.text()
+        self.dataframe = pd.read_csv(file_vars)
 
-        self.rst_generic = RST_Generic(report_path = file_vars,
-                                       eol         = None,
-                                       sol         = None,
-                                       save_path   = None,
-                                       code_filtro = None)
-        
+        self.x_var = self.dataframe.columns
+        self.y_var = self.dataframe.columns
+        self.c_var = self.dataframe.columns
 
-        c_options = [None]
-        c_options.extend(list(self.rst_generic._get_variables()))
+        self.ui.STATIC_x.addItems(self.x_var)
+        self.ui.STATIC_y.addItems(self.y_var)
 
-        r_options = [None]
-        r_options.extend(['3', '2', '1', '0', '-1', '-2', '-3'])
+        self.ui.STATIC_c.addItems([None])
+        self.ui.STATIC_c.addItems(self.c_var)
 
-        self.ui.STATIC_x.addItems(self.rst_generic._get_variables())
-        self.ui.STATIC_y.addItems(self.rst_generic._get_variables())
-        self.ui.STATIC_c.addItems(c_options)
-
-        self.ui.STATIC_plot.addItems(['Scatter', 'Line', 'Histogram'])
-        self.ui.STATIC_round.addItems(r_options)
+        self.ui.STATIC_type_button.addItems(['Scatter', 'Line']) 
         self.ui.STATIC_stats.addItems([None, 'Mean', 'Sum', 'Std'])
 
-        self.ui.STATIC_combo_variable.addItems(self.rst_generic._get_variables())
-        self.ui.STATIC_combo_sinal.addItems(['>', '>=', '<', '<=', '==', 'List', 'not_NaN', 'NaN'])
         
 
 
     def STATIC_plot_button_FUNCTION(self):
-
-        # if len(self.STATIC_plot) == 0:
             
         x_var = self.ui.STATIC_x.currentText()
         y_var = self.ui.STATIC_y.currentText()
         c_var = self.ui.STATIC_c.currentText()
 
-        p_var = self.ui.STATIC_plot.currentText()
-        r_var = self.ui.STATIC_round.currentText()
+        p_var = self.ui.STATIC_type_button.currentText()
+        # r_var = self.ui.STATIC_round.currentText()
         s_var = self.ui.STATIC_stats.currentText()
 
         self.STATIC_plot = {'x' : x_var,
-                                'y' : y_var,
-                                'c' : c_var,
+                            'y' : y_var,
+                            'c' : c_var,
 
-                                'plot'  : p_var,
-                                'round' : r_var,
-                                'stat'  : s_var,
+                            'plot'  : p_var,
+                            # 'round' : r_var,
+                            'stat'  : s_var,
 
-                                'x_label' : x_var,
-                                'y_label' : y_var,
-                                'legend'  : None,
+                            'x_label' : x_var,
+                            'y_label' : y_var,
+                            'legend'  : None,
 
-                                'filter' : None}
+                            'filter' : None}
 
         data = pd.read_csv(self.ui.STATIC_vars_qline.text())
 
-        guip = GUI_Plotter(data, self.STATIC_plot, self.ui)
+        guip = GUI_Plotter_STATIC(data, self.STATIC_plot, self.ui)
         guip.update()
+
+
+
+
+
 
 
     def STATIC_button_apply_filter_FUNCTION(self):
@@ -244,15 +261,15 @@ class STA_Functions(MainWindow):
             pass
 
 
-        if self.STATIC_plot['filter'] is None or self.STATIC_plot['filter'] == '':
-            self.STATIC_plot['filter'] = [(f_var, i_var, t_var)]
+        # if self.STATIC_plot['filter'] is None or self.STATIC_plot['filter'] == '':
+        #     self.STATIC_plot['filter'] = [(f_var, i_var, t_var)]
         
-        else:
-            self.STATIC_plot['filter'].append((f_var, i_var, t_var))       
+        # else:
+        #     self.STATIC_plot['filter'].append((f_var, i_var, t_var))       
 
         data = pd.read_csv(self.ui.STATIC_vars_qline.text())    
 
-        guip = GUI_Plotter(data, self.STATIC_plot, self.ui)
+        guip = GUI_Plotter_STATIC(data, self.STATIC_plot, self.ui)
         guip.update()
 
 
