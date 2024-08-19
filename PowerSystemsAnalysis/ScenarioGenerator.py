@@ -6,13 +6,16 @@ from . PLV_Editor import *
 
 import random
 
+import networkx as nx
 
 class ScenarioGenerator():
 
     def __init__(self, net_path, dyn_path=None):
 
-        self.net = NTW_Editor(path=net_path, other=False)
+        self.net = NTW_Reader(path=net_path, first_line=4)
+        self.net.fit()
         self.net.networkInfo(show=False)
+
 
         if dyn_path is not None:
             self.dyn      = DynamicData(path=dyn_path)
@@ -35,10 +38,10 @@ class ScenarioGenerator():
 
         for idx, (line_idx, sm_params) in enumerate(zip(self.dyn.sm_params.keys(), self.dyn.sm_params.values())):
 
-            self.dyn.sm_params[line_idx]['Params']['Base(MVA)'] = self.dyn.sm_params[line_idx]['Params']['Base(MVA)']*sm_multipli[idx]
+            self.dyn.sm_params[line_idx]['Params']['Base(MVA)'] = round(self.dyn.sm_params[line_idx]['Params']['Base(MVA)']*sm_multipli[idx], 1)
 
 
-        self.net.gen_data['PMAX_MW'] = self.net.gen_data['PMAX_MW'].astype('float')*sm_multipli
+        # self.net.gen_data['PMAX_MW'] = self.net.gen_data['PMAX_MW'].astype('float')*sm_multipli
 
         self.net.networkInfo(show=False)
 
@@ -60,48 +63,159 @@ class ScenarioGenerator():
 
         self.net.networkInfo(show=False)
 
+    
+    def RemoveLT_helper(self, b_min=3, b_max=15, connections=None):
 
-    def RemoveLT(self, b_min=3, b_max=15):
+        self.safe_copy = self.net.transmission_data.copy()
 
-        n_remo_cone = random.sample(range(b_min, b_max), 1)
-        remove_cone = random.sample(range(0, len(self.net.transmission_data)), n_remo_cone[0])
+        if connections is None:
+            n_remo_cone = random.sample(range(b_min, b_max), 1)
+            remove_cone = random.sample(range(0, len(self.net.transmission_data)), n_remo_cone[0])
 
+        else:
+            remove_cone = []
+            for BFR_ID, BTO_ID in connections:
+
+                filtro = (self.net.transmission_data['BFR_ID'] == str(BFR_ID)) & (self.net.transmission_data['BTO_ID'] == str(BTO_ID))
+
+                remove_cone.append(self.net.transmission_data[filtro].index[0])
+                   
         self.net.transmission_data = self.net.transmission_data.drop(remove_cone, axis=0).reset_index(drop=True)
 
-        self.net.networkInfo(show=False)
+
+
+
+    def RemoveLT(self, b_min=3, b_max=15, connections=None):
+
+        while True:
+
+            detection = True
+        
+            self.RemoveLT_helper(b_min=b_min, b_max=b_max, connections=connections)
+
+            self.net.concat_trans()
+
+            nodes = self.net.graph_get_nodes(self.net.data_trans)
+
+            G = nx.Graph()
+            G.add_edges_from(nodes)
+
+            for bus in self.net.bus_data['BUS_ID'].unique():
+
+                try:
+                    a, b = nx.all_shortest_paths(G, 1, bus), []
+                    for path in a:
+                        b.extend(path)
+                except:
+                    detection = False
+                    self.net.transmission_data = self.safe_copy.copy()
+                    break
+
+            if detection:
+                break
+
+
+
+        
+
+        # self.net.networkInfo(show=False)
+
+        # print(self.net.transmission_data)
 
 
     def RemoveGen(self):
 
-        remove_gen  = [False, False, False, False, True][random.sample(range(0, 5), 1)[0]]
-        gen_to_rem  = random.sample(range(0, len(self.net.transformer_data)), 1)[0] if remove_gen else None
+        gen_to_rem = random.sample(range(0, len(self.net.gen_data)), 1)[0]
+        BUS_ID     = self.net.gen_data['BUS_ID'].values[gen_to_rem]
 
-        # print(gen_to_rem)
 
-        if gen_to_rem is not None:
-            self.net.transformer_data = self.net.transformer_data.drop([gen_to_rem], axis=0).reset_index(drop=False)
+        self.net.gen_data = self.net.gen_data[self.net.gen_data['BUS_ID'] != BUS_ID].reset_index(drop=True)
+
+        # print(gen_to_rem, BUS_ID)
+
+        # self.net.gen_data = self.net.gen_data.drop(gen_to_rem, axis=0).reset_index(drop=True)
+
+        # filtro = (self.net.transformer_data['BUS1'] != str(BUS_ID)) & (self.net.transformer_data['BUS2'] != str(BUS_ID)) & (self.net.transformer_data['BUS3'] != str(BUS_ID))
+
+        # self.net.transformer_data = self.net.transformer_data[filtro].reset_index(drop=True)
+        # self.net.networkInfo(show=False)
+
+        # self.net.l_gen = self.net.l_gen - 1
+
+        # filtro = (self.net.bus_data['BUS_ID'] != BUS_ID)
+        # self.net.bus_data = self.net.bus_data[filtro].reset_index(drop=True)
+
+        # self.net.l_bus = self.net.l_bus - 1
+
+        return BUS_ID
+
+
+
+    def ChangeLoad(self, carga, min_load=0.60, max_load=0.95, PF_fixo=True, P_fixo=False):
 
         self.net.networkInfo(show=False)
 
+        patamar  = (max_load-min_load)*np.random.random((1))[0] + min_load
+        cargaTot = patamar*self.net.total_PG_MW
 
-    def ChangeLoad(self, carga, min_load=0.60, max_load=0.95):
 
-        carga = pd.read_csv(carga)
+        density = self.net.load_data['PL_MW'].astype('float')
+        density = density/density.sum()
+        density = density*100
 
-        carga   = carga[(carga['Total'] > self.net.total_PMAX_MW*min_load) & (carga['Total'] < self.net.total_PMAX_MW*max_load)]
-        n_carga = random.sample(range(0, len(carga)), 1)[0]
+
+        distribution = np.random.dirichlet(density, size=50)
+
+        newPW = distribution[np.random.randint(0, len(distribution)-1, size=(1))[0]]*cargaTot
+
 
         self.net.load_data['PL_MW']   = self.net.load_data['PL_MW'].astype('float')
         self.net.load_data['QL_MVAR'] = self.net.load_data['QL_MVAR'].astype('float')
 
-        old_PL = self.net.load_data['PL_MW']
-        old_QL = self.net.load_data['QL_MVAR']
+        if not P_fixo:
+            if PF_fixo:
 
-        self.net.load_data['PL_MW']   = carga.iloc[n_carga].values[:-2]
-        self.net.load_data['PL_MW']   = self.net.load_data['PL_MW'].round(decimals=1)
-        self.net.load_data['QL_MVAR'] = self.net.load_data['PL_MW']*(old_QL/old_PL)
+                old_PL = self.net.load_data['PL_MW']
+                old_QL = self.net.load_data['QL_MVAR']
+
+                self.net.load_data['PL_MW']   = newPW
+                self.net.load_data['QL_MVAR'] = self.net.load_data['PL_MW']*(old_QL/old_PL)
+
+            else:
+
+                PF = 3 * np.random.random((len(self.net.load_data))) - 1.5
+
+                self.net.load_data['PL_MW']   = newPW
+                self.net.load_data['QL_MVAR'] = self.net.load_data['PL_MW']*PF
+
+        else:
+
+            PF = 3 * np.random.random((len(self.net.load_data))) - 1.5
+
+            self.net.load_data['QL_MVAR'] = self.net.load_data['PL_MW']*PF
+
+
         self.net.load_data.loc[self.net.load_data['QL_MVAR'].isin([np.inf, -np.inf]), 'QL_MVAR'] = 0
+
+        self.net.load_data['PL_MW']   = self.net.load_data['PL_MW'].round(decimals=1)
         self.net.load_data['QL_MVAR'] = self.net.load_data['QL_MVAR'].round(decimals=1)
+
+
+        return self.net.load_data['PL_MW'].values, self.net.load_data['BUS_ID'].values
+
+    def ChangeInercia(self, carga, min_load=0.60, max_load=0.95, H=False, FILE=None):
+
+        inercia = pd.read_csv(FILE)
+        inercia = inercia[(inercia['Carregamento'] >= min_load) & (inercia['Carregamento'] <= max_load)]
+        n_inercia = random.sample(range(0, len(inercia)), 1)[0]
+        n_inercia = inercia.iloc[n_inercia].values[:-2]
+
+        for idx, (line_idx, sm_params) in enumerate(zip(self.dyn.sm_params.keys(), self.dyn.sm_params.values())):
+            self.dyn.sm_params[line_idx]['Params']['H(MWMVA.s)'] = round(self.dyn.sm_params[line_idx]['Params']['H(MWMVA.s)']*n_inercia[idx], 2)
+
+
+
+
 
 
     def Save(self, net_path, dyn_path=None, wfs_path=None, wfs_list=None):

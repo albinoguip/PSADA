@@ -13,6 +13,68 @@ class NTW_Reader():
             self.lines = f.readlines()
 
 
+    def fit(self):
+
+        self._find_limits_in_file()
+        self._get_bus_data()
+        self._get_gen_data()
+        self._get_load_data()
+        self._get_transformer_data()
+        self._get_transmission_data()
+
+    
+    def save_helper(self, table):
+
+        if table == 'bus':
+            return self.f_bus, self.l_bus
+        
+        if table == 'load':
+            return self.f_load, self.l_load
+        
+        if table == 'gen':
+            return self.f_gen, self.l_gen
+        
+        if table == 'transformer':
+            return self.f_trs, self.l_trs
+        
+        if table == 'transmission':
+            return self.f_tra, self.l_tra
+        
+        if table == '':
+            return None
+
+    def save(self, save_path):
+
+
+        list_of_tables = [
+                          (self.bus_data         , 'bus'),
+                          (self.load_data        , 'load'),
+                          (self.gen_data         , 'gen'),
+                        #   (self.transformer_data , 'transformer'),
+                          (self.transmission_data, 'transmission')
+                          ]
+        
+        for table, name in list_of_tables:
+
+            self._find_limits_in_file()  
+
+            f, l = self.save_helper(name)
+
+            # self.lines[f-1] = ', '.join(table.columns) + '\n'
+
+            for index in range(l-f+1):
+                self.lines.pop(f)
+
+            for index in range(len(table)):
+                new_line = ', '.join([str(v) for v in table.iloc[index]]) + '/\n'
+                self.lines.insert(f+index, new_line)
+
+            self._find_limits_in_file()  
+           
+
+        with open(save_path, 'w') as f:
+            for line in self.lines:
+                f.write(line)
 
 
     def _find_limits_in_file(self):
@@ -39,7 +101,7 @@ class NTW_Reader():
             if 'BEGIN TRANSMISSION LINE DATA'  in line: self.f_tra = idx + 2
             if 'END OF TRANSMISSION LINE DATA' in line: self.l_tra = idx - 1
 
-            if 'BEGIN TRANSFORMER DATA'  in line: self.f_trs = idx + 1
+            if 'BEGIN TRANSFORMER DATA'  in line: self.f_trs = idx + 2
             if 'END OF TRANSFORMER DATA' in line: self.l_trs = idx - 1
 
             if 'BEGIN SERIES CAPACITOR DATA' in line: self.f_sca = idx + 2
@@ -49,7 +111,7 @@ class NTW_Reader():
             if 'END OF DCLINK DATA' in line: self.l_dcl = idx - 1
 
 
-    # Get the BUS's DATA ======================================================================================================================================
+    # BUS =====================================================================================================================================================
 
     def _get_bus_data(self):      
 
@@ -57,7 +119,7 @@ class NTW_Reader():
         data = []
 
         for i in range(self.f_bus, self.l_bus + 1):
-            bus_info = self.lines[i].strip().replace('/', ' ').replace('\'', ' ').replace(' ', '').split(',') #.replace(',', ' ')
+            bus_info = self.lines[i].strip().replace('/', ' ').replace(' ', '').split(',') #.replace(',', ' ') .replace('\'', ' ')
             data.append(bus_info)
 
         try:
@@ -73,8 +135,7 @@ class NTW_Reader():
         except:
             self.bus_data = pd.DataFrame(data)
             print('BUS: Check the data or the columns')
-            print(columns)
-            print(self.path)
+
 
 
     # Get the LOAD's DATA =====================================================================================================================================
@@ -207,7 +268,7 @@ class NTW_Reader():
         # columns = self.lines[self.s-1].strip().replace('/', ' ').replace('(', ' ').replace(')', ' ').replace('\'', ' ').replace(',', ' ').split()
         data_raw, data = [], []
 
-        head = [self.lines[i].strip() for i in range(self.f_trs, self.l_trs + 1) if '/' in self.lines[i].strip()]
+        head = [self.lines[i].strip() for i in range(self.f_trs-1, self.l_trs + 1) if '/' in self.lines[i].strip()]
 
 
         for line in head:
@@ -325,13 +386,13 @@ class NTW_Reader():
 
         self.load_data = self.load_data.rename(columns={'ID':'LOAD_ID', 'ST':'LOAD_ST'})
         self.gen_data  = self.gen_data.rename(columns={'ID':'GEN_ID', 'ST':'GEN_ST'})
-        self.shu_data  = self.shu_data.rename(columns={'BCO_ID':'SHU_ID', 'ST':'SHU_ST'})
+        # self.shu_data  = self.shu_data.rename(columns={'BCO_ID':'SHU_ID', 'ST':'SHU_ST'})
 
         self.gen_data['BUS_ID'] = self.gen_data['BUS_ID'].astype('int')
 
         self.data = self.bus_data.merge(self.load_data, on='BUS_ID', how='outer')
         self.data = self.data.merge(self.gen_data, on=['BUS_ID'], how='left')
-        self.data = self.data.merge(self.shu_data, on=['BUS_ID'], how='left')
+        # self.data = self.data.merge(self.shu_data, on=['BUS_ID'], how='left')
 
     # Get the GENERATION's DATA ===============================================================================================================================
 
@@ -371,13 +432,13 @@ class NTW_Reader():
 
         self.data_trans = self.transformer_data.rename(columns={'BUS1':'BFR_ID', 'BUS2':'BTO_ID'})
         self.data_trans = self.data_trans.merge(self.transmission_data                                                             , on=['BFR_ID', 'BTO_ID'], how='outer')
-        self.data_trans = self.data_trans.merge(self.series_capacitor_data.rename(columns={'BFROM_ID':'BFR_ID', 'BTO_ID':'BTO_ID'}), on=['BFR_ID', 'BTO_ID'], how='outer')
-        self.data_trans = self.data_trans.merge(self.dc_link_data.rename(columns={'R_RET_ID':'BFR_ID', 'I_INV_ID':'BTO_ID'})       , on=['BFR_ID', 'BTO_ID'], how='outer')
+        # self.data_trans = self.data_trans.merge(self.series_capacitor_data.rename(columns={'BFROM_ID':'BFR_ID', 'BTO_ID':'BTO_ID'}), on=['BFR_ID', 'BTO_ID'], how='outer')
+        # self.data_trans = self.data_trans.merge(self.dc_link_data.rename(columns={'R_RET_ID':'BFR_ID', 'I_INV_ID':'BTO_ID'})       , on=['BFR_ID', 'BTO_ID'], how='outer')
 
-        self.data_trans.loc[~self.data_trans['BSHT_T2'].isna(),   'TIPO'] = 'TF'
-        self.data_trans.loc[~self.data_trans['G_MAG'].isna(),     'TIPO'] = 'TM'
-        self.data_trans.loc[~self.data_trans['RATEA_MVA'].isna(), 'TIPO'] = 'SC'
-        self.data_trans.loc[~self.data_trans['R_BASE_KV'].isna(), 'TIPO'] = 'DC'
+        # self.data_trans.loc[~self.data_trans['BSHT_T2'].isna(),   'TIPO'] = 'TF'
+        # self.data_trans.loc[~self.data_trans['G_MAG'].isna(),     'TIPO'] = 'TM'
+        # self.data_trans.loc[~self.data_trans['RATEA_MVA'].isna(), 'TIPO'] = 'SC'
+        # self.data_trans.loc[~self.data_trans['R_BASE_KV'].isna(), 'TIPO'] = 'DC'
 
         self.data_trans = self.data_trans.astype({'BFR_ID': 'int32', 'BTO_ID': 'int32'})
 
@@ -400,23 +461,30 @@ class NTW_Reader():
         # self.reserva_total   = self.total_PMAX_MW - self.total_PG_MW
         self.reserva_per_gen = self.gen_data['PMAX_MW'].astype('float') - self.gen_data['PG_MW'].astype('float')
 
-        self.total_PG_RENEW = self.gen_data[self.gen_data['TYPE'] == 4]['PG_MW'].astype('float').sum() 
-        self.total_PG_SYNC  = self.gen_data[(self.gen_data['BLOCKED'] == 0)]['PG_MW'].astype('float').sum() 
+        try:
+            self.total_PG_RENEW = self.gen_data[self.gen_data['TYPE'] == 4]['PG_MW'].astype('float').sum() 
+            self.total_PG_SYNC  = self.gen_data[(self.gen_data['BLOCKED'] == 0)]['PG_MW'].astype('float').sum() 
+            self.penetration    = self.total_PG_RENEW / self.total_PG_MW
+        except:
+            pass
         # print(self.total_PG_RENEW, self.total_PG_SYNC)
 
-        self.total_PMAX_MW_unblock  = self.gen_data[self.gen_data['BLOCKED'] == 0]['PMAX_MW'].astype('float').sum() 
-        self.total_PMAX_MW_block    = self.gen_data[self.gen_data['BLOCKED'] == 1]['PMAX_MW'].astype('float').sum() 
+        try:
+            self.total_PMAX_MW_unblock  = self.gen_data[self.gen_data['BLOCKED'] == 0]['PMAX_MW'].astype('float').sum() 
+            self.total_PMAX_MW_block    = self.gen_data[self.gen_data['BLOCKED'] == 1]['PMAX_MW'].astype('float').sum() 
 
-        self.total_PG_MW_unblock    = self.gen_data[self.gen_data['BLOCKED'] == 0]['PG_MW'].astype('float').sum() 
-        self.total_PG_MW_block      = self.gen_data[self.gen_data['BLOCKED'] == 1]['PG_MW'].astype('float').sum() 
+            self.total_PG_MW_unblock    = self.gen_data[self.gen_data['BLOCKED'] == 0]['PG_MW'].astype('float').sum() 
+            self.total_PG_MW_block      = self.gen_data[self.gen_data['BLOCKED'] == 1]['PG_MW'].astype('float').sum() 
         
-        self.total_headroom_unblock = self.total_PMAX_MW_unblock - self.total_PG_MW_unblock
+            self.total_headroom_unblock = self.total_PMAX_MW_unblock - self.total_PG_MW_unblock
+
+        except:
+            pass
         
         
-        self.total_headroom        = self.total_PMAX_MW - self.total_PG_MW
-        # print('UNBLOCKED:', self.total_PMAX_MW_unblock)
+        self.total_headroom = self.total_PMAX_MW - self.total_PG_MW
         
-        self.penetration = self.total_PG_RENEW / self.total_PG_MW
+        
         
         if show:
             
@@ -446,6 +514,25 @@ class NTW_Reader():
             print(' ========================== LOAD ========================== \n')
             print(f' Total Active Power:   {self.total_PL_MW:10.4f} MW')
             print(f' Total Reactive Power: {self.total_QL_MVAR:10.4f} MVar\n\n')
+
+    def graph_get_nodes(self, data):
+
+        tra = data[['BFR_ID', 'BTO_ID']]
+        tra = tra.drop_duplicates()
+        tra = tra[tra['BTO_ID'] != 0]
+
+        tra = tra.astype({'BFR_ID': 'int32', 'BTO_ID': 'int32'})
+
+
+        fr, to = [], []
+
+        for i in range(len(tra)):
+            fr.append(tra.iloc[i]['BFR_ID']-1)
+            to.append(tra.iloc[i]['BTO_ID']-1)
+
+        a = sorted(range(len(fr)), key=lambda k: fr[k])
+
+        return [(fr[i]+1, to[i]+1) for i in a]
 
 
 if __name__ == '__main__':

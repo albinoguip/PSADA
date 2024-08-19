@@ -16,68 +16,25 @@ pd.set_option('mode.chained_assignment', None)
 
 class RST_Plot():
 
-    def __init__(self, report_path, eol=None, sol=None, save_path=None):
+    def __init__(self, report_path, eol=None, sol=None, save_path=None, code_filtro=None):
 
         self.save_path = save_path
         self.data      = pd.read_csv(report_path)
-
-        PO = []
-        with open('D:/PowerSystems/Sistemas/SIN/MEDIA_3/PO_Inseguros2.txt') as f:
-            for line in f:
-                lin        = line.strip().replace('\'', '').replace('\"', '').replace('(', '').replace(')', '').replace(' ', '').split(',')[:2]
-                day, hour  = int(lin[0]), lin[1]
-                PO.append(f'D_{day}_H_{hour}')
-
-        self.data = self.data[~self.data['OP'].isin(PO)]
  
         self.codigo   = self.data[self.data['A_RCFC'].isna()].reset_index(drop=True)
         self.estavel  = self.data[~self.data['A_RCFC'].isna()].reset_index(drop=True)
-        self.instavel = self.data[self.data['A_STAB'] == 1].reset_index(drop=True)
-        self.instavel = self.instavel[self.instavel['A_CODE'].isin([2, 3])].reset_index(drop=True)
+        self.instavel = self.data[self.data['A_STAB'] >= 1].reset_index(drop=True)
+        self.instavel = self.instavel[self.instavel['A_CODE'].isin([2, 3, 4])].reset_index(drop=True)
 
-        print(self.data[(self.data['Contigence'] == 1) & (self.data['OP'] == 'D_15_H_12-00')])#(self.data['Contigence'] == 1) & 
-        print(self.instavel[self.instavel['Contigence'] == 1])
-        print(len(self.instavel[self.instavel['Contigence'] == 1]))
-
-        # self.instavel = self.instavel[~self.instavel['OP'].isin(['D_27_H_08-00', 'D_17_H_23-30'])].reset_index(drop=True)
-        # self.instavel = self.instavel[self.instavel['A_CODE'] == 3].reset_index(drop=True)
-        # self.instavel = self.instavel[self.instavel['B_STAB'] == 614].reset_index(drop=True)
-
-        # print(self.instavel)
+        if code_filtro:
+            self.instavel = self.instavel[self.instavel['A_CODE'].isin(code_filtro)].reset_index(drop=True)
 
         horas = {'00-00', '00-30', '01-00', '01-30', '02-00', '02-30', '03-00', '03-30', '04-00', '04-30', '05-00', '05-30', '06-00', '06-30',
                  '07-00', '07-30', '08-00', '08-30', '09-00', '09-30', '10-00', '10-30', '11-00', '11-30', '12-00', '12-30', '13-00', '13-30', 
                  '14-00', '14-30', '15-00', '15-30', '16-00', '16-30', '17-00', '17-30', '18-00', '18-30', '19-00', '19-30', '20-00', '20-30',
                  '21-00', '21-30', '22-00', '22-30', '23-00', '23-30'}
         
-        # print(f" +--------------------+-----------+")
-        # print(f" | PONTOS DE OPERAÇÃO |   {len(self.data['OP'].unique())}    |")
-        # print(f" +--------------------+-----------+")
-        # print(f" | CONTINGÊNCIAS      |   {len(self.data['Contigence'].unique())}      |")
-        # print(f" +--------------------+-----------+")        
-        # print(f" | CENARIOS           |   {len(self.data)}   |")
-        # print(f" +--------------------+-----------+")
-        # print(f" | CODIGOS (6 & 8)    |   {len(self.codigo[self.codigo['A_CODE'].isin([6,8])])}       |")
-        # print(f" +--------------------+-----------+")
-        # print(f" | ESTÁVEIS           |   {len(self.estavel)}   |")
-        # print(f" +--------------------+-----------+")
-        # print(f" | INSTÁVEIS          |   {len(self.instavel)}     |")
-        # print(f" +--------------------+-----------+")
 
-        # for dia in self.data['Dia'].unique():
-
-        #     df_dia = self.data[self.data['Dia'] == dia]
-
-        #     # print(dia, len(df_dia['Hora'].unique()))
-
-        #     if len(df_dia['Hora'].unique()) < 48:
-        #         print(dia, horas - set(df_dia['Hora'].unique()))
-
-        # print(len(self.data['OP'].unique()))
-
-        # COLORS
-
-        # colors    = ['lightsteelblue', 'royalblue', 'lightgreen', 'green', 'tan', 'darkgoldenrod', 'thistle', 'purple', 'lightcoral', 'red']
         colors    = ['royalblue', 'navy', 'lightgreen', 'green', 'tan', 'darkgoldenrod', 'thistle', 'purple', 'lightcoral', 'red']
         cmap_name = 'my_list'
         self.cmap = LinearSegmentedColormap.from_list(cmap_name, colors, N=len(colors))
@@ -97,9 +54,6 @@ class RST_Plot():
             self.renovaveis['Hora'] = [OP.replace(':', '-') for OP in self.renovaveis['hora'].values]
             self.renovaveis['%MW']  = self.renovaveis[['MW_x', 'MW_y']].sum(axis=1)*100
 
-            self.renovaveis['%MW_r']  = [round(mw, 0) for mw in self.renovaveis['%MW'].values]
-
-            self.estavel = self.estavel.merge(self.renovaveis[['Dia', 'Hora', '%MW', '%MW_r']], on=['Dia', 'Hora'], how='left')
 
     # ================================================================================================================================= #
 
@@ -748,7 +702,6 @@ class RST_Plot_estavel(RST_Plot):
         
         est = est[est['Contigence'].isin(tipos['Perda de Geração'])]
 
-        print(est[['%MW', '%MW_r']])
 
         print(est.columns)
         
@@ -852,7 +805,7 @@ class RST_Plot_estavel(RST_Plot):
         _rocofs, _labels, _colors = [], [], []
         rocofs , labels ,  colors = [], [], []
 
-        # est_raw['Contigence_Number_int'] = est_raw['Contigence_Number'].astype('int')
+        # est_raw['Contigence_Number_int'] = est_raw['Contigence_Number'].astype('int') 
 
         # t = (est_raw['SIGLA'] == 'RCFC') & (est_raw['Contigence_Number'] != '10')
 
@@ -1367,7 +1320,7 @@ class RST_Plot_estavel(RST_Plot):
 
 
 
-        est_raw = self.estavel[['Dia', 'Hora', 'OP', 'Contigence', '%MW_r', 'A_RCFC', 'A_INRT', 'B_INRT', 'DCIM_I1', 'DCIM_I2', 'DCIM_I3', 'DCIM_I1']]
+        est_raw = self.estavel[['Dia', 'Hora', 'OP', 'Contigence', 'A_RCFC', 'A_INRT', 'B_INRT', 'DCIM_I1', 'DCIM_I2', 'DCIM_I3', 'DCIM_I1']]
         est_raw['DCIM'] = est_raw[['DCIM_I2', 'DCIM_I3']].sum(axis=1)
         est_raw['INER'] = est_raw['B_INRT'] - est_raw['DCIM']
 
@@ -1444,7 +1397,7 @@ class RST_Plot_estavel(RST_Plot):
 
     def plot_est_duplo_hist_NDRC_NDRC(self, show=False):
 
-        est_raw = self.estavel[['OP', 'Contigence', '%MW_r', 'A_NDRC', 'A_INRT', 'B_INRT', 'DCIM_I1', 'DCIM_I2', 'DCIM_I3', 'DCIM_I1']]
+        est_raw = self.estavel[['OP', 'Contigence', 'A_NDRC', 'A_INRT', 'B_INRT', 'DCIM_I1', 'DCIM_I2', 'DCIM_I3', 'DCIM_I1']]
 
         est_raw['DCIM']    = est_raw[['DCIM_I2', 'DCIM_I3']].sum(axis=1)
         est_raw['INER']    = est_raw['B_INRT'] - est_raw['DCIM']
@@ -1692,67 +1645,75 @@ class RST_Plot_renovaveis(RST_Plot):
 
 
 
-if __name__ == '__main__':
 
-    '''INSTAVEL'''
 
-    RP = RST_Plot(report_path = 'Data/PTOPER_A2V2F2_rev3/OUT/vars.csv',
-                  eol         = 'Data/EOL.csv',
-                  sol         = 'Data/SOL.csv',
-                  save_path   = 'Data/PTOPER_A2V2F2_rev2/IMAGENS/')
 
-    # RP = RST_Plot_nao(repots_path      = 'Data/PTOPER_A2V2F2_rev2/RenovaveisDefault/PTOPER_A2V2F2_rev2.json',
-    #                        contigences_path = 'Data/PTOPER_A2V2F2_rev2/RenovaveisDefault/PTOPER_A2V2F2_rev2_cont.json',
-    #                        eol              = 'Data/EOL.csv',
-    #                        sol              = 'Data/SOL.csv',
-    #                        save_path        = 'Data/PTOPER_A2V2F2_rev2/RenovaveisDefault/imagens/')
+
+
+class RST_Generic(RST_Plot):
+
+    def _get_variables(self):
+
+        return list(self.estavel.columns)
     
-    # RP.plot_inst_days_hours()
 
-    '''INSTAVEL'''
+    def _change_plot(self, ui, x, y, plot_type, c=None, stats=None):
 
-    # RP = RST_Plot_instavel(report_path = 'Data/PTOPER_A2V2F2_rev3/OUT/vars.csv',
-    #                        eol         = 'Data/EOL.csv',
-    #                        sol         = 'Data/SOL.csv',
-    #                        save_path   = 'Data/PTOPER_A2V2F2_rev3/IMAGENS/')
+        x_var = self.estavel[x]
+        y_var = self.estavel[y]
+        # c_var = self.estavel[c] if c else None
+
+        if plot_type == 'Scatter':
+            if c:
+                print(self.estavel[c].unique())
+                for c_unique in self.estavel[c].unique():
+
+                    temp  = self.estavel[self.estavel[c] == c_unique]
+                    x_var = temp[x]
+                    y_var = temp[y]
+
+                    ui.DYNAMIC_sc.axes.scatter(x_var, y_var, label=c_unique)
+
+            else:
+                ui.DYNAMIC_sc.axes.scatter(x_var, y_var)
+        
+        elif plot_type == 'Line':
+            if c:
+                for c_unique in self.estavel[c].unique():
+
+                    temp  = self.estavel[self.estavel[c] == c_unique]
+                    x_var = temp[x]
+                    y_var = temp[y]
+
+                    ui.DYNAMIC_sc.axes.plot(x_var, y_var, label=c_unique)
+
+            else:
+                ui.DYNAMIC_sc.axes.plot(x_var, y_var)
+
+        elif plot_type == 'Histogram':
+            ui.DYNAMIC_sc.axes.hist(x_var)
+
+
+        ui.DYNAMIC_sc.axes.set_xlabel(x)
+        ui.DYNAMIC_sc.axes.set_ylabel(y)
+
+        ui.DYNAMIC_sc.axes.legend(bbox_to_anchor=(1.15, 1.5), loc='upper right', borderaxespad=0)
+        ui.DYNAMIC_sc.axes.grid()
+
+        ui.DYNAMIC_sc.draw()
+
+        return ui
     
-    # RP.plot_inst_days_hours(show=False)
-    # RP.plot_inst_contigence_bus(show=False)
-    # RP.plot_inst_contigence_op(show=False)
-    # RP.plot_inst_histogram_contingence(show=False)
-    # RP.plot_inst_histogram_operation_points(show=False)
-    # RP.plot_inst_histogram_day(show=False)
-    # RP.plot_inst_histogram_hour(show=False)
-    # RP.plot_inst_histogram_bus(show=False)
-    # RP.plot_inst_histogram_CODE(show=False)
-    # RP.plot_code_histogram_CODE(show=True)
 
-    '''ESTAVEL'''
+    def plot(self, ui, x, y, c=None):
 
-    RP = RST_Plot_estavel(report_path = 'Data/PTOPER_A2V2F2_rev3/OUT/vars.csv',
-                          eol         = 'Data/EOL.csv',
-                          sol         = 'Data/SOL.csv',
-                          save_path   = 'Data/PTOPER_A2V2F2_rev3/IMAGENS/')
+        x_var = self.estavel[x]
+        y_var = self.estavel[y]
 
-    # RP.plot_est_violin_rocof()
-    # RP.plot_est_violin_nadir()
-    # RP.plot_est_violin_damping()
-    RP.plot_est_duplo_hist_RCFC_NDRC()
-    RP.plot_est_duplo_hist_NDRC_NDRC()
-    # RP.plot_est_duplo_hist_DAMP_NDRC()
-    # RP.plot_inst_histogram_bus_DAMP(negativo=False, zero=False)
-    # RP.plot_inst_histogram_bus_DAMP(negativo=True,  zero=False)
-    # RP.plot_inst_histogram_bus_DAMP(negativo=False, zero=True)
+        fig = plt.figure(figsize=(10, 6))
 
-    '''RENOVAVEIS'''
+        plt.scatter(x_var, y_var)
 
-    # RP = RST_Plot_renovaveis(repots_path      = 'C:/Users/Scarlet/Desktop/Data/PTOPER_V3A3F2_rev1/PTOPER_V3A3F2_rev1/PTOPER_V3A3F2_rev1.json',
-    #                          contigences_path = 'C:/Users/Scarlet/Desktop/Data/PTOPER_V3A3F2_rev1/PTOPER_V3A3F2_rev1/PTOPER_V3A3F2_rev1_cont.json',
-    #                          eol              = 'C:/Users/Scarlet/Desktop/Data/EOL.csv',
-    #                          sol              = 'C:/Users/Scarlet/Desktop/Data/SOL.csv',
-    #                          save_path        = 'C:/Users/Scarlet/Desktop/Data/PTOPER_V3A3F2_rev1/imagens/')
+        plt.close()
 
-
-    # RP.histograma_Pene_NDRC_NDRC()
-    # RP.histograma_Pene_NDRC_RCFC()
-    # RP.histograma_RCFC_NDRC_Pene()
+        return fig

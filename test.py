@@ -1,10 +1,9 @@
-import plotly.graph_objects as go
+import os
+import shutil
 
-fig = go.Figure(go.Scattergeo())
-fig.update_geos(
-    visible=False, resolution=110, scope="south america",
-    showcountries=True, countrycolor="Black",
-    showsubunits=True, subunitcolor="Blue"
-)
-fig.update_layout(height=300, margin={"r":0,"t":0,"l":0,"b":0})
-fig.show()
+batches = ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '14']
+
+for batch in batches:
+
+    if os.path.exists(f'D:/BATCH/BATCH_{batch}/DATABASE/GNN/'):
+        shutil.rmtree(f'D:/BATCH/BATCH_{batch}/DATABASE/GNN/')
