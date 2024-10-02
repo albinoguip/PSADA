@@ -133,6 +133,7 @@ class MainWindow(QMainWindow):
             btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
         
         # SHOW DYNAMIC_STATIC PAGE
+    
         if btnName == "btn_dynamic_static":
             widgets.stackedWidget.setCurrentWidget(widgets.STADYN)
             BASE_Functions.resetStyle(self, btnName)
@@ -171,6 +172,6 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("C:/Users/Scarlet/Desktop/Tool/assets/icons/logo.png"))
+    app.setWindowIcon(QIcon("assets/icons/logo.png"))
     window = MainWindow()
     sys.exit(app.exec())

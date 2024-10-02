@@ -114,7 +114,7 @@ class ReadScenarios:
         }
         col_list_lines = [
             'From#', ' From Name', ' To# - Circ#', ' To Name', ' Type', ' MVA', ' % L1', ' L1(MVA)', ' MW:From-To',
-            ' Mvar:From-To', ' Mvar:Losses', ' MW:To-From', ' Power Factor:From-To', ' Power Factor:To-From'
+            ' Mvar:From-To', ' Mvar:Losses',' MW:Losses', ' MW:To-From', ' Power Factor:From-To', ' Power Factor:To-From',
         ]
         col_list_hvdc = ['Bus #', ' Bus Name', ' Type', ' Pole #', ' P(MW)', ' Q(Mvar)', ' Status']
         col_list_reserve = ['Bus', ' Group', ' Bus Name', ' Area', ' Zone', ' V (pu)', ' Pg(MW)', ' Qg(Mvar)', ' Reserve', ' Units']
@@ -135,30 +135,30 @@ class ReadScenarios:
                 folder = os.path.join(self.path, day, 'Output')
                 files_path.extend(get_files_path(folder, ''))
 
+        def concat_and_compute(dfs):
+            if len(dfs) > 0:
+                return dd.concat(dfs, ignore_index=True).compute()
+            return pd.DataFrame()
+
         def read_files(pattern, col_list, dtype_dict=None):
             filtered_files = [file for file in files_path if pattern in os.path.basename(file)]
             if not filtered_files:
                 return []
             try:
                 dfs = [dd.read_csv(file, sep=';', skiprows=[0], usecols=col_list, dtype=dtype_dict).pipe(add_dia_hora, file, os.path.basename(os.path.dirname(os.path.dirname(file)))[-2:], hour) for file in filtered_files]
+                dfs = concat_and_compute(dfs)
+            except UnicodeDecodeError:
+                dfs = [dd.read_csv(file, sep=';', skiprows=[0], usecols=col_list, dtype=dtype_dict, encoding='latin1').pipe(add_dia_hora, file, os.path.basename(os.path.dirname(os.path.dirname(file)))[-2:], hour) for file in filtered_files]
+                dfs = concat_and_compute(dfs)
             except ValueError:
                 dfs = [dd.read_csv(file, sep=';', skiprows=[0], dtype=dtype_dict).pipe(add_dia_hora, file, os.path.basename(os.path.dirname(os.path.dirname(file)))[-2:], hour) for file in filtered_files]
-                
+                dfs = concat_and_compute(dfs)
+
             return dfs
-
-        PWFs_sep = read_files('PWF16_', col_list_lines) if linhas else []
-        DCLinks_sep = read_files('PWF25_', col_list_hvdc) if Intercambios else []
-        SGN01_sep = read_files('SGN01_', col_list_reserve) if Reserva else []
-
-        def concat_and_compute(dfs):
-            if dfs:
-                return dd.concat(dfs, ignore_index=True).compute()
-            return pd.DataFrame()
-
+        
         if linhas:
-            PWF16_concatenados = concat_and_compute(PWFs_sep)
-
-            PWF16_concatenados.rename(columns={'From#':'From#', ' From Name': 'From Name', ' To# - Circ#':'To# - Circ#', ' To Name':'To Name', ' Type':'Type', ' MVA':'MVA', ' MW:From-To':'MW:From-To', ' Mvar:From-To':'Mvar:From-To',' % L1':'% L1', ' L1(MVA)':'L1(MVA)',  ' Mvar:Losses':'Mvar:Losses', ' MW:To-From':'MW:To-From', ' Power Factor:From-To':'Power Factor:From-To', ' Power Factor:To-From':'Power Factor:To-From'}, inplace=True)
+            PWF16_concatenados = read_files('PWF16_', col_list_lines) 
+            PWF16_concatenados.rename(columns={'From#':'From#', ' From Name': 'From Name', ' To# - Circ#':'To# - Circ#', ' To Name':'To Name', ' Type':'Type', ' MVA':'MVA', ' MW:From-To':'MW:From-To', ' Mvar:From-To':'Mvar:From-To',' % L1':'% L1', ' L1(MVA)':'L1(MVA)',  ' Mvar:Losses':'Mvar:Losses', ' MW:Losses':'MW:Losses', ' MW:To-From':'MW:To-From', ' Power Factor:From-To':'Power Factor:From-To', ' Power Factor:To-From':'Power Factor:To-From'}, inplace=True)
 
             if not PWF16_concatenados.empty:
                 print("Concatenação das linhas")
@@ -167,26 +167,26 @@ class ReadScenarios:
                 PWF16_concatenados['To#'] = PWF16_concatenados['To#'].astype('int32')
                 PWF16_concatenados.drop(columns=["To# - Circ#"], inplace=True)
                 self.linesInfo = PWF16_concatenados
-                if not self.PO:
-                    print("Salvando Dataframe das linhas")
-                    PWF16_concatenados.to_csv(os.path.join(self.path, 'LinhasInfo.csv'), index=None)
-                    print("Final da leitura das Linhas")
+                # if not self.PO:
+                #     print("Salvando Dataframe das linhas")
+                #     PWF16_concatenados.to_csv(os.path.join(self.path, 'LinhasInfo.csv'), index=None)
+                #     print("Final da leitura das Linhas")
                 if Intercambios:
                     self.get_Intercambios()
 
         if Intercambios:
             print("Concatenação da info do HVDC")
-            DCLinks_concatenados = concat_and_compute(DCLinks_sep)
+            DCLinks_concatenados = read_files('PWF25_', col_list_hvdc) 
             if not DCLinks_concatenados.empty:
                 self.HVDCInfo = DCLinks_concatenados
-                if not self.PO:
-                    print("Salvando Dataframe do HVDC")
-                    DCLinks_concatenados.to_csv(os.path.join(self.path, 'HVDCInfo.csv'), index=None)
-                    print("Final da leitura do HVDC")
+                # if not self.PO:
+                    # print("Salvando Dataframe do HVDC")
+                    # DCLinks_concatenados.to_csv(os.path.join(self.path, 'HVDCInfo.csv'), index=None)
+                    # print("Final da leitura do HVDC")
 
         if Reserva:
             print("Concatenação da Reserva")
-            SGN01_concatenados = concat_and_compute(SGN01_sep)
+            SGN01_concatenados = read_files('SGN01_', col_list_reserve) 
             if not SGN01_concatenados.empty:
                 SGN01_concatenados['Bus'] = SGN01_concatenados['Bus'].astype(int)
                 SGN01_concatenados[' Pg(MW)'] = SGN01_concatenados[' Pg(MW)'].astype(float)
@@ -194,10 +194,10 @@ class ReadScenarios:
                 SGN01_concatenados[' Reserve'] = SGN01_concatenados[' Reserve'].astype(float)
                 SGN01_concatenados[' Units'] = SGN01_concatenados[' Units'].astype(int)
                 self.ReserveInfo = SGN01_concatenados
-                if not self.PO:
-                    print("Salvando Dataframe da Reserva")
-                    SGN01_concatenados.to_csv(os.path.join(self.path, 'ReservaInfo.csv'), index=None)
-                    print("Final da leitura da Reserva")
+                # if not self.PO:
+                #     print("Salvando Dataframe da Reserva")
+                #     SGN01_concatenados.to_csv(os.path.join(self.path, 'ReservaInfo.csv'), index=None)
+                #     print("Final da leitura da Reserva")
 
     def generate_script(self, path = None):
 
@@ -308,7 +308,6 @@ class ReadScenarios:
         self.DF_Intercambios = pd.concat([EXPNE_grouped,Fluxo_NESE_grouped, Fluxo_NS_grouped, Fluxo_SULSECO_grouped, Fluxo_NEN_grouped, Fluxo_RSUL_grouped], axis=0, keys=['EXP_NE', 'Fluxo_NE-SE', 'Fluxo_N-S' ,'Fluxo_SUL-SECO', 'Fluxo_NE-N', 'Fluxo_RSUL'])
 
         print(f'*** FINAL OBTENÇÃO DOS INTERCAMBIOS ***')
-
 
 # ======================================================================================================================
 #                                                   CONVERGENCE INFO EXTRACTION
@@ -494,12 +493,23 @@ class ProcessData():
     def add_key(data):
         from datetime import datetime, timedelta
         fechas = [dia for dia in range(1, 30)]
-        semihoras_dia = [(datetime(2022, 10, dia, 0, 0) + timedelta(minutes=30*i)).strftime('%d-%H-%M') for dia in fechas for i in range(48)]
+        # semihoras_dia = [(datetime(2022, 10, dia, 0, 0) + timedelta(minutes=30*i)).strftime('%d-%H-%M') for dia in fechas for i in range(48)]
+        semihoras_dia = []
+        for dia in fechas:
+            for i in range(48):
+                timestamp = datetime(2022, 10, dia, 0, 0) + timedelta(minutes=30*i)
+                day = str(timestamp.day)
+                hour = f"{timestamp.hour:02}"
+                minute = f"{timestamp.minute:02}"
+                formatted_time = f"{day}-{hour}-{minute}"
+                semihoras_dia.append(formatted_time)
+
         df = pd.DataFrame({'key': semihoras_dia})
         df[['Dia', 'Hora']] = df['key'].str.split('-', n=1, expand=True)
-        df['key'] = df['key'].str.replace('-','_')
-        df['key'] = 'D_' + df['key'].str.slice(0,2) + '_H' + df['key'].str.slice(2) 
+        df['key'] = df['key'].str.replace('-','_', n=1)
+        df['key'] = 'D_' + df['key'].str[0:-6] + '_H_' + df['key'].str[-5:]
         df['Dia'] = df['Dia'].astype(str)
+        df['Dia'] = df['Dia'].astype(str).str.zfill(2)
         data = data.merge(df, on=['Dia','Hora'], how='inner')
         return data
     
@@ -544,11 +554,16 @@ class ProcessData():
         # Calculate 'Qmin' and 'Qmax' using vectorized operations
         df_Final_ger['Qmin'] = (df_Final_ger['QMN_MVAR'] / df_Final_ger['Ger_Units']) * df_Final_ger['Ger_Active_Units']
         df_Final_ger['Qmax'] = (df_Final_ger['QMX_MVAR'] / df_Final_ger['Ger_Units']) * df_Final_ger['Ger_Active_Units']
-        df_Final_ger['ReservaIND'] = np.where(df_Final_ger['QG_MVAR'] < 0, df_Final_ger['Qmin'] - df_Final_ger['QG_MVAR'], df_Final_ger['Qmin'])
-        df_Final_ger['ReservaCAP'] = np.where(df_Final_ger['QG_MVAR'] > 0, df_Final_ger['Qmax'] - df_Final_ger['QG_MVAR'], df_Final_ger['Qmax'])
+        df_Final_ger['ReservaIND'] = np.where(df_Final_ger['QG_MVAR'] < 0,  np.round(np.abs(df_Final_ger['QG_MVAR']/df_Final_ger['Qmin']),4), 0)
+        df_Final_ger['ReservaCAP'] = np.where(df_Final_ger['QG_MVAR'] > 0, np.round(df_Final_ger['QG_MVAR']/df_Final_ger['Qmax'],4), 0)
+        # df_Final_ger['ReservaIND'] = np.where(df_Final_ger['QG_MVAR'] < 0, np.abs(df_Final_ger['Qmin'] - df_Final_ger['QG_MVAR']), 0)
+        # df_Final_ger['ReservaCAP'] = np.where(df_Final_ger['QG_MVAR'] > 0, df_Final_ger['Qmax'] - df_Final_ger['QG_MVAR'], 0)
+
         # Calculate 'ReservaINDshunt' and 'ReservaCAPshunt' using vectorized operations
-        df_Final_nt['ReservaINDshunt'] = np.where(df_Final_nt['B0_MVAR'] < 0, df_Final_nt['SHUNT_INST_IND'] - df_Final_nt['B0_MVAR'], df_Final_nt['SHUNT_INST_IND'])
-        df_Final_nt['ReservaCAPshunt'] = np.where(df_Final_nt['B0_MVAR'] > 0, df_Final_nt['SHUNT_INST_CAP'] - df_Final_nt['B0_MVAR'], df_Final_nt['SHUNT_INST_CAP'])
+        # df_Final_nt['ReservaINDshunt'] = np.where(df_Final_nt['B0_MVAR'] < 0, df_Final_nt['SHUNT_INST_IND'] - df_Final_nt['B0_MVAR'], df_Final_nt['SHUNT_INST_IND'])
+        # df_Final_nt['ReservaCAPshunt'] = np.where(df_Final_nt['B0_MVAR'] > 0, df_Final_nt['SHUNT_INST_CAP'] - df_Final_nt['B0_MVAR'], df_Final_nt['SHUNT_INST_CAP'])
+        df_Final_nt['ReservaINDshunt'] = np.where(df_Final_nt['B0_MVAR'] < 0, np.round(df_Final_nt['B0_MVAR']/df_Final_nt['SHUNT_INST_IND'],4), 0)
+        df_Final_nt['ReservaCAPshunt'] = np.where(df_Final_nt['B0_MVAR'] > 0, np.round(df_Final_nt['B0_MVAR']/df_Final_nt['SHUNT_INST_CAP'],4), 0)
 
         self.df_Final_ger = df_Final_ger
         self.df_Final_nt = df_Final_nt

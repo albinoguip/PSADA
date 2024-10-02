@@ -1,10 +1,10 @@
-# from StaticAnalysis.plotter import CreatePlots
-# import pandas as pd
-# import os 
+from StaticAnalysis.plotter import CreatePlots
+import pandas as pd
+import os 
 
 # # trocar só o cenário para o analise correspondente
-# scenario = 'V2A2F2_REV2_2026'
-# main_path = f"C:/Users/Gabriel/Desktop/PSADA/extract_data/{scenario}/StaticAnalysis/"
+# scenario = 'MPA FNS lim_novos'
+# main_path = f'C:/Users/David/OneDrive/Documents/FERV_documentos/RESULTS/{scenario}/StaticAnalysis'
 # # scenario = 'MPV_(FNS Lim)_RC'
 # # main_path = f'D:/Mestrado/ENGIE/Power-System-Static-Analysis/RESULTS/{scenario}/StaticAnalysis'
 
@@ -12,8 +12,7 @@
 
 # os.makedirs(main_path + f'/Plots/{folder_plot}', exist_ok=True)
 
-# df_pwf16 = pd.read_csv(main_path+'Data/Fluxo em Ramos/DF_Intercambios.csv').drop('key', axis=1)
-# # df_pwf16 = pd.read_csv(main_path+'/Data/Fluxo em Ramos/DF_Intercambios.csv').drop('key', axis=1)
+# df_pwf16 = pd.read_csv(main_path+'/Data/Fluxo em Ramos/DF_Intercambios.csv').drop('key', axis=1)
 # df_pwf16.columns = ['Nome Elo', 'Dia', 'Hora', 'P(MW)', 'Q(MVAr)']
 
 # df_pwf25 = pd.read_csv(main_path+'/Data/Fluxo em Ramos/DF_HVDC.csv').drop('key', axis=1)

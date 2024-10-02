@@ -70,7 +70,7 @@ Left Menu */
 }
 #topLogo {
 	background-color: rgb(36, 55, 130);
-	background-image: url(C:/Users/Scarlet/Desktop/Tool/assets/logo.png);
+	background-image: url(assets/logo.png);
 	background-position: centered;
 	background-repeat: no-repeat;
 }
@@ -86,7 +86,6 @@ Left Menu */
 	background-color: transparent;
 	text-align: left;
 	padding-left: 44px;
-    color: #000000;
 }
 #topMenu .QPushButton:hover {
 	background-color: #bd93f9;
@@ -106,7 +105,7 @@ Left Menu */
     color: #f8f8f2;
 }
 #bottomMenu .QPushButton:hover {
-	background-color: #000000;
+	background-color: #FFFFFF;
 }
 #bottomMenu .QPushButton:pressed {	
 	background-color: #ff79c6;
@@ -154,7 +153,7 @@ Extra Tab */
 #extraIcon {
 	background-position: center;
 	background-repeat: no-repeat;
-	background-image: url(C:/Users/Scarlet/Desktop/Tool/assets/icons/icon_settings.png);
+	background-image: url(assets/icons/icon_settings.png);
 }
 
 /* Label */
@@ -405,7 +404,7 @@ QCheckBox::indicator:hover {
 QCheckBox::indicator:checked {
     background: 3px solid #bd93f9;
 	border: 3px solid #bd93f9;	
-	background-image: url(C:/Users/Scarlet/Desktop/Tool/assets/icons/cil-check-alt.png);
+	background-image: url(assets/icons/cil-check-alt.png);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -445,7 +444,7 @@ QComboBox::drop-down {
 	border-left-style: solid;
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;	
-	background-image: url(C:/Users/Scarlet/Desktop/Tool/assets/icons/cil-arrow-bottom.png);
+	background-image: url(assets/icons/cil-arrow-bottom.png);
 	background-position: center;
 	background-repeat: no-reperat;
  }
@@ -478,7 +477,7 @@ QSpinBox::drop-down {
 	border-left-style: solid;
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;	
-	background-image: url(C:/Users/Scarlet/Desktop/Tool/assets/icons/cil-arrow-bottom.png);
+	background-image: url(assets/icons/cil-arrow-bottom.png);
 	background-position: center;
 	background-repeat: no-reperat;
  }

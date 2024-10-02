@@ -81,30 +81,40 @@ class connect():
 
     def sta_conn(self, widgets, app):
 
-        widgets.STATIC_onlypwf.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
-        widgets.STATIC_extract_from_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
-        widgets.STATIC_bus_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
-        widgets.STATIC_line_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
-        widgets.STATIC_hvdc_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
-        widgets.STATIC_reserva_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
-        widgets.STATIC_intercambio_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
-        widgets.STATIC_compute_dpi.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
-        widgets.STATIC_linhas_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
-        widgets.STATIC_reserva_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
-        widgets.STATIC_hvdc_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_norm_checkbox.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_onecase.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_onlypwf.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_extract_from_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_bus_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_line_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_hvdc_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_reserva_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_intercambio_data.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_compute_dpi.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_linhas_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_reserva_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
+        # widgets.STATIC_hvdc_csv.stateChanged.connect(lambda: STA_Functions.STATIC_checkbox_FUNCTION(app))
 
-        widgets.STATIC_search_button.clicked.connect(lambda: STA_Functions.STATIC_search_button_FUNCTION(app))
-        widgets.STATIC_read_file_button.clicked.connect(lambda: STA_Functions.STATIC_process_button_FUNCTION(app))
-        widgets.STATIC_genscript_button.clicked.connect(lambda: STA_Functions.STATIC_genscript_button_FUNCTION(app))
+        widgets.STATIC_c.currentIndexChanged.connect(lambda: STA_Functions.update_voltage_indice(app))
+        widgets.STATIC_read_vars_button.clicked.connect(lambda: STA_Functions.update_region_type(app))
+
+        # widgets.STATIC_search_button.clicked.connect(lambda: STA_Functions.STATIC_search_button_FUNCTION(app))
+        # widgets.STATIC_read_file_button.clicked.connect(lambda: STA_Functions.STATIC_process_button_FUNCTION(app))
+        # widgets.STATIC_genscript_button.clicked.connect(lambda: STA_Functions.STATIC_genscript_button_FUNCTION(app))
 
         widgets.STATIC_vars_search.clicked.connect(lambda: STA_Functions.STATIC_vars_search_FUNCTION(app))
         widgets.STATIC_read_vars_button.clicked.connect(lambda: STA_Functions.STATIC_read_vars_button_FUNCTION(app))
 
         widgets.STATIC_plot_button.clicked.connect(lambda: STA_Functions.STATIC_plot_button_FUNCTION(app))
-        # widgets.STATIC_type_button.clicked.connect(lambda: STA_Functions.STATIC_read_vars_button_FUNCTION(app))
-        # widgets.STATIC_button_apply_filter.clicked.connect(lambda: STA_Functions.STATIC_button_apply_filter_FUNCTION(app))
-        # widgets.STATIC_button_remove_filter.clicked.connect(lambda: STA_Functions.STATIC_plot_button_FUNCTION(app))
+        # widgets.STATIC_clear_button.clicked.connect(lambda: STA_Functions.clear_plot(app))
 
+        widgets.STATIC_type_button.currentIndexChanged.connect(lambda: STA_Functions.aux_func_df_linhas(app))
+        widgets.STATIC_type_button.currentIndexChanged.connect(lambda: STA_Functions.voltage_indice_path2(app))
+
+        widgets.STATIC_opf_button.clicked.connect(lambda: STA_Functions.opf_window(app))
+        widgets.STATIC_read_file_button2.clicked.connect(lambda: STA_Functions.teste_process(app))
+
+        widgets.STATIC_processed_2.clicked.connect(lambda: STA_Functions.procura_linha2(app))
 
         # widgets.STATIC_add_section_button.clicked.connect(lambda: STA_Functions.STATIC_add_section_button_FUNCTION(app))
         # widgets.STATIC_add_plot_button.clicked.connect(lambda: STA_Functions.STATIC_add_plot_button_FUNCTION(app))

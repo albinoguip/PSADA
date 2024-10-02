@@ -16,7 +16,7 @@ class Maps():
         self.limit = {138: [0.95,1.05],230: [0.95,1.05],345: [0.95,1.05],440: [0.95,1.046],500: [1,1.10],525: [0.95,1.05],765: [0.90,1.046]}
         self.region = region
         
-        file = os.path.abspath('Static-Analysis/RECURSOS/Coordenadas.json')
+        file = os.path.abspath('StaticAnalysis/RECURSOS/Coordenadas.json')
         with open(file, 'r') as json_file:
             self.state_geo = json.load(json_file)
         
