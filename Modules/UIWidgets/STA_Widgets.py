@@ -150,11 +150,11 @@ class STA_Widgets(object):
         # widgets.STATIC_qline_files.setToolTip('Path related to script generation, OPF simulation and data processing.')  # Defina a mensagem da tooltip
         # widgets.LG_row_1_1_STATIC.addWidget(widgets.STATIC_qline_files, 0, 2, 1, 7)
 
-        widgets.STATIC_opf_button = QPushButton(widgets.row_1_1_STATIC)
-        widgets.STATIC_opf_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.STATIC_opf_button.setText("OPF Simulation")
-        widgets.STATIC_opf_button.setToolTip('Button related to OPF simulation and script generation for Organon.')  # Defina a mensagem da tooltip
-        widgets.LG_row_1_1_STATIC.addWidget(widgets.STATIC_opf_button, 0, 0, 1, 1)
+        # widgets.STATIC_opf_button = QPushButton(widgets.row_1_1_STATIC)
+        # widgets.STATIC_opf_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
+        # widgets.STATIC_opf_button.setText("OPF Simulation")
+        # widgets.STATIC_opf_button.setToolTip('Button related to OPF simulation and script generation for Organon.')  # Defina a mensagem da tooltip
+        # widgets.LG_row_1_1_STATIC.addWidget(widgets.STATIC_opf_button, 0, 0, 1, 1)
 
         # widgets.STATIC_genscript_button = QPushButton(widgets.row_1_1_STATIC)
         # widgets.STATIC_genscript_button.setStyleSheet(u"background-color: rgb(91, 95, 199)")
@@ -170,7 +170,8 @@ class STA_Widgets(object):
         widgets.STATIC_read_file_button2 = QPushButton(widgets.row_1_1_STATIC)
         widgets.STATIC_read_file_button2.setStyleSheet(u"background-color: rgb(91, 95, 199)")
         widgets.STATIC_read_file_button2.setText("Process")
-        widgets.LG_row_1_1_STATIC.addWidget(widgets.STATIC_read_file_button2, 1, 0, 1, 1)
+        widgets.STATIC_read_file_button2.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        widgets.LG_row_1_1_STATIC.addWidget(widgets.STATIC_read_file_button2, 0, 0, 2, 1)
         
 
         # SECOND ROW

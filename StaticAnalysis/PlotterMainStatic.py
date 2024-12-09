@@ -166,15 +166,15 @@ class PlotterMainStatic():
 
             if self.selectplot == 'Line':
                 if self.all_sameplot:
-                    self.plot_line(df.loc[:,:, self.REG, :], y_var, 'Pontos de Operação', '(p.u)', f'{y_var} para {self.REG}', '', byClass = True, clase=BusGroup, order=False, month = False)
+                    self.plot_line(df.loc[:,:, self.REG, :], y_var, 'Operation Points', '(p.u)', f'{y_var} per {self.REG}', '', byClass = True, clase=BusGroup, order=False, month = False)
                 else:
-                    self.plot_line(df.loc[:,:,self.REG, :], y_var, 'Pontos de Operação', '(p.u)', f'{y_var} por Região - {self.REG}/{str(self.busgroup)}', '', order=False, month = False, busgroup=self.busgroup)
+                    self.plot_line(df.loc[:,:,self.REG, :], y_var, 'Operation Points', '(p.u)', f'{y_var} per Region - {self.REG}/{str(self.busgroup)}', '', order=False, month = False, busgroup=self.busgroup)
 
             elif self.selectplot == 'Persistence Curve':
                 if self.all_sameplot:
-                    self.plot_line(df.loc[:,:, self.REG, :], y_var, 'Porcentagem de meias horas em um mês (%)', '(p.u)', f'{y_var} para {self.REG}', '',  byClass = True, clase=BusGroup, order=True, month = False)
+                    self.plot_line(df.loc[:,:, self.REG, :], y_var, 'Percentage of half-hours in a month (%)', '(p.u)', f'{y_var} per {self.REG}', '',  byClass = True, clase=BusGroup, order=True, month = False)
                 else:
-                    self.plot_line(df.loc[:,:,self.REG, :], y_var, 'Porcentagem de meias horas em um mês (%)', '(p.u)', f'{y_var} por Região - {self.REG}/{str(self.busgroup)}', '', order=True, month = False, busgroup=self.busgroup)
+                    self.plot_line(df.loc[:,:,self.REG, :], y_var, 'Percentage of half-hours in a month (%)', '(p.u)', f'{y_var} per Region - {self.REG}/{str(self.busgroup)}', '', order=True, month = False, busgroup=self.busgroup)
 
         elif 'Df_DPI_S2' in self.selectdata:
 
@@ -188,15 +188,15 @@ class PlotterMainStatic():
 
             if self.selectplot == 'Line':
                 if self.all_sameplot:
-                    self.plot_line(df.loc[f'DPI_{self.BusType}',:,:,:], y_var, 'Pontos de Operação', '(p.u)', f'{y_var} por Região', '', byClass = True, clase='REG', order=False, month = False)
+                    self.plot_line(df.loc[f'DPI_{self.BusType}',:,:,:], y_var, 'Operation Points', '(p.u)', f'{y_var} per Region', '', byClass = True, clase='REG', order=False, month = False)
                 else:
-                    self.plot_line(df.loc[f'DPI_{self.BusType}',:,:,:], y_var, 'Pontos de Operação', '(p.u)', f'{y_var} por Região - {self.REG}', '', order=False, month = False, busgroup=self.REG)
+                    self.plot_line(df.loc[f'DPI_{self.BusType}',:,:,:], y_var, 'Operation Points', '(p.u)', f'{y_var} per Region - {self.REG}', '', order=False, month = False, busgroup=self.REG)
 
             elif self.selectplot == 'Persistence Curve':
                 if self.all_sameplot:
-                    self.plot_line(df.loc[f'DPI_{self.BusType}',:,:,:], y_var, 'Porcentagem de meias horas em um mês (%)', '(p.u)', f'{y_var} por Região', '',  byClass = True, clase='REG', order=True, month = False)
+                    self.plot_line(df.loc[f'DPI_{self.BusType}',:,:,:], y_var, 'Percentage of half-hours in a month (%)', '(p.u)', f'{y_var} per Region', '',  byClass = True, clase='REG', order=True, month = False)
                 else:
-                    self.plot_line(df.loc[f'DPI_{self.BusType}',:,:,:], y_var, 'Porcentagem de meias horas em um mês (%)', '(p.u)', f'{y_var} por Região - {self.REG}', '', order=True, month = False, busgroup=self.REG)
+                    self.plot_line(df.loc[f'DPI_{self.BusType}',:,:,:], y_var, 'Percentage of half-hours in a month (%)', '(p.u)', f'{y_var} per Region - {self.REG}', '', order=True, month = False, busgroup=self.REG)
 
         elif 'Df_DPI_S3' in self.selectdata or 'Df_DPI_S4' in self.selectdata:
         
@@ -205,9 +205,9 @@ class PlotterMainStatic():
             df = self.df
 
             if self.selectplot == 'Line':
-                self.plot_line(df, y_var, 'Pontos de Operação', '(p.u)', f'{y_var} por Ponto de Operação', '', order=False, month = False, S3_or_S4=True)
+                self.plot_line(df, y_var, 'Operation Points', '(p.u)', f'{y_var} per Operation Point', '', order=False, month = False, S3_or_S4=True)
             elif self.selectplot == 'Persistence Curve':
-                self.plot_line(df, y_var, 'Porcentagem de meias horas em um mês (%)', '(p.u)', f'{y_var}', '', order=True, month = False, S3_or_S4=True)
+                self.plot_line(df, y_var, 'Percentage of half-hours in a month (%)', '(p.u)', f'{y_var}', '', order=True, month = False, S3_or_S4=True)
                  
         elif 'DF_POT_Reg' in self.selectdata or 'Df_Reserva_REG_MW' in self.selectdata:
 
@@ -219,15 +219,15 @@ class PlotterMainStatic():
 
             if self.selectplot == 'Line':
                 if self.all_sameplot:
-                    self.plot_line(df, y_var, 'Pontos de Operação', '(MW)', f'{y_var} por Região', '', byClass = True, clase='REG', order=False, month = False)
+                    self.plot_line(df, y_var, 'Operation Points', '(MW)', f'{y_var} per Region', '', byClass = True, clase='REG', order=False, month = False)
                 else:
-                    self.plot_line(df.loc[:,:,:], y_var, 'Pontos de Operação', '(MW)', f'{y_var} por Região - {self.REG}', '', order=False, month = False, busgroup=self.REG)
+                    self.plot_line(df.loc[:,:,:], y_var, 'Operation Points', '(MW)', f'{y_var} per Region - {self.REG}', '', order=False, month = False, busgroup=self.REG)
 
             elif self.selectplot == 'Persistence Curve':
                 if self.all_sameplot:
-                    self.plot_line(df, y_var, 'Porcentagem de meias horas em um mês (%)', '(MW)', f'{y_var} por Região', '', byClass = True, clase='REG', order=True, month = False)
+                    self.plot_line(df, y_var, 'Percentage of half-hours in a month (%)', '(MW)', f'{y_var} per Region', '', byClass = True, clase='REG', order=True, month = False)
                 else:
-                    self.plot_line(df.loc[:,:,:], y_var, 'Porcentagem de meias horas em um mês (%)', '(MW)', f'{y_var} por Região - {self.REG}', '', order=True, month = False, busgroup=self.REG)
+                    self.plot_line(df.loc[:,:,:], y_var, 'Percentage of half-hours in a month (%)', '(MW)', f'{y_var} per Region - {self.REG}', '', order=True, month = False, busgroup=self.REG)
 
         elif 'Df_MW-MVAR_PO' in self.selectdata or 'Df_Reserva_PO_MW' in self.selectdata:
 
@@ -236,9 +236,9 @@ class PlotterMainStatic():
             df = self.df
             
             if self.selectplot == 'Line':
-                self.plot_line(df, y_var, 'Pontos de Operação', '(MW)', f'{y_var} por Ponto de Operação', '', order=False, month = False, S3_or_S4=True)
+                self.plot_line(df, y_var, 'Operation Points', '(MW)', f'{y_var} per Operation Point', '', order=False, month = False, S3_or_S4=True)
             elif self.selectplot == 'Persistence Curve':
-                self.plot_line(df, y_var, 'Porcentagem de meias horas em um mês (%)', '(MW)', f'{y_var}', '', order=True, month = False, S3_or_S4=True)
+                self.plot_line(df, y_var, 'Percentage of half-hours in a month (%)', '(MW)', f'{y_var}', '', order=True, month = False, S3_or_S4=True)
 
     def plot_line (self, df_data, column, xlbl, ylbl, title, pathsave = None, clase=None, xlimites=None, ylimites=None, order = False, byClass = False, month = False, busgroup=None, S3_or_S4=False):
 

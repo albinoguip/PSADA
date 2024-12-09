@@ -1056,7 +1056,7 @@ class STA_Functions(MainWindow):
                 self.ui.LG_row_2_STATIC.addWidget(self.ui.STATIC_plot_button, 0, 1, 1, 1)
 
                 self.ui.STATIC_voltage_ind.clear()
-                self.ui.STATIC_type_button.addItems(['Maior L1', 'Heatmap Região', 'Boxplot por Região', 'Média Geral por Região', 'Histograma por Tensão', 'Histograma por Região', 'Por Região e por Tensão', 'Heatmap Tensão', 'Maior Carregamento'])
+                self.ui.STATIC_type_button.addItems(['Highest L1', 'Region Heatmap', 'Boxplot by Region', 'Overall Average by Region', 'Histogram by Voltage', 'Histogram by Region', 'By Region and by Voltage', 'Voltage Heatmap', 'Highest Loading'])
                 # self.reg_unico = pd.read_csv(self.file_vars)
                 # reg_filt_unico = self.reg_unico['REG'].unique()
                 # self.ui.STATIC_c.addItems(reg_filt_unico)
@@ -1083,14 +1083,14 @@ class STA_Functions(MainWindow):
                 self.ui.LG_row_2_STATIC.addWidget(self.ui.STATIC_plot_button, 0, 1, 1, 1)
 
                 self.ui.STATIC_voltage_ind.clear()
-                self.ui.STATIC_type_button.addItems(['Maior L1', 'Heatmap Região', 'Boxplot por Região', 'Média Geral por Região', 'Histograma por Tensão', 'Histograma por Região', 'Por Região e por Tensão', 'Heatmap Tensão', 'Maior Carregamento'])
+                self.ui.STATIC_type_button.addItems(['Highest L1', 'Region Heatmap', 'Boxplot by Region', 'Overall Average by Region', 'Histogram by Voltage', 'Histogram by Region', 'By Region and by Voltage', 'Voltage Heatmap', 'Highest Loading'])
                 # self.reg_unico = pd.read_csv(self.file_vars)
                 # reg_filt_unico = self.reg_unico['REG'].unique()
                 # self.ui.STATIC_c.addItems(reg_filt_unico)
             
             else:
 
-                QMessageBox.warning(self, "Erro", "Por favor, insira um arquivo válido.")
+                QMessageBox.warning(self, "Error", "Please, insert a valid file.")
                 return
 
     
@@ -1101,7 +1101,7 @@ class STA_Functions(MainWindow):
         read_file = self.ui.STATIC_vars_qline.text()
         select_data = read_file.split('/')[-1].replace('.csv', '')
 
-        if texto_atual not in ['Maior L1', 'Heatmap Região', 'Boxplot por Região', 'Média Geral por Região', 'Histograma por Tensão', 'Histograma por Região', 'Por Região e por Tensão', 'Heatmap Tensão', 'Maior Carregamento']:
+        if texto_atual not in ['Highest L1', 'Region Heatmap', 'Boxplot by Region', 'Overall Average by Region', 'Histogram by Voltage', 'Histogram by Region', 'By Region and by Voltage', 'Voltage Heatmap', 'Highest Loading']:
             
             if texto_atual not in ['Persistence Curve', 'Boxplot', 'Violin Plot', 'Heatmap']:
                 pass
@@ -1213,7 +1213,7 @@ class STA_Functions(MainWindow):
 
         else:
 
-            if texto_atual == 'Maior L1':
+            if texto_atual == 'Highest L1':
                 self.ui.STATIC_c.clear()
                 self.ui.STATIC_y.clear()
 
@@ -1239,7 +1239,7 @@ class STA_Functions(MainWindow):
                 reg_filt_unico = self.reg_unico['REG'].unique()
                 self.ui.STATIC_y.addItems(reg_filt_unico)
 
-            elif texto_atual == 'Heatmap Região':
+            elif texto_atual == 'Region Heatmap':
                 self.ui.STATIC_c.clear()
                 self.ui.STATIC_y.clear()
 
@@ -1266,7 +1266,7 @@ class STA_Functions(MainWindow):
                 self.ui.STATIC_y.addItems(reg_filt_unico)
                 self.ui.STATIC_c.addItems(['% L1', 'MVAr Losses'])
 
-            elif texto_atual == 'Boxplot por Região':
+            elif texto_atual == 'Boxplot by Region':
                 self.ui.STATIC_c.clear()
                 self.ui.STATIC_y.clear()
 
@@ -1293,7 +1293,7 @@ class STA_Functions(MainWindow):
                 # self.ui.STATIC_y.addItems(reg_filt_unico)
                 self.ui.STATIC_c.addItems(['% L1', 'MVAr Losses'])
 
-            elif texto_atual == 'Média Geral por Região':
+            elif texto_atual == 'Overall Average by Region':
                 self.ui.STATIC_c.clear()
                 self.ui.STATIC_y.clear()
 
@@ -1320,7 +1320,7 @@ class STA_Functions(MainWindow):
                 self.ui.STATIC_y.addItems(reg_filt_unico)
                 # self.ui.STATIC_c.addItems(['% L1', 'MVAr Losses'])
 
-            elif texto_atual == 'Histograma por Tensão':
+            elif texto_atual == 'Histogram by Voltage':
 
                 self.ui.STATIC_c.clear()
                 self.ui.STATIC_y.clear()
@@ -1349,7 +1349,7 @@ class STA_Functions(MainWindow):
                 # self.ui.STATIC_c.addItems(['% L1', 'MVAr Losses'])
             
             
-            elif texto_atual == 'Histograma por Região':
+            elif texto_atual == 'Histogram by Region':
 
                 self.ui.STATIC_c.clear()
                 self.ui.STATIC_y.clear()
@@ -1377,7 +1377,7 @@ class STA_Functions(MainWindow):
                 self.ui.STATIC_c.addItems(reg_filt_unico)
                 # self.ui.STATIC_c.addItems(['% L1', 'MVAr Losses'])
 
-            elif texto_atual == 'Por Região e por Tensão':
+            elif texto_atual == 'By Region and by Voltage':
 
                 self.ui.STATIC_c.clear()
                 self.ui.STATIC_y.clear()
@@ -1405,7 +1405,7 @@ class STA_Functions(MainWindow):
                 self.ui.STATIC_y.addItems(reg_filt_unico)
                 self.ui.STATIC_c.addItems(['% L1', 'MVAr Losses'])
             
-            elif texto_atual == 'Heatmap Tensão':
+            elif texto_atual == 'Voltage Heatmap':
 
                 self.ui.STATIC_c.clear()
                 self.ui.STATIC_y.clear()
@@ -1433,7 +1433,7 @@ class STA_Functions(MainWindow):
                 self.ui.STATIC_y.addItems(reg_filt_unico)
                 self.ui.STATIC_c.addItems(['% L1', 'MVAr Losses'])
 
-            elif texto_atual == 'Maior Carregamento':
+            elif texto_atual == 'Highest Loading':
 
                 self.ui.STATIC_c.clear()
                 self.ui.STATIC_y.clear()
@@ -1988,17 +1988,17 @@ class STA_Functions(MainWindow):
                 linha_teste = Analise_Linhas(PWF16_Filt, ui=self.ui, tipo=tipo_plot, regiao=reg, categoria=categoria_plot, voltages=checked_voltages)
                 linha_teste.Removedor_n_convergiu(path2)
 
-                if tipo_plot == 'Maior L1' or tipo_plot == 'Heatmap Região' or tipo_plot == 'Boxplot por Região' or tipo_plot == 'Média Geral por Região' or tipo_plot == 'Histograma por Tensão' or tipo_plot == 'Histograma por Região':
+                if tipo_plot == 'Highest L1' or tipo_plot == 'Region Heatmap' or tipo_plot == 'Boxplot by Region' or tipo_plot == 'Overall Average by Region' or tipo_plot == 'Histogram by Voltage' or tipo_plot == 'Histogram by Region':
                     print('aqui eu entrei')
 
                     linha_teste.Graficos_Por_REG(ui=self.ui, regiao=reg, categoria=categoria_plot, voltages=checked_voltages)
                 
-                elif tipo_plot == 'Por Região e por Tensão' or tipo_plot == 'Heatmap Tensão':
+                elif tipo_plot == 'By Region and by Voltage' or tipo_plot == 'Voltage Heatmap':
                     print('agora entrei aqui')
 
                     linha_teste.Graficos_Por_VBA(ui=self.ui, regiao=reg, categoria=categoria_plot, voltages=checked_voltages)
                 
-                elif tipo_plot == 'Maior Carregamento':
+                elif tipo_plot == 'Highest Loading':
                     print('fechei entrando aqui')
 
                     linha_teste.Analises_Especificas(ui=self.ui)
@@ -2022,17 +2022,17 @@ class STA_Functions(MainWindow):
                 linha_teste = Analise_Linhas(PWF16_Filt, ui=self.ui, tipo=tipo_plot, regiao=reg, categoria=categoria_plot, voltages=checked_voltages)
                 linha_teste.Removedor_n_convergiu(path1)
 
-                if tipo_plot == 'Maior L1' or tipo_plot == 'Heatmap Região' or tipo_plot == 'Boxplot por Região' or tipo_plot == 'Média Geral por Região' or tipo_plot == 'Histograma por Tensão' or tipo_plot == 'Histograma por Região':
+                if tipo_plot == 'Highest L1' or tipo_plot == 'Region Heatmap' or tipo_plot == 'Boxplot by Region' or tipo_plot == 'Overall Average by Region' or tipo_plot == 'Histogram by Voltage' or tipo_plot == 'Histogram by Region':
                     print('aqui eu entrei')
 
                     linha_teste.Graficos_Por_REG(ui=self.ui, regiao=reg, categoria=categoria_plot, voltages=checked_voltages)
                 
-                elif tipo_plot == 'Por Região e por Tensão' or tipo_plot == 'Heatmap Tensão':
+                elif tipo_plot == 'By Region and by Voltage' or tipo_plot == 'Voltage Heatmap':
                     print('agora entrei aqui')
 
                     linha_teste.Graficos_Por_VBA(ui=self.ui, regiao=reg, categoria=categoria_plot, voltages=checked_voltages)
                 
-                elif tipo_plot == 'Maior Carregamento':
+                elif tipo_plot == 'Highest Loading':
                     print('fechei entrando aqui')
 
                     linha_teste.Analises_Especificas(ui=self.ui)

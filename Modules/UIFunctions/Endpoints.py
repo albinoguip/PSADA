@@ -117,7 +117,7 @@ class connect():
         widgets.STATIC_type_button.currentIndexChanged.connect(lambda: STA_Functions.aux_func_df_linhas(app))
         widgets.STATIC_type_button.currentIndexChanged.connect(lambda: STA_Functions.voltage_indice_path2(app))
 
-        widgets.STATIC_opf_button.clicked.connect(lambda: STA_Functions.opf_window(app))
+        # widgets.STATIC_opf_button.clicked.connect(lambda: STA_Functions.opf_window(app))
         widgets.STATIC_read_file_button2.clicked.connect(lambda: STA_Functions.teste_process(app))
 
         widgets.STATIC_processed_2.clicked.connect(lambda: STA_Functions.procura_linha2(app))

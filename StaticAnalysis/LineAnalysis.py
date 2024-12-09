@@ -34,23 +34,23 @@ class Analise_Linhas:
 
         self.PWF16_Filt_NEW = self.PWF16_Filt_NEW[(self.PWF16_Filt_NEW['L1(MVA)']!=9999)]
 
-        self.Grafico_Maior_L1 = True if tipo == 'Maior L1' else False
-        self.plotar_grafico_de_calor = True if tipo == 'Heatmap Região' else False
-        self.boxplot_REG = True if tipo == 'Boxplot por Região' else False
-        self.plotar_grafico_por_reg_VBA = True if tipo == 'Por Região e por Tensão' else False
-        self.plotar_grafico_de_calor_1VBA = True if tipo == 'Heatmap Tensão' else False
+        self.Grafico_Maior_L1 = True if tipo == 'Highest L1' else False
+        self.plotar_grafico_de_calor = True if tipo == 'Region Heatmap' else False
+        self.boxplot_REG = True if tipo == 'Boxplot by Region' else False
+        self.plotar_grafico_por_reg_VBA = True if tipo == 'By Region and by Voltage' else False
+        self.plotar_grafico_de_calor_1VBA = True if tipo == 'Voltage Heatmap' else False
         self.carregamentos_baixos_e_altos = False
-        self.maior_carregamento_para_menor_dia_e_hora = True if tipo == 'Maior Carregamento' else False
+        self.maior_carregamento_para_menor_dia_e_hora = True if tipo == 'Highest Loading' else False
         self.contador_linha = False
         self.contador_VKBASE = False
-        self.media_geral_reg = True if tipo == 'Média Geral por Região' else False
+        self.media_geral_reg = True if tipo == 'Overall Average by Region' else False
         self.PVI = False
         self.PFI_Grafico = False
         self.PFI_Excel = False
         self.histograma_html = False
-        self.histograma_png = True if tipo == 'Histograma por Tensão' else False
+        self.histograma_png = True if tipo == 'Histogram by Voltage' else False
         self.histograma_1reg_html= False
-        self.histograma_1reg_png = True if tipo == 'Histograma por Região' else False
+        self.histograma_1reg_png = True if tipo == 'Histogram by Region' else False
         self.carregamento_linha = False
         self.dia_de_semana_L1 = False
         self.dia_de_semana_Mvar = False
@@ -134,11 +134,11 @@ class Analise_Linhas:
                 plt.rcParams['axes.grid'] = True 
 
                 # Definir a escala no lado esquerdo para '% L1'
-                ax1.set_xlabel('Hora', fontsize=14)
+                ax1.set_xlabel('Hour', fontsize=14)
                 ax1.set_ylabel('% L1', color='tab:blue', fontsize=20)
                 ax1.plot(resultados_agregados_hora.index, resultados_agregados_hora['% L1'], color='tab:blue', label='% L1')
-                subtitulo = f'Linha com maior carregamento médio do {regiao}'
-                titulo = f'Linha de {from_value} para {to_value}'
+                subtitulo = f'Line with the highest average loading of the {regiao}'
+                titulo = f'Line from {from_value} to {to_value}'
                 ax1.set_title(titulo, fontsize=18, y=1.05)  # Ajustar a posição do título
                 fig.suptitle(subtitulo, fontsize=24, y=0.95)  # Ajustar a posição do subtítulo
                 
@@ -214,9 +214,9 @@ class Analise_Linhas:
                     cbar.ax.set_ylabel('Mvar:Losses', fontsize=16)  # Aumente o tamanho do rótulo da barra de legenda
                     cbar.ax.tick_params(labelsize=16)               #aumenta stiker
 
-                    ax.set_xlabel('Hora', fontsize=20)
-                    ax.set_ylabel('Dia', fontsize=18)
-                    ax.set_title(f'Mvar:Losses - Região: {regiao}', fontsize=20)
+                    ax.set_xlabel('Hour', fontsize=20)
+                    ax.set_ylabel('Day', fontsize=18)
+                    ax.set_title(f'Mvar:Losses - Region: {regiao}', fontsize=20)
                     
 
                     ax.tick_params(axis='both', which='major', labelsize=12)
@@ -229,9 +229,9 @@ class Analise_Linhas:
                     cbar.ax.set_ylabel('% L1', fontsize=16)  # Aumente o tamanho do rótulo da barra de legenda
                     cbar.ax.tick_params(labelsize=16)
 
-                    ax.set_xlabel('Hora', fontsize=20)
-                    ax.set_ylabel('Dia', fontsize=18)
-                    ax.set_title(f'% L1 - Região: {regiao}', fontsize=20)
+                    ax.set_xlabel('Hour', fontsize=20)
+                    ax.set_ylabel('Day', fontsize=18)
+                    ax.set_title(f'% L1 - Region: {regiao}', fontsize=20)
 
                     ax.tick_params(axis='both', which='major', labelsize=12)
 
@@ -269,7 +269,7 @@ class Analise_Linhas:
                 ax = self.ui.STATIC_sc.axes
                 fig = self.ui.STATIC_sc.figure
                 # plt.figure(figsize=(12, 6))
-                ax.set_title('Boxplot para Média do % L1 nas Regiões por Dia e Hora', fontsize=20)
+                ax.set_title('Boxplot for the Average % L1 in Regions by Day and Hour', fontsize=20)
 
                 boxprops = dict(facecolor='white', color='black')
                 bp2 = ax.boxplot([media_por_combinacao[media_por_combinacao['REG'] == reg]['% L1'] for reg in regioes], 
@@ -282,8 +282,8 @@ class Analise_Linhas:
 
                 # Configuração do eixo X e Y
                 ax.set_xticks(range(1, len(regioes) + 1), regioes, fontsize=16)
-                ax.set_xlabel('Região', fontsize=18)
-                ax.set_ylabel('Média do % L1', fontsize=18)
+                ax.set_xlabel('Region', fontsize=18)
+                ax.set_ylabel('Average % L1', fontsize=18)
                 ax.tick_params(axis='y', which='major', labelsize=16)
 
             # nome_arquivo2 = f'{Pasta}BoxL1.png'
@@ -308,7 +308,7 @@ class Analise_Linhas:
                 fig, ax = plt.subplots(figsize=(12, 6))
                 ax = self.ui.STATIC_sc.axes
                 fig = self.ui.STATIC_sc.figure
-                ax.set_title('Boxplot para Soma do Mvar:Losses nas Regiões por Dia e Hora', fontsize=20)
+                ax.set_title('Boxplot for the Sum of Mvar:Losses in Regions by Day and Hour', fontsize=20)
 
                 boxprops = dict(facecolor='white', color='black')
                 bp2 = ax.boxplot([media_por_combinacao[media_por_combinacao['REG'] == reg]['Mvar:Losses'] for reg in regioes], 
@@ -321,8 +321,8 @@ class Analise_Linhas:
 
                 # Configuração do eixo X e Y
                 ax.set_xticks(range(1, len(regioes) + 1), regioes, fontsize=16)
-                ax.set_xlabel('Região', fontsize=18)
-                ax.set_ylabel('Soma do Mvar:Losses', fontsize=18)
+                ax.set_xlabel('Region', fontsize=18)
+                ax.set_ylabel('Sum of Mvar:Losses', fontsize=18)
                 ax.tick_params(axis='y', which='major', labelsize=16)
 
             # Configuração das cores das etiquetas do eixo X
@@ -347,10 +347,10 @@ class Analise_Linhas:
                 fig, ax1 = plt.subplots(figsize=(12, 6))
                 ax1 = self.ui.STATIC_sc.axes
                 fig = self.ui.STATIC_sc.figure
-                ax1.set_title(f'Gráfico média %L1 e Mvar: {regiao}', fontsize=24)
+                ax1.set_title(f'Average %L1 and Mvar: {regiao}', fontsize=24)
 
                 ax1.plot(resultados_agregados_hora.index, resultados_agregados_hora['% L1'], label='% L1', color='blue')
-                ax1.set_xlabel('SemiHoras', fontsize=18)  # Aumente o tamanho do rótulo do eixo x
+                ax1.set_xlabel('Half-Hours', fontsize=18)  # Aumente o tamanho do rótulo do eixo x
                 ax1.set_ylabel('% L1', color='blue', fontsize=18)
 
                 # Criar um segundo eixo y no mesmo gráfico
@@ -474,9 +474,9 @@ class Analise_Linhas:
                 df_grouped = df_filtered.groupby(['From#', 'To#'])['% L1'].mean().reset_index()
                 ax.hist(df_grouped['% L1'], bins=20, alpha=0.5, label=f'VBASEKV = {vbasekv}', edgecolor='black')
 
-            ax.set_title(' % L1 das linhas para valores de VBASEKV')
+            ax.set_title('% L1 of lines for VBASEKV values')
             ax.set_xlabel('% L1')
-            ax.set_ylabel('Frequência')
+            ax.set_ylabel('Frequency')
             ax.yaxis.set_major_locator(ticker.MaxNLocator(nbins=20))
             ax.tick_params(which='both', width=2)
             ax.tick_params(which='major', length=7)
@@ -528,9 +528,9 @@ class Analise_Linhas:
                 ax.hist(df_vbasekv_filtered['% L1'], bins=20, alpha=0.5, label=f'VBASEKV = {vbasekv}', edgecolor='black')
 
             # Configuração dos rótulos e título do gráfico
-            ax.set_title(f'Histograma do % L1 médio por da Região {self.categoria}')
+            ax.set_title(f'Histogram of the average % L1 by Region {self.categoria}')
             ax.set_xlabel('% L1')
-            ax.set_ylabel('Frequência')
+            ax.set_ylabel('Frequency')
 
             # Configuração dos major ticks
             ax.yaxis.set_major_locator(ticker.MaxNLocator(nbins=20))
@@ -634,7 +634,7 @@ class Analise_Linhas:
                 fig, ax = plt.subplots(1, 1, figsize=(12, 6))
                 ax = self.ui.STATIC_sc.axes
                 fig = self.ui.STATIC_sc.figure
-                ax.set_title(f'Gráficos kV Base para Região: {regiao}', fontsize=20)  # Ajuste o valor de y aqui e o tamanho da fonte
+                ax.set_title(f'kV Base Charts for Region: {regiao}', fontsize=20)  # Ajuste o valor de y aqui e o tamanho da fonte
 
                 if categoria == 'MVAr Losses':
 
@@ -653,7 +653,7 @@ class Analise_Linhas:
 
                     ax.set_ylabel('%L1', fontsize=20)
                 
-                ax.set_xlabel('SemiHoras', fontsize=20)
+                ax.set_xlabel('Half-Hours', fontsize=20)
                 ax.legend()
             
                 # Aumente o tamanho das tick labels nos eixos x e y
@@ -699,15 +699,15 @@ class Analise_Linhas:
                         fig, ax = plt.subplots(1, 1, figsize=(12, 6))
                         ax = self.ui.STATIC_sc.axes
                         fig = self.ui.STATIC_sc.figure
-                        ax.set_title(f'Mvar:Losses - Região: {regiao} - kV Base: {VBA}', fontsize=20)
+                        ax.set_title(f'Mvar:Losses - Region: {regiao} - kV Base: {VBA}', fontsize=20)
 
                         sns.heatmap(pivot_Mvar_Losses, cmap='Reds_r', cbar=True, cbar_kws={'label': 'Mvar:Losses'}, ax=ax)
                         cbar = ax.collections[0].colorbar
                         cbar.set_label('Mvar:Losses', fontsize=20)  # Alterar o tamanho da fonte da barra de cores
                         cbar.ax.tick_params(labelsize=16)
 
-                        ax.set_xlabel('Hora', fontsize=20)
-                        ax.set_ylabel('Dia', fontsize=16)
+                        ax.set_xlabel('Hour', fontsize=20)
+                        ax.set_ylabel('Day', fontsize=16)
                         ax.tick_params(axis='x', labelsize=12)
                         ax.tick_params(axis='y', labelsize=12)
                     
@@ -718,15 +718,15 @@ class Analise_Linhas:
                         fig, ax = plt.subplots(1, 1, figsize=(12, 6))
                         ax = self.ui.STATIC_sc.axes
                         fig = self.ui.STATIC_sc.figure
-                        ax.set_title(f'% L1 - Região: {regiao} - kV Base: {VBA}', fontsize=20)
+                        ax.set_title(f'% L1 - Region: {regiao} - kV Base: {VBA}', fontsize=20)
 
                         sns.heatmap(pivot_percent_L1, cmap='Reds', cbar=True, cbar_kws={'label': '% L1'}, ax=ax)
                         cbar = ax.collections[0].colorbar
                         cbar.set_label('% L1', fontsize=20)  # Alterar o tamanho da fonte da barra de cores
                         cbar.ax.tick_params(labelsize=16)
 
-                        ax.set_xlabel('Hora', fontsize=20)
-                        ax.set_ylabel('Dia', fontsize=16)
+                        ax.set_xlabel('Hour', fontsize=20)
+                        ax.set_ylabel('Day', fontsize=16)
                         ax.tick_params(axis='x', labelsize=12)
                         ax.tick_params(axis='y', labelsize=12)
 
@@ -856,7 +856,7 @@ class Analise_Linhas:
                 ax.fill_between(range(1, len(df_group) + 1), mean - std, mean + std, color=colors[idx], alpha=0.2)
 
             # Aumentar o tamanho dos labels dos eixos x e y
-            ax.set_xlabel('Ordem de Maior para Menor', fontsize=18)
+            ax.set_xlabel('Order from Largest to Smallest', fontsize=18)
             ax.set_ylabel('% L1', fontsize=18)
 
             # Aumentar o tamanho dos labels de legenda (VBASEKV)
@@ -869,7 +869,7 @@ class Analise_Linhas:
             # ax.set_xticks(fontsize=14)
             # ax.set_yticks(fontsize=14)
 
-            ax.set_title('Gráfico de % L1 por VBASEKV (Maior para Menor)', fontsize=24)
+            ax.set_title('Chart of % L1 by VBASEKV (Largest to Smallest)', fontsize=24)
             fig.tight_layout()
             # nome_arquivo = f"{Pasta}Analise_Hora_Dia_maior_carregamento.png"
             # ax.savefig(nome_arquivo)

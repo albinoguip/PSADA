@@ -158,24 +158,24 @@ class DYN_Widgets(object):
 
         widgets.DYNAMIC_instavel = QPushButton(widgets.row_1_2_DYNAMIC)
         widgets.DYNAMIC_instavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.DYNAMIC_instavel.setText("Instável")
+        widgets.DYNAMIC_instavel.setText("Unstable")
         widgets.DYNAMIC_instavel.setMinimumWidth(20)
         widgets.LG_row_1_2_DYNAMIC.addWidget(widgets.DYNAMIC_instavel, 0, 13, 1, 1)        
 
         widgets.DYNAMIC_estavel = QPushButton(widgets.row_1_2_DYNAMIC)
         widgets.DYNAMIC_estavel.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.DYNAMIC_estavel.setText("Estável")
+        widgets.DYNAMIC_estavel.setText("Stable")
         widgets.DYNAMIC_estavel.setMinimumWidth(130)
         widgets.LG_row_1_2_DYNAMIC.addWidget(widgets.DYNAMIC_estavel, 0, 14, 1, 1)
 
         widgets.DYNAMIC_per_cont = QPushButton(widgets.row_1_2_DYNAMIC)
         widgets.DYNAMIC_per_cont.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.DYNAMIC_per_cont.setText("Por Contingência")
+        widgets.DYNAMIC_per_cont.setText("By Contingency")
         widgets.LG_row_1_2_DYNAMIC.addWidget(widgets.DYNAMIC_per_cont, 1, 13, 1, 1)
 
         widgets.DYNAMIC_per_group = QPushButton(widgets.row_1_2_DYNAMIC)
         widgets.DYNAMIC_per_group.setStyleSheet(u"background-color: rgb(91, 95, 199)")
-        widgets.DYNAMIC_per_group.setText("Por Grupo")
+        widgets.DYNAMIC_per_group.setText("By Group")
         widgets.LG_row_1_2_DYNAMIC.addWidget(widgets.DYNAMIC_per_group, 1, 14, 1, 1)
 
 
