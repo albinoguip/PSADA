@@ -11,7 +11,7 @@ class GUI_Plotter():
         self.data = data
         self.plot = plot
         self.ui   = ui
-
+ 
 
     def update(self):
 
@@ -36,10 +36,13 @@ class GUI_Plotter():
 
 
         elif self.plot['plot'] == 'Violin':
-            labels = self.violin(temp, self.plot, self.ui)   
+            self.violin(temp, self.plot, self.ui)   
 
         elif self.plot['plot'] == 'HeatMap':
-            labels = self.heatmap(temp, self.plot, self.ui)   
+            self.heatmap(temp, self.plot, self.ui)
+
+        elif self.plot['plot'] == 'Bar':
+            self.barplot(temp, self.plot, self.ui)   
 
 
         # Features
@@ -110,6 +113,9 @@ class GUI_Plotter():
 
             elif signal == '<=':
                 data = data[data[var] <= threshold]
+
+            elif signal == '!=':
+                data = data[data[var] != threshold]
 
             elif signal == '==':
                 data = data[data[var] == threshold]
@@ -313,9 +319,7 @@ class GUI_Plotter():
         if self.plot['stat'] is not None and self.plot['stat'] != '':
             data = self.select_group_by(data, self.plot, plot['x'], plot['c'], plot['y'])
 
-        print(data)
         # Create Plot
-
 
         scat   = data[[plot['x'], plot['y'], plot['c']]].copy()
         colors = ['royalblue', 'lightgreen', 'tan', 'thistle', 'red']
@@ -325,10 +329,7 @@ class GUI_Plotter():
         
 
         x, y, c = scat[plot['x']], scat[plot['y']], scat[plot['c']]
-
-        # x = [str(ix) + 'c' for ix in x]
-        # y = [str(iy) + 'c' for iy in y]
-
+        
         try:
             inter, stringer = np.array_equal(c, c.astype(int)), False
         except:
@@ -361,6 +362,48 @@ class GUI_Plotter():
         self.ui.DYNAMIC_sc.axes.set_xticks([i for i in range(len(unique_x))], [i for i in unique_x], rotation=90)    
 
         self.ui.DYNAMIC_sc.axes.grid()
+
+
+
+    ### BARPLOT
+    #####################################################################################################################
+
+    def barplot(self, data, plot, ui):
+
+
+        # Change the Data to Plot
+
+        if self.plot['filter'] is not None:
+            data = self.filter_data(data, self.plot)
+
+        if self.plot['round'] is not None and self.plot['round'] != '':
+            data[self.plot['x']] = data[self.plot['x']].round(int(self.plot['round']))    
+
+        if self.plot['stat'] is not None and self.plot['stat'] != '':
+            data = self.select_group_by(data, self.plot, plot['x'], plot['y'], None)
+
+        # Create Plot
+
+
+        scat   = data[[plot['x'], plot['y']]].copy()
+        colors = ['royalblue', 'lightgreen', 'tan', 'thistle', 'red']
+
+        scat[plot['x']] = scat[plot['x']].astype('str')
+        # scat[plot['y']] = scat[plot['y']].astype('str')
+        
+
+        x, y = scat[plot['x']], scat[plot['y']]
+
+
+        ui.DYNAMIC_sc.axes.bar(x, y)
+
+        # Adjusting Labels
+
+        unique_x = scat[self.plot['x']].unique()
+        if len(unique_x) > 10:
+            self.ui.DYNAMIC_sc.axes.set_xticks([i for i in range(len(unique_x))], [i for i in unique_x], rotation=90)    
+        else:
+            self.ui.DYNAMIC_sc.axes.set_xticks([i for i in range(len(unique_x))], [i for i in unique_x])
 
 
 

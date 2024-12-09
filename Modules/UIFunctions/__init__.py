@@ -11,3 +11,4 @@ from . STD_Functions   import *
 from . BASE_Functions  import *
 from . Plotter         import *
 from . PDF_Generator   import *
+from . DYN_Plots       import *

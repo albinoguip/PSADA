@@ -501,81 +501,81 @@ class DYN_Widgets(object):
         widgets.DYNAMIC_read_json_button.setText("Open")
         widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_read_json_button, 0, 10, 1, 2)
 
-        # SECOND ROW
+        # # SECOND ROW
 
-        widgets.DYNAMIC_label_00 = QLabel(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_label_00.setText("File")
-        widgets.DYNAMIC_label_00.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_00, 1, 0, 1, 6)
+        # widgets.DYNAMIC_label_00 = QLabel(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_label_00.setText("File")
+        # widgets.DYNAMIC_label_00.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_00, 1, 0, 1, 6)
 
-        widgets.DYNAMIC_qline_00 = QLineEdit(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_qline_00.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_00, 2, 0, 1, 6)
-
-
-        widgets.DYNAMIC_label_01 = QLabel(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_label_01.setText("Version")
-        widgets.DYNAMIC_label_01.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_01, 1, 6, 1, 6)
-
-        widgets.DYNAMIC_qline_01 = QLineEdit(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_qline_01.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_01, 2, 6, 1, 6)
+        # widgets.DYNAMIC_qline_00 = QLineEdit(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_qline_00.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_00, 2, 0, 1, 6)
 
 
-        # THIRD ROW
+        # widgets.DYNAMIC_label_01 = QLabel(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_label_01.setText("Version")
+        # widgets.DYNAMIC_label_01.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_01, 1, 6, 1, 6)
 
-        widgets.DYNAMIC_label_10 = QLabel(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_label_10.setText("Responsible")
-        widgets.DYNAMIC_label_10.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_10, 3, 0, 1, 6)
-
-        widgets.DYNAMIC_qline_10 = QLineEdit(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_qline_10.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_10, 4, 0, 1, 6)
+        # widgets.DYNAMIC_qline_01 = QLineEdit(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_qline_01.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_01, 2, 6, 1, 6)
 
 
-        widgets.DYNAMIC_label_11 = QLabel(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_label_11.setText("Date")
-        widgets.DYNAMIC_label_11.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_11, 3, 6, 1, 6)
+        # # THIRD ROW
 
-        widgets.DYNAMIC_qline_11 = QLineEdit(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_qline_11.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_11, 4, 6, 1, 6)
+        # widgets.DYNAMIC_label_10 = QLabel(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_label_10.setText("Responsible")
+        # widgets.DYNAMIC_label_10.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_10, 3, 0, 1, 6)
 
-        # THIRD ROW
-
-        widgets.DYNAMIC_label_20 = QLabel(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_label_20.setText("")
-        widgets.DYNAMIC_label_20.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_20, 5, 0, 1, 6)
-
-        widgets.DYNAMIC_qline_20 = QLineEdit(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_qline_20.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_20, 6, 0, 1, 6)
+        # widgets.DYNAMIC_qline_10 = QLineEdit(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_qline_10.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_10, 4, 0, 1, 6)
 
 
-        widgets.DYNAMIC_label_21 = QLabel(widgets.row_5_DYNAMIC) 
-        widgets.DYNAMIC_label_21.setText("")
-        widgets.DYNAMIC_label_21.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_21, 5, 6, 1, 6)
+        # widgets.DYNAMIC_label_11 = QLabel(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_label_11.setText("Date")
+        # widgets.DYNAMIC_label_11.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_11, 3, 6, 1, 6)
 
-        widgets.DYNAMIC_qline_21 = QLineEdit(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_qline_21.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_21, 6, 6, 1, 6)
+        # widgets.DYNAMIC_qline_11 = QLineEdit(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_qline_11.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_11, 4, 6, 1, 6)
+
+        # # THIRD ROW
+
+        # widgets.DYNAMIC_label_20 = QLabel(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_label_20.setText("")
+        # widgets.DYNAMIC_label_20.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_20, 5, 0, 1, 6)
+
+        # widgets.DYNAMIC_qline_20 = QLineEdit(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_qline_20.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_20, 6, 0, 1, 6)
 
 
-        # THIRD ROW
+        # widgets.DYNAMIC_label_21 = QLabel(widgets.row_5_DYNAMIC) 
+        # widgets.DYNAMIC_label_21.setText("")
+        # widgets.DYNAMIC_label_21.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_21, 5, 6, 1, 6)
 
-        widgets.DYNAMIC_label_30 = QLabel(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_label_30.setText("Comment")
-        widgets.DYNAMIC_label_30.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_30, 7, 0, 1, 12)
+        # widgets.DYNAMIC_qline_21 = QLineEdit(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_qline_21.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_21, 6, 6, 1, 6)
 
-        widgets.DYNAMIC_qline_30 = QLineEdit(widgets.row_5_DYNAMIC)
-        widgets.DYNAMIC_qline_30.setStyleSheet(u"background-color: rgb(218, 218, 233)")
-        widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_30, 8, 0, 1, 12)
+
+        # # THIRD ROW
+
+        # widgets.DYNAMIC_label_30 = QLabel(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_label_30.setText("Comment")
+        # widgets.DYNAMIC_label_30.setStyleSheet("QFrame {border-width: 0; border-style: transparent;}")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_label_30, 7, 0, 1, 12)
+
+        # widgets.DYNAMIC_qline_30 = QLineEdit(widgets.row_5_DYNAMIC)
+        # widgets.DYNAMIC_qline_30.setStyleSheet(u"background-color: rgb(218, 218, 233)")
+        # widgets.LG_row_5_DYNAMIC.addWidget(widgets.DYNAMIC_qline_30, 8, 0, 1, 12)
 
 
 
@@ -603,7 +603,7 @@ class DYN_Widgets(object):
         widgets.d_row_1_DYNAMIC.setObjectName(u"d_row_1_DYNAMIC")
         widgets.d_row_1_DYNAMIC.setFrameShape(QFrame.StyledPanel)
         widgets.d_row_1_DYNAMIC.setFrameShadow(QFrame.Raised)
-        widgets.d_row_1_DYNAMIC.setMaximumHeight(600)
+        # widgets.d_row_1_DYNAMIC.setMaximumHeight(600)
         # widgets.d_row_1_DYNAMIC.setMaximumSize(QSize(600, 400))
 
         widgets.d_LG_row_1_DYNAMIC = QGridLayout(widgets.d_row_1_DYNAMIC)

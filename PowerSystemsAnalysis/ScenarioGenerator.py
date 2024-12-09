@@ -100,7 +100,7 @@ class ScenarioGenerator():
             G = nx.Graph()
             G.add_edges_from(nodes)
 
-            for bus in self.net.bus_data['BUS_ID'].unique():
+            for bus in self.net.gen_data['BUS_ID'].unique():
 
                 try:
                     a, b = nx.all_shortest_paths(G, 1, bus), []
@@ -113,6 +113,8 @@ class ScenarioGenerator():
 
             if detection:
                 break
+
+            # break
 
 
 
