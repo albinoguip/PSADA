@@ -278,6 +278,7 @@ class Ui_MainWindow(object):
         self.btn_dynamic.setFont(self.font0)
         self.btn_dynamic.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_dynamic.setLayoutDirection(Qt.LeftToRight)
+        self.btn_dynamic.setText("Dyn")
         self.btn_dynamic.setStyleSheet(u"background-image: url(./images/1.png); color: black;")
         self.verticalLayout_8.addWidget(self.btn_dynamic)
 
@@ -290,32 +291,33 @@ class Ui_MainWindow(object):
         self.btn_static.setFont(self.font0)
         self.btn_static.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_static.setLayoutDirection(Qt.LeftToRight)
+        self.btn_static.setText("Sta")
         self.btn_static.setStyleSheet(u"background-image: url(./images/1.png); color: black;")
         self.verticalLayout_8.addWidget(self.btn_static)
 
 
-        self.btn_dynamic_static = QPushButton(self.topMenu)
-        self.btn_dynamic_static.setObjectName(u"btn_dynamic_static")
-        self.sizePolicy.setHeightForWidth(self.btn_dynamic_static.sizePolicy().hasHeightForWidth())
-        self.btn_dynamic_static.setSizePolicy(self.sizePolicy)
-        self.btn_dynamic_static.setMinimumSize(QSize(0, 45))
-        self.btn_dynamic_static.setFont(self.font0)
-        self.btn_dynamic_static.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_dynamic_static.setLayoutDirection(Qt.LeftToRight)
-        self.btn_dynamic_static.setStyleSheet(u"background-image: url(./images/1.png); color: black;")
-        self.verticalLayout_8.addWidget(self.btn_dynamic_static)
+        # self.btn_dynamic_static = QPushButton(self.topMenu)
+        # self.btn_dynamic_static.setObjectName(u"btn_dynamic_static")
+        # self.sizePolicy.setHeightForWidth(self.btn_dynamic_static.sizePolicy().hasHeightForWidth())
+        # self.btn_dynamic_static.setSizePolicy(self.sizePolicy)
+        # self.btn_dynamic_static.setMinimumSize(QSize(0, 45))
+        # self.btn_dynamic_static.setFont(self.font0)
+        # self.btn_dynamic_static.setCursor(QCursor(Qt.PointingHandCursor))
+        # self.btn_dynamic_static.setLayoutDirection(Qt.LeftToRight)
+        # self.btn_dynamic_static.setStyleSheet(u"background-image: url(./images/1.png); color: black;")
+        # self.verticalLayout_8.addWidget(self.btn_dynamic_static)
 
 
-        self.btn_network = QPushButton(self.topMenu)
-        self.btn_network.setObjectName(u"btn_network")
-        self.sizePolicy.setHeightForWidth(self.btn_network.sizePolicy().hasHeightForWidth())
-        self.btn_network.setSizePolicy(self.sizePolicy)
-        self.btn_network.setMinimumSize(QSize(0, 45))
-        self.btn_network.setFont(self.font0)
-        self.btn_network.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_network.setLayoutDirection(Qt.LeftToRight)
-        self.btn_network.setStyleSheet(u"background-image: url(./images/1.png); color: black;")
-        self.verticalLayout_8.addWidget(self.btn_network)
+        # self.btn_network = QPushButton(self.topMenu)
+        # self.btn_network.setObjectName(u"btn_network")
+        # self.sizePolicy.setHeightForWidth(self.btn_network.sizePolicy().hasHeightForWidth())
+        # self.btn_network.setSizePolicy(self.sizePolicy)
+        # self.btn_network.setMinimumSize(QSize(0, 45))
+        # self.btn_network.setFont(self.font0)
+        # self.btn_network.setCursor(QCursor(Qt.PointingHandCursor))
+        # self.btn_network.setLayoutDirection(Qt.LeftToRight)
+        # self.btn_network.setStyleSheet(u"background-image: url(./images/1.png); color: black;")
+        # self.verticalLayout_8.addWidget(self.btn_network)
      
 
         
@@ -2143,8 +2145,8 @@ class Ui_MainWindow(object):
         self.btn_home.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.btn_dynamic.setText(QCoreApplication.translate("MainWindow", u"Dynamic", None))
         self.btn_static.setText(QCoreApplication.translate("MainWindow", u"Static", None))
-        self.btn_dynamic_static.setText(QCoreApplication.translate("MainWindow", u"Dynamic-Static", None))
-        self.btn_network.setText(QCoreApplication.translate("MainWindow", u"Network", None))
+        # self.btn_dynamic_static.setText(QCoreApplication.translate("MainWindow", u"Dynamic-Static", None))
+        # self.btn_network.setText(QCoreApplication.translate("MainWindow", u"Network", None))
 
 
 

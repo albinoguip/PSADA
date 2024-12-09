@@ -19,7 +19,7 @@ def resource_path(relative_path):
     except Exception:
         base_path = os.path.abspath(".")
 
-    return os.path.join(base_path, relative_path) 
+    return os.path.join(base_path, relative_path)
 
 
 
@@ -61,11 +61,11 @@ class MainWindow(QMainWindow):
         STAW = STA_Widgets()
         STAW._create_static(widgets)
 
-        STDW = STD_Widgets()
-        STDW._create_stadyn(widgets)
+        # STDW = STD_Widgets()
+        # STDW._create_stadyn(widgets)
 
-        NETW = NET_Widgets()
-        NETW._create_network(widgets)
+        # NETW = NET_Widgets()
+        # NETW._create_network(widgets)
 
 
         # 
@@ -81,8 +81,8 @@ class MainWindow(QMainWindow):
         widgets.btn_home.clicked.connect(self.buttonClick)     # HOME
         widgets.btn_dynamic.clicked.connect(self.buttonClick)  # DYNAMIC
         widgets.btn_static.clicked.connect(self.buttonClick)  # STATIC
-        widgets.btn_dynamic_static.clicked.connect(self.buttonClick)  # DYNAMIC STATIC
-        widgets.btn_network.clicked.connect(self.buttonClick)  # NETWORK
+        # widgets.btn_dynamic_static.clicked.connect(self.buttonClick)  # DYNAMIC STATIC
+        # widgets.btn_network.clicked.connect(self.buttonClick)  # NETWORK
         
 
         self.show() 
@@ -98,8 +98,8 @@ class MainWindow(QMainWindow):
 
         con = connect()
         con.dyn_conn(widgets, self)
-        con.net_conn(widgets, self)
-        con.std_conn(widgets, self)
+        # con.net_conn(widgets, self)
+        # con.std_conn(widgets, self)
         con.sta_conn(widgets, self)
 
 
@@ -132,17 +132,18 @@ class MainWindow(QMainWindow):
             BASE_Functions.resetStyle(self, btnName)
             btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
         
-        # SHOW DYNAMIC_STATIC PAGE
-        if btnName == "btn_dynamic_static":
-            widgets.stackedWidget.setCurrentWidget(widgets.STADYN)
-            BASE_Functions.resetStyle(self, btnName)
-            btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
+        # # SHOW DYNAMIC_STATIC PAGE
+    
+        # if btnName == "btn_dynamic_static":
+        #     widgets.stackedWidget.setCurrentWidget(widgets.STADYN)
+        #     BASE_Functions.resetStyle(self, btnName)
+        #     btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
 
-        # SHOW NETWORK PAGE
-        if btnName == "btn_network":
-            widgets.stackedWidget.setCurrentWidget(widgets.NETWORK)
-            BASE_Functions.resetStyle(self, btnName)
-            btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
+        # # SHOW NETWORK PAGE
+        # if btnName == "btn_network":
+        #     widgets.stackedWidget.setCurrentWidget(widgets.NETWORK)
+        #     BASE_Functions.resetStyle(self, btnName)
+        #     btn.setStyleSheet(BASE_Functions.selectMenu(btn.styleSheet()))
 
 
 
@@ -171,6 +172,6 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("C:/Users/Scarlet/Desktop/Tool/assets/icons/logo.png"))
+    app.setWindowIcon(QIcon("assets/icons/logo.png"))
     window = MainWindow()
     sys.exit(app.exec())
