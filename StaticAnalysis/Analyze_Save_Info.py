@@ -39,8 +39,6 @@ class AnalyzeStaticCases:
                 'HVDCcsv': False,
                 'ConvergenceData': False
             })
-            # self.day = input("Write the specific Day in this format 01:\n")
-            # self.hour = input("Write the specific Hour in this format 00-00:\n")
             self.day = self.Options['DayOneCase']
             self.hour = self.Options['HourOneCase']
             print(f'Processando para o dia {self.day} e hora {self.hour}:')
@@ -51,13 +49,14 @@ class AnalyzeStaticCases:
             files_path = [os.path.join(relativepath, file_name) for file_name in os.listdir(relativepath) if file_name.endswith(self.hour+'.ntw')]
             self.path_folder = os.path.join(self.path_folder, files_path[0])
             subfolders_1 = ['Plots', 'Data']
-            subfolders_11 = [self.indexfolder, 'Mapas', 'Potencia', 'BoxPlot Tensão']
+            # subfolders_11 = [self.indexfolder, 'Mapas', 'Potencia', 'BoxPlot Tensão']
+            subfolders_11 = ['Mapas']
             subfolders_12 = ['Geral', 'Fluxo em Ramos', 'Potencia', self.indexfolder]
         else:
             self.day = None
             self.hour = None
             subfolders_1 = ['Plots', 'Data']
-            subfolders_11 = [self.indexfolder, 'Perfil Potência Ativa', 'Perfil Potência Reativa', 'Reserva', 'BoxPlot Tensão', 'Intercambios AC-DC', 'Mapas']
+            subfolders_11 = ['Mapas']
             subfolders_12 = ['Geral', 'Fluxo em Ramos', 'Potencia', self.indexfolder]
 
         if self.Options['OnlyPWF_datagen']:
@@ -68,8 +67,8 @@ class AnalyzeStaticCases:
             folders = subfolders_11 if subfolder == 'Plots' else subfolders_12 
             for folder in folders:
                 os.makedirs(os.path.join(folder_path, subfolder, folder), exist_ok=True)
-                if folder == self.indexfolder:
-                    os.makedirs(os.path.join(folder_path, f'Plots/{self.indexfolder}/BoxPlot'), exist_ok=True)
+                # if folder == self.indexfolder:
+                #     os.makedirs(os.path.join(folder_path, f'Plots/{self.indexfolder}/BoxPlot'), exist_ok=True)
         
         print(f"The directories have been created in: {folder_path}")
         self.folder_path = folder_path
@@ -344,9 +343,9 @@ class AnalyzeStaticCases:
                 self.dffreservaPO_REG_MW = REG_groupReserve
                 self.dffreservaPO_MW = GroupReserve
 
-                if not self.readjustONEcase:
-                    self.plots_static.plot_Potencia(GroupReserve[' Reserve'], '(MW)', 'RESERVA (MW) - SIN', limites=None)
-                    self.plots_static.plot_reserva_reg (REG_groupReserve, '(MW)', 'Reserva por Região', 'RESERVA POR REGIÃO', ' Reserve', xlimites=None,ylimites=None, order = False)
+                # if not self.readjustONEcase:
+                #     self.plots_static.plot_Potencia(GroupReserve[' Reserve'], '(MW)', 'RESERVA (MW) - SIN', limites=None)
+                #     self.plots_static.plot_reserva_reg (REG_groupReserve, '(MW)', 'Reserva por Região', 'RESERVA POR REGIÃO', ' Reserve', xlimites=None,ylimites=None, order = False)
 
             # ======================ESSE DATAFRAME É SÓ DA RESERVA DAS MAQUINAS COM MODELO DO GERADOR PARA O CONTROLE DE FREQ
             # ===========================================================================================================================
@@ -397,7 +396,8 @@ class AnalyzeStaticCases:
     #=============================================================================================================================
     def ActiveReactivePower(self):
 
-        if self.Options['PlotGeralPotencia'] and not self.Options['OnlyPWF_datagen']:
+        # if self.Options['PlotGeralPotencia'] and not self.Options['OnlyPWF_datagen']:
+        if self.Options['GeralPotencia'] and not self.Options['OnlyPWF_datagen']:
 
             print('Active and Reactive Power Analysis and Plots:...')
             regioes = self.DF_REGIONAL_GER.reset_index()['REG'].unique()
@@ -406,30 +406,30 @@ class AnalyzeStaticCases:
             df_grouped = df_pg.groupby(by = ['Dia', 'Hora']).sum(numeric_only=True)
             self.df_grouped = df_grouped
 
-            if not self.readjustONEcase:
+            # if not self.readjustONEcase:
 
-                self.plots_static.plot_Potencia(df_grouped['QG_MVAR'], '(MVAR)', 'MW POTÊNCIA REATIVA GERADA - SIN', limites=None)
-                self.plots_static.plot_Potencia(df_grouped['PG_MW'], '(MW)', 'MVAR POTÊNCIA ATIVA GERADA - SIN', limites=None)
-                self.plots_static.plot_Potencia(df_grouped['PL_MW'], '(MW)', 'MW POTÊNCIA ATIVA DEMANDA BRUTA - SIN', limites=None)
+            #     self.plots_static.plot_Potencia(df_grouped['QG_MVAR'], '(MVAR)', 'MW POTÊNCIA REATIVA GERADA - SIN', limites=None)
+            #     self.plots_static.plot_Potencia(df_grouped['PG_MW'], '(MW)', 'MVAR POTÊNCIA ATIVA GERADA - SIN', limites=None)
+            #     self.plots_static.plot_Potencia(df_grouped['PL_MW'], '(MW)', 'MW POTÊNCIA ATIVA DEMANDA BRUTA - SIN', limites=None)
 
-                typeGenDic = {'QG_UHE':'Num_Usinas_UHE', 'QG_UTE':'Num_Usinas_UTE', 'QG_EOL':'Num_Usinas_EOL','QG_SOL':'Num_Usinas_SOL', 'QG_BIO':'Num_Usinas_BIO'}
-                typeGenRegDic = {'Norte':['QG_UHE','QG_EOL','QG_SOL','QG_UTE'],'Nordeste':['QG_UHE','QG_EOL','QG_SOL','QG_UTE'],'Sudeste-Centro-Oeste':['QG_UHE','QG_EOL','QG_SOL','QG_UTE','QG_BIO'],'Sul':['QG_UHE','QG_EOL','QG_UTE','QG_BIO'], 'AC-RO':['QG_UHE','QG_UTE']}
-                typeGenDic_MW = {'PG_UHE':'Num_Usinas_UHE', 'PG_UTE':'Num_Usinas_UTE', 'PG_EOL':'Num_Usinas_EOL','PG_SOL':'Num_Usinas_SOL', 'PG_BIO':'Num_Usinas_BIO'}
-                typeGenRegDic_MW = {'Norte':['PG_UHE','PG_EOL','PG_SOL','PG_UTE'],'Nordeste':['PG_UHE','PG_EOL','PG_SOL','PG_UTE'],'Sudeste-Centro-Oeste':['PG_UHE','PG_EOL','PG_SOL','PG_UTE','PG_BIO'],'Sul':['PG_UHE','PG_EOL','PG_UTE','PG_BIO'], 'AC-RO':['PG_UHE','PG_UTE']}
+            #     typeGenDic = {'QG_UHE':'Num_Usinas_UHE', 'QG_UTE':'Num_Usinas_UTE', 'QG_EOL':'Num_Usinas_EOL','QG_SOL':'Num_Usinas_SOL', 'QG_BIO':'Num_Usinas_BIO'}
+            #     typeGenRegDic = {'Norte':['QG_UHE','QG_EOL','QG_SOL','QG_UTE'],'Nordeste':['QG_UHE','QG_EOL','QG_SOL','QG_UTE'],'Sudeste-Centro-Oeste':['QG_UHE','QG_EOL','QG_SOL','QG_UTE','QG_BIO'],'Sul':['QG_UHE','QG_EOL','QG_UTE','QG_BIO'], 'AC-RO':['QG_UHE','QG_UTE']}
+            #     typeGenDic_MW = {'PG_UHE':'Num_Usinas_UHE', 'PG_UTE':'Num_Usinas_UTE', 'PG_EOL':'Num_Usinas_EOL','PG_SOL':'Num_Usinas_SOL', 'PG_BIO':'Num_Usinas_BIO'}
+            #     typeGenRegDic_MW = {'Norte':['PG_UHE','PG_EOL','PG_SOL','PG_UTE'],'Nordeste':['PG_UHE','PG_EOL','PG_SOL','PG_UTE'],'Sudeste-Centro-Oeste':['PG_UHE','PG_EOL','PG_SOL','PG_UTE','PG_BIO'],'Sul':['PG_UHE','PG_EOL','PG_UTE','PG_BIO'], 'AC-RO':['PG_UHE','PG_UTE']}
 
-                for reg in regioes:
-                    self.plots_static.plot_Potencia(self.DF_REGIONAL_GER.loc[:,:,reg]['QG_MVAR'], '(MVAR)', 'MVAR POTÊNCIA REATIVA GERADA - ' + reg, limites=None)
-                    self.plots_static.plot_Potencia(self.DF_REGIONAL_GER.loc[:,:,reg]['PG_MW'], '(MW)', 'MW POTÊNCIA ATIVA GERADA - ' + reg, limites=None)
-                    self.plots_static.plot_Potencia(self.DF_REGIONAL_GER.loc[:,:,reg]['PL_MW'], '(MW)', 'MW POTÊNCIA ATIVA DEMANDA BRUTA - ' + reg, limites=None)
-                    for tog in typeGenRegDic[reg]:
-                        numUsinas = self.DF_REGIONAL_GER.loc[:,:,reg][typeGenDic[tog]].iloc[0]
-                        nome = str('MVAR ' + reg.replace('-',' ')  + ' (' + tog.replace('_','-') + ') - Número de Usinas ' + str(int(numUsinas)))
-                        self.plots_static.plot_Potencia(self.DF_REGIONAL_GER.loc[:,:,reg][tog], '(MVAR)', nome , limites=None)
+            #     for reg in regioes:
+            #         self.plots_static.plot_Potencia(self.DF_REGIONAL_GER.loc[:,:,reg]['QG_MVAR'], '(MVAR)', 'MVAR POTÊNCIA REATIVA GERADA - ' + reg, limites=None)
+            #         self.plots_static.plot_Potencia(self.DF_REGIONAL_GER.loc[:,:,reg]['PG_MW'], '(MW)', 'MW POTÊNCIA ATIVA GERADA - ' + reg, limites=None)
+            #         self.plots_static.plot_Potencia(self.DF_REGIONAL_GER.loc[:,:,reg]['PL_MW'], '(MW)', 'MW POTÊNCIA ATIVA DEMANDA BRUTA - ' + reg, limites=None)
+            #         for tog in typeGenRegDic[reg]:
+            #             numUsinas = self.DF_REGIONAL_GER.loc[:,:,reg][typeGenDic[tog]].iloc[0]
+            #             nome = str('MVAR ' + reg.replace('-',' ')  + ' (' + tog.replace('_','-') + ') - Número de Usinas ' + str(int(numUsinas)))
+            #             self.plots_static.plot_Potencia(self.DF_REGIONAL_GER.loc[:,:,reg][tog], '(MVAR)', nome , limites=None)
 
-                    for tog in typeGenRegDic_MW[reg]:
-                        numUsinas = self.DF_REGIONAL_GER.loc[:,:,reg][typeGenDic_MW[tog]].iloc[0]
-                        nome = str('MW ' + reg.replace('-',' ')  + ' (' + tog.replace('_','-') + ') - Número de Usinas ' + str(int(numUsinas)))
-                        self.plots_static.plot_Potencia(self.DF_REGIONAL_GER.loc[:,:,reg][tog], '(MW)', nome , limites=None)
+            #         for tog in typeGenRegDic_MW[reg]:
+            #             numUsinas = self.DF_REGIONAL_GER.loc[:,:,reg][typeGenDic_MW[tog]].iloc[0]
+            #             nome = str('MW ' + reg.replace('-',' ')  + ' (' + tog.replace('_','-') + ') - Número de Usinas ' + str(int(numUsinas)))
+            #             self.plots_static.plot_Potencia(self.DF_REGIONAL_GER.loc[:,:,reg][tog], '(MW)', nome , limites=None)
 
     #=============================================================================================================================
     #                                                        TENSÃO
@@ -599,7 +599,7 @@ class AnalyzeStaticCases:
             df_DPI_PO['DPI_PO_final'] = df_DPI_PO['DPI_PO'].pow(1 / (2 * n))
             self.df_DPI_PO = df_DPI_PO
 
-            self.plots_static.plot_indice_0(df_DPI_PO, r'$\mathrm{DPI}$', 'DPI_PO_final', '', 'DPI_PO_final', order=True, ylimites=[-0.05, 1.5], pathtosave= f'{self.folder_path}/Plots/{self.indexfolder}/')
+            # self.plots_static.plot_indice_0(df_DPI_PO, r'$\mathrm{DPI}$', 'DPI_PO_final', '', 'DPI_PO_final', order=True, ylimites=[-0.05, 1.5], pathtosave= f'{self.folder_path}/Plots/{self.indexfolder}/')
             
             print('Ploting DPI Analysis: ...')
             if self.Options['plotDPI']:
@@ -706,7 +706,11 @@ class AnalyzeStaticCases:
         if self.Options['savedata']:
             print('Saving Dataframes ...')
 
-            if self.Options['PlotGeralPotencia'] and not self.Options['OnlyPWF_datagen']:
+            # if self.Options['PlotGeralPotencia'] and not self.Options['OnlyPWF_datagen']:
+            #     self.df_grouped = self.processdata.add_key(self.df_grouped)
+            #     self.df_grouped.to_csv(self.cenario + '/Data/Potencia/Df_MW-MVAR_PO.csv', header=True, index=True)
+
+            if self.Options['GeralPotencia'] and not self.Options['OnlyPWF_datagen']:
                 self.df_grouped = self.processdata.add_key(self.df_grouped)
                 self.df_grouped.to_csv(self.cenario + '/Data/Potencia/Df_MW-MVAR_PO.csv', header=True, index=True)
             

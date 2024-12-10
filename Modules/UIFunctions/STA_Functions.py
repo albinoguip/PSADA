@@ -167,10 +167,12 @@ class Process_Parameters(QDialog):
 
         self.onecase_day = QLineEdit()
         self.onecase_day.setPlaceholderText("Set the specific day (xx).")  # Texto de exemplo
+        self.onecase_day.setEnabled(False)
         layout1.addWidget(self.onecase_day, 2, 1, 1, 1)
 
         self.onecase_hour = QLineEdit()
         self.onecase_hour.setPlaceholderText("Set the specific hour (xx-xx).")  # Texto de exemplo
+        self.onecase_hour.setEnabled(False)
         layout1.addWidget(self.onecase_hour, 3, 1, 1, 1)
 
         self.search_path_button = QPushButton("Search")
@@ -183,13 +185,13 @@ class Process_Parameters(QDialog):
 
         # Adicionando um botão na janela popup
         self.process_button = QPushButton("Process")
-        layout1.addWidget(self.process_button, 6, 1, 1, 1)
+        layout1.addWidget(self.process_button, 6, 0, 1, 2)
         self.process_button.clicked.connect(self.process_button_action)  # Conecta o botão a um método
 
-        # Adicionando um botão na janela popup
-        self.genscript_button = QPushButton("Generate Script")
-        layout1.addWidget(self.genscript_button, 6, 0, 1, 1)
-        self.genscript_button.clicked.connect(self.genscript_function)  # Conecta o botão a um método
+        # # Adicionando um botão na janela popup
+        # self.genscript_button = QPushButton("Generate Script")
+        # layout1.addWidget(self.genscript_button, 6, 0, 1, 1)
+        # self.genscript_button.clicked.connect(self.genscript_function)  # Conecta o botão a um método
 
         # Cria a barra de progresso
         self.progress_bar = QProgressBar(self)
@@ -231,6 +233,7 @@ class Process_Parameters(QDialog):
                             'IntercambiosData': True,
                             'ComputeDPI': True,
                             'resumoIndice': True,
+                            'GeralPotencia': True,
         # ---------------------------------------------------
                             # 'linhascsv': self.ui.STATIC_linhas_csv.isChecked(),          # Put TRUE once is generated the LinhasInfo file
                             # 'reservacsv': self.ui.STATIC_reserva_csv.isChecked(),         # Put TRUE once is generated the ReserveInfo file
@@ -300,7 +303,7 @@ class Process_Parameters(QDialog):
 
         # Verifica se o caminho está vazio
         if not path_folder:
-            QMessageBox.warning(self, "Erro", "Por favor, insira um caminho válido.")
+            QMessageBox.warning(self, "Error", "Please, insert a valid path.")
             return
 
         path_folders = [Options_Readprocess['SavePath']]
@@ -333,10 +336,10 @@ class Process_Parameters(QDialog):
 
                 cenarios.save_csv()
 
-            QMessageBox.information(self, "Sucesso", "Processamento concluído.")
+            QMessageBox.information(self, "Sucess", "Processing completed.")
             self.progress_bar.setValue(100)  # Define a barra como completa
         except Exception as e:
-            QMessageBox.critical(self, "Erro", f"Ocorreu um erro: {str(e)}")
+            QMessageBox.critical(self, "Error", f"An error occurred: {str(e)}")
 
         end_time = time.time()
         execution_time = end_time - start_time
@@ -367,24 +370,24 @@ class Process_Parameters(QDialog):
         # execution_time = end_time - start_time
         # print("Tiempo de ejecución:", execution_time, "segundos")
 
-    def genscript_function(self):
-        path_folder = self.search_path_line.text()
+    # def genscript_function(self):
+    #     path_folder = self.search_path_line.text()
         
-        # Verifica se o caminho está vazio
-        if not path_folder:
-            QMessageBox.warning(self, "Erro", "Por favor, insira um caminho válido.")
-            return
+    #     # Verifica se o caminho está vazio
+    #     if not path_folder:
+    #         QMessageBox.warning(self, "Erro", "Por favor, insira um caminho válido.")
+    #         return
 
-        path_folders = [path_folder]
+    #     path_folders = [path_folder]
 
-        try:
-            for path_teste in path_folders:
-                Read_Process_Cases.ReadScenarios.generate_script(self, path=path_teste)
+    #     try:
+    #         for path_teste in path_folders:
+    #             Read_Process_Cases.ReadScenarios.generate_script(self, path=path_teste)
             
-            QMessageBox.information(self, "Sucesso", "Script gerado com sucesso!")
-        except Exception as e:
-            # Captura e exibe qualquer erro que ocorra durante a geração do script
-            QMessageBox.critical(self, "Erro", f"Ocorreu um erro: {str(e)}")
+    #         QMessageBox.information(self, "Sucesso", "Script gerado com sucesso!")
+    #     except Exception as e:
+    #         # Captura e exibe qualquer erro que ocorra durante a geração do script
+    #         QMessageBox.critical(self, "Erro", f"Ocorreu um erro: {str(e)}")
 
 
 
